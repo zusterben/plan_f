@@ -1,0 +1,2 @@
+380833f9f5024d4412de6a0717dbf4b2 helloworld_0.8.1.tar.gz
+43285fa3f77fa26939bccbf1e128119e helloworld_0.8.2.tar.gz
