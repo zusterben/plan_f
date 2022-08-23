@@ -9,6 +9,7 @@ rm -rf /jffs/softcenter/scripts/ss_*
 rm -rf /jffs/softcenter/scripts/ss-rules
 rm -rf /jffs/softcenter/webs/Module_helloworld*
 rm -rf /jffs/softcenter/bin/lua
+rm -rf /jffs/softcenter/bin/ss_url.lua
 rm -rf /jffs/softcenter/bin/pdnsd
 rm -rf /jffs/softcenter/bin/dns2socks
 rm -rf /jffs/softcenter/bin/chinadns-ng

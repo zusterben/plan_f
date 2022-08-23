@@ -193,7 +193,8 @@ local Xray = {
 			xtlsSettings = (server.xtls == '1' and (server.insecure == "1" or server.tls_host)) and {
 				-- xtls
 				allowInsecure = (server.insecure == "1") and true or nil,
-				serverName = server.tls_host
+				serverName = server.tls_host,
+				minVersion = "1.3"
 			} or nil,
 			tcpSettings = (server.transport == "tcp" and server.tcp_guise == "http") and {
 				-- tcp
@@ -244,6 +245,7 @@ local Xray = {
 				-- grpc
 				serviceName = server.serviceName or "",
 				mode = (server.grpc_mode ~= "gun") and server.grpc_mode or nil,
+				multiMode = (server.grpc_mode == "multi") and true or false,
 				idle_timeout = tonumber(server.idle_timeout) or nil,
 				health_check_timeout = tonumber(server.health_check_timeout) or nil,
 				permit_without_stream = (server.permit_without_stream == "1") and true or nil,
@@ -315,7 +317,7 @@ local hysteria = {
 	protocol = server.hysteria_protocol,
 	up_mbps = tonumber(server.uplink_capacity),
 	down_mbps = tonumber(server.downlink_capacity),
-	socks5 = (proto:find("tcp") and tonumber(socks_port) and tonumber(socks_port) ~= "0") and {
+	socks5 = (proto:find("tcp") and tonumber(socks_port) and tonumber(socks_port) ~= 0) and {
 		listen = "0.0.0.0:" .. tonumber(socks_port),
 		timeout = 300,
 		disable_udp = false
@@ -383,3 +385,4 @@ function config:handleIndex(index)
 end
 local f = config:new()
 f:handleIndex("v2ray")
+
