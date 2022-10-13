@@ -3138,7 +3138,7 @@ function save_failover() {
 														{ title: '选择中国DNS', id: 'ssconf_dns_china', type:'select', func:'u', options:option_dnsc, style:'width:auto;', value:'11'},
 														{ title: '选择外国DNS', hint:'26', rid:'dns_plan_foreign', id: 'ssconf_foreign_dns', type:'select', func:'u', options:option_dnsf, style:'width:auto;', value:'1'},
 														{ title: 'DNS劫持（原chromecast功能）', id:'ssconf_basic_dns_hijack', type:'checkbox', func:'v', hint:'106', value:true},
-														{ title: '节点域名解析DNS服务器', hint:'107', id: 'sstable_server_resolver', type:'select', func:'u', options:option_dnsc, style:'width:auto;', value:'1'},	
+														{ title: '节点域名解析DNS服务器', hint:'107', id: 'ssconf_basic_server_resolver', type:'select', func:'u', options:option_dnsc, style:'width:auto;', value:'1'},	
 														{ title: '自定义dnsmasq', id:'ssconf_dnsmasq', type:'textarea', hint:'34', rows:'12', ph:ph3},
 													]);
 												</script>

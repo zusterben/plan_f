@@ -167,6 +167,27 @@ kill_process() {
 
 # ================================= ss start ==============================
 
+resolv_server_ip() {
+#任何情况下代理服务器都不能走代理
+	local tmp server_ip
+	tmp=$(dbus get ssconf_basic_json_$ssconf_basic_node | base64 -d | jq -r .server)
+	server_ip=$(__resolve_ip "$tmp")
+	case $? in
+	0)
+		echo_date "服务器【$tmp】的ip地址解析成功：$server_ip"
+		echo "server=/$tmp/$(__get_server_resolver)#$(__get_server_resolver_port)" >/etc/dnsmasq.user/ss_server.conf
+		ssconf_basic_server_ip="$server_ip"
+		dbus set ssconf_basic_server_ip="$server_ip"
+		;;
+	*)
+		echo_date "服务器的ip地址解析失败... "
+		unset ssconf_basic_server_ip
+		dbus remvoe ssconf_basic_server_ip
+		close_in_five
+		;;
+	esac
+}
+
 # create shadowsocks config file...
 create_ss_json(){
 	echo_date "创建$(__get_type_abbr_name)配置文件到$CONFIG_FILE"
@@ -1327,6 +1348,7 @@ apply_ss() {
 	#echo_date ------------------------- 启动 【科学上网】 ----------------------------
 	detect
 	set_sys
+	resolv_server_ip
 	create_ipset
 	create_dnsmasq_conf
 	gen_conf

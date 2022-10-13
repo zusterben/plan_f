@@ -87,7 +87,7 @@ __resolve_ip() {
 		return 2
 	else
 		# domain format
-		SERVER_IP=$(nslookup "$1" $(__get_server_resolver):$(__get_server_resolver_port) | sed '1,4d' | awk '{print $3}' | grep -v : | awk 'NR==1{print}' 2>/dev/null)
+		SERVER_IP=$(resolveip "$1" $(__get_server_resolver):$(__get_server_resolver_port) 2>/dev/null)
 		SERVER_IP=$(__valid_ip $SERVER_IP)
 		if [ -n "$SERVER_IP" ]; then
 			# success resolved

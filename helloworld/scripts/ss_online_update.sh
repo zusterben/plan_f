@@ -171,6 +171,7 @@ start_online_update(){
 	echo_date "==================================================================="
 
 	echo_date "开始更新在线订阅列表..." 
+	cd /jffs/softcenter/scripts
 	/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_subscribe.lua
 	#等待订阅完成
 	while [ -n "$(pidof lua)" ]; do
