@@ -15,7 +15,7 @@
 
 ## 机型/固件支持
 
-> 架构查看方法 [http://router.asus.com/Main_Soft_center.asp](http://router.asus.com/Main_Soft_center.asp)
+> 架构查看方法: 以[http://router.asus.com/Main_Soft_center.asp](http://router.asus.com/Main_Soft_center.asp)为准
 
 ### [mips](https://github.com/zusterben/plan_f/tree/master/bin/mips)
 
@@ -60,6 +60,7 @@
 
 * 华硕系列：[`RT-AC86U` `GT-AC2900` `GT-AC5300` `RT-AX88U` `RT-AX86U` `RT-AX68U` `GT-AX11000` `GT-AXE11000`](https://github.com/zusterben/plan_f/tree/master/bin/arm64)
 * 网件系列：[`R7900P` `R7960P` `R8000P` `RAX80` `RAX200`](https://github.com/zusterben/plan_f/tree/master/bin/arm64)
+* 红米系列：[`RM-AX6000`](https://github.com/zusterben/plan_f/tree/master/bin/arm64)
 
 #### 注意：
 
