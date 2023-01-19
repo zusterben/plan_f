@@ -72,16 +72,24 @@ local function ping_func(server, method)
 			end
 			tmp = io.popen(cmd)
 			local response = tmp:read("*a")
-			ping_time = stringsplit(response, "/")
-			if not ping_time or ping_time == "" then
-				ping_time = ""
+			if response and response ~= "" then
+				ping_time = stringsplit(response, "/")
+				if not ping_time or ping_time == "" then
+					ping_time = ""
+				end
+				ping_loss = getstring(response, ",", true):match("%d%%")
+				if ping_num > 0 then
+					ping_text = ping_text .. ","
+				end
+				ping_text = ping_text .. "[\"" .. i .. "\",\"" .. ping_time .. "\",\"" .. ping_loss .. "\"]"
+				ping_num = ping_num + 1
+			else
+				if ping_num > 0 then
+					ping_text = ping_text .. ","
+				end
+				ping_text = ping_text .. "[\"" .. i .. "\",\"0\",\"100%\"]"
+				ping_num = ping_num + 1
 			end
-			ping_loss = getstring(response, ",", true):match("%d%%")
-			if ping_num > 0 then
-				ping_text = ping_text .. ","
-			end
-			ping_text = ping_text .. "[\"" .. i .. "\",\"" .. ping_time .. "\",\"" .. ping_loss .. "\"]"
-			ping_num = ping_num + 1
 		end
 		ping_text = ping_text .. "]"
 	else
@@ -98,12 +106,16 @@ local function ping_func(server, method)
 		end
 		tmp = io.popen(cmd)
 		local response = tmp:read("*a")
-		ping_time = stringsplit(response, "/")
-		if not ping_time or ping_time == "" then
-			ping_time = ""
+		if response and response ~= "" then
+			ping_time = stringsplit(response, "/")
+			if not ping_time or ping_time == "" then
+				ping_time = ""
+			end
+			ping_loss = getstring(response, ",", true):match("%d%%")
+			ping_text = "[[\"" ..server .. "\",\"" .. ping_time .. "\",\"" .. ping_loss .. "\"]]"
+		else
+			ping_text = "[[\"" .. server .. "\",\"0\",\"100%\"]]"
 		end
-		ping_loss = getstring(response, ",", true):match("%d%%")
-		ping_text = "[[\"" ..server .. "\",\"" .. ping_time .. "\",\"" .. ping_loss .. "\"]]"
 	end
 	print(b64encode(ping_text))
 end
