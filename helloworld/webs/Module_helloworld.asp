@@ -763,11 +763,11 @@ function verifyFields(r) {
 	refresh_acl_table();
 }
 function update_visibility() {
-	var a = E("sstable_rule_update").value == "1";
+	var a = E("ssconf_basic_rule_update").value == "1";
 	var b = E("ssconf_basic_node_update").value == "1";
 	var c = E("sstable_tri_reboot_time").value;
 	var d = E("ssconf_basic_ping_node").value != "off" && E("ssconf_basic_ping_node").value != "";
-	showhide("sstable_rule_update_time", a);
+	showhide("ssconf_basic_rule_update_time", a);
 	showhide("update_choose", a);
 	showhide("ssconf_basic_node_update_day", b);
 	showhide("ssconf_basic_node_update_hr", b);
@@ -1909,11 +1909,11 @@ function save_row(action) {
 function updatelist(arg) {
 	var dbus_post = {};
 	db_ss["ssconf_basic_action"] = "8";
-	dbus_post["ssconf_basic_rule_update"] = E("sstable_rule_update").value;
-	dbus_post["ssconf_basic_rule_update_time"] = E("sstable_rule_update_time").value;
-	dbus_post["ssconf_basic_gfwlist_update"] = E("sstable_gfwlist_update").checked ? '1' : '0';
-	dbus_post["ssconf_basic_chnroute_update"] = E("sstable_chnroute_update").checked ? '1' : '0';
-	dbus_post["ssconf_basic_cdn_update"] = E("sstable_cdn_update").checked ? '1' : '0';
+	dbus_post["ssconf_basic_rule_update"] = E("ssconf_basic_rule_update").value;
+	dbus_post["ssconf_basic_rule_update_time"] = E("ssconf_basic_rule_update_time").value;
+	dbus_post["ssconf_basic_gfwlist_update"] = E("ssconf_basic_gfwlist_update").checked ? '1' : '0';
+	dbus_post["ssconf_basic_chnroute_update"] = E("ssconf_basic_chnroute_update").checked ? '1' : '0';
+	dbus_post["ssconf_basic_cdn_update"] = E("ssconf_basic_cdn_update").checked ? '1' : '0';
 	push_data("ssconf_rule_update.sh", arg,  dbus_post);
 }
 function version_show() {
@@ -3229,8 +3229,8 @@ function save_failover() {
 															{ suffix: '<i><% nvram_get("update_cdn"); %></i></a>' },
 														]},
 														{ title: '规则定时更新任务', hint:'44', multi: [
-															{ id:'sstable_rule_update', type:'select', func:'u', style:'width:auto', options:[["0", "禁用"], ["1", "开启"]], value:'0'},
-															{ id:'sstable_rule_update_time', type:'select', style:'width:auto', options:option_ruleu, value:'4'},
+															{ id:'ssconf_basic_rule_update', type:'select', func:'u', style:'width:auto', options:[["0", "禁用"], ["1", "开启"]], value:'0'},
+															{ id:'ssconf_basic_rule_update_time', type:'select', style:'width:auto', options:option_ruleu, value:'4'},
 															{ suffix: '<a id="update_choose">' },
 															{ suffix: '<input type="checkbox" id="ssconf_basic_gfwlist_update" title="选择此项应用gfwlist自动更新">gfwlist' },
 															{ suffix: '<input type="checkbox" id="ssconf_basic_chnroute_update">chnroute' },
