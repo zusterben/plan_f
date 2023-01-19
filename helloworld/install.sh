@@ -41,7 +41,7 @@ echo_date 清理旧文件
 rm -rf /jffs/softcenter/ss/*
 rm -rf /jffs/softcenter/scripts/ss_*
 rm -rf /jffs/softcenter/webs/Module_helloworld*
-rm -rf /jffs/softcenter/bin/lua
+[ ! -f "/usr/sbin/lua" ] && rm -rf /jffs/softcenter/bin/lua
 rm -rf /jffs/softcenter/bin/pdnsd
 rm -rf /jffs/softcenter/bin/dns2socks
 rm -rf /jffs/softcenter/bin/chinadns-ng
@@ -58,6 +58,7 @@ echo_date 开始复制文件！
 cd /tmp
 
 echo_date 复制相关二进制文件！此步时间可能较长！
+[ -f "/usr/sbin/lua" ] && rm -f /tmp/helloworld/bin/lua
 cp -rf /tmp/helloworld/bin/* /jffs/softcenter/bin/
 
 echo_date 复制相关的脚本文件！

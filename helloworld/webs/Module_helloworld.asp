@@ -1802,7 +1802,10 @@ function ping_test() {
 		data: JSON.stringify(postData),
 		dataType: "json",
 		success: function(response) {
-			get_result(response.result);
+			if(typeof response.result == "number")
+				get_result(response.result);
+			else
+				write_ping(response);
 		},
 		error: function(XmlHttpRequest, textStatus, errorThrown){
 			//console.log(XmlHttpRequest.responseText);
@@ -1832,7 +1835,7 @@ function write_ping(r){
 	if(E("ssconf_basic_ping_node") == "off"){
 		return false;
 	}
-	if ((String(r.result)).length <= 2){
+	if ((String(r.result)).length <= 2 || typeof r.result == "number"){
 		if(db_ss["ssconf_basic_ping_node"] == "0"){
 			$(".ping").html("超时！");
 		}else{

@@ -34,26 +34,26 @@ local function base64Decode(text)
 	end
 end
 local ssrindext = io.popen('dbus list ssconf_basic_json_ | cut -d "=" -f1 | cut -d "_" -f4 | sort -rn|head -n1')
-local ssrindex = ssrindext:read("*all")
+local ssrindex = ssrindext:read("*a")
 if #ssrindex == 0 then
 	ssrindex = 1
 else
 	ssrindex = tonumber(ssrindex) + 1
 end
 local ssrmodet = io.popen('dbus get ssconf_subscribe_mode')
-local ssrmode = tonumber(ssrmodet:read("*all"))
+local ssrmode = tonumber(ssrmodet:read("*a"))
 local tfilter_words = io.popen("dbus get ssconf_basic_exclude")
-local filter_words = tfilter_words:read("*all"):gsub("\n", "")
+local filter_words = tfilter_words:read("*a"):gsub("\n", "")
 local tsave_words = io.popen("dbus get ssconf_basic_include")
-local save_words = tsave_words:read("*all"):gsub("\n", "")
+local save_words = tsave_words:read("*a"):gsub("\n", "")
 local tsubscribe_url = io.popen("dbus get ssconf_online_links | base64 -d")
-local subscribe_url2 = tsubscribe_url:read("*all")
+local subscribe_url2 = tsubscribe_url:read("*a")
 for w in subscribe_url2:gmatch("%C+") do 
 table.insert(subscribe_url, w) 
 i = i+1
 end
 local tpacket_encoding = io.popen("dbus get ssconf_default_packet_encoding")
-local packet_encoding = tpacket_encoding:read("*all") or nil
+local packet_encoding = tpacket_encoding:read("*a") or nil
 if packet_encoding == '\n' then
 	packet_encoding = nil
 end
@@ -140,7 +140,7 @@ end
 -- md5
 local function md5(content)
 	local stdout = io.popen("echo -n '" .. urlEncode(content) .. "'|md5sum|cut -d ' ' -f1")
-	local stdout2 = stdout:read("*all")
+	local stdout2 = stdout:read("*a")
 	-- assert(nixio.errno() == 0)
 	return trim(stdout2)
 end
@@ -393,7 +393,7 @@ local function processData(szType, content)
 		if result.transport == "ws" then
 			result.ws_host = (result.tls ~= "1") and (params.host and UrlDecode(params.host)) or nil
 			result.ws_path = params.path and UrlDecode(params.path) or "/"
-		elseif result.transport == "http" then
+		elseif result.transport == "http" or result.transport == "h2" then
 			result.transport = "h2"
 			result.h2_host = params.host and UrlDecode(params.host) or nil
 			result.h2_path = params.path and UrlDecode(params.path) or nil
@@ -441,7 +441,7 @@ end
 -- wget
 local function wget(url)
 	local stdout = io.popen('curl -k -s --connect-timeout 15 --retry 5 "' .. url .. '"')
-	local sresult = stdout:read("*all")
+	local sresult = stdout:read("*a")
 	return trim(sresult)
 end
 
@@ -544,7 +544,7 @@ end
 						-- log(result)
 						if result then
 							-- 中文做地址的 也没有人拿中文域名搞，就算中文域也有Puny Code SB 机场
-							if not result.server or not result.server_port or result.alias == "NULL" or check_filer(result) or result.server:match("[^0-9a-zA-Z%-%.%s]") or cache[groupHash][result.hashkey] then
+							if not result.server or not result.server_port or result.alias == "NULL" or check_filer(result) or result.server:match("[^0-9a-zA-Z%-_%.%s]") or cache[groupHash][result.hashkey] then
 								log('丢弃无效节点: ' .. result.v2ray_protocol .. ' 节点, ' .. result.alias)
 							else
 								log('成功解析: ' .. result.v2ray_protocol ..' 节点, ' .. result.alias)

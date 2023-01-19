@@ -17,6 +17,8 @@
 
 > 架构查看方法: 以[http://router.asus.com/Main_Soft_center.asp](http://router.asus.com/Main_Soft_center.asp)为准
 
+> IPQ50XX/IPQ60XX/IPQ807X的SWRT官改固件一般为armng，SWRT固件为arm64
+
 ### [mips](https://github.com/zusterben/plan_f/tree/master/bin/mips)
 
 > **mips**离线安装包仅能在mips架构机器上使用！具体支持机型如下：
