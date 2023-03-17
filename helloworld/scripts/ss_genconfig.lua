@@ -76,15 +76,6 @@ function trojan_shadowsocks()
 
 	if server.v2ray_protocol == "shadowsocksr" then
 		server.v2ray_protocol = "shadowsocks"
-	--[[ elseif (server.v2ray_protocol == "shadowsocks") and (server.mux ~= "1") and (not (outbound_settings.plugin or server.transport ~= "tcp" or server.tls or server.xtls)) then
-		server.v2ray_protocol = "shadowsocks_sing"
-		outbound_settings = outbound_settings.servers[1]
-	elseif (server.v2ray_protocol == "trojan") and (server.tls and server.mux ~= "1") and (not (server.transport ~= "tcp" or server.xtls)) then
-		server.v2ray_protocol = "trojan_sing"
-		outbound_settings = outbound_settings.servers[1]
-		outbound_settings.serverName = server.tls_host
-		outbound_settings.insecure = (server.insecure == "1") and true or false
-		]]
 	end
 end
 function socks_http()
@@ -166,7 +157,7 @@ local Xray = {
 		port = tonumber(local_port),
 		protocol = "dokodemo-door",
 		settings = {network = proto, followRedirect = true},
-		sniffing = {enabled = true, destOverride = {"http", "tls", "quic"}}
+		sniffing = {enabled = true, destOverride = {"http", "tls"}}
 	} or nil,
 	-- 开启 socks 代理
 	inboundDetour = (proto:find("tcp") and socks_port ~= "0") and {
@@ -182,7 +173,7 @@ local Xray = {
 		protocol = server.v2ray_protocol,
 		settings = outbound_settings,
 		-- 底层传输配置
-		streamSettings = (server.v2ray_protocol and server.v2ray_protocol:sub(-#"_sing") ~= "_sing") and {
+		streamSettings = {
 			network = server.transport or "tcp",
 			security = (server.xtls == '1') and "xtls" or (server.tls == '1') and "tls" or nil,
 			tlsSettings = (server.tls == '1' and (server.insecure == "1" or server.tls_host or server.fingerprint)) and {

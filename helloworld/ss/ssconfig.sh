@@ -996,6 +996,9 @@ apply_nat_rules() {
 	[ "$mangle" == "1" ] && iptables -t mangle -N SHADOWSOCKS
 	# IP/cidr/白域名 白名单控制（不走ss）
 	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS -p udp -m set --match-set white_list dst -j RETURN
+	#让浏览器强制回退http1/2
+	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS -p udp --dport 443 -j DROP
+	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS -p udp --dport 80 -j DROP
 	# 创建游戏模式udp rule
 	[ "$mangle" == "1" ] && iptables -t mangle -N SHADOWSOCKS_GAM
 	# IP/CIDR/域名 黑名单控制（走ss）
