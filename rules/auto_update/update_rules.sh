@@ -31,6 +31,7 @@ echo "gettr.com" >> gfwlist_tmp.conf
 echo "google.com.hk" >> gfwlist_tmp.conf
 echo "coinbase.com" >> gfwlist_tmp.conf
 echo "truthsocial.com" >> gfwlist_tmp.conf
+echo "chat.openai.com" >> gfwlist_tmp.conf
 generate_china_banned gfwlist_download.conf > gfwlist_download_tmp.conf
 
 sed '/.*/s/.*/server=\/&\/127.0.0.1#7913\nipset=\/&\/gfwlist/' gfwlist_download_tmp.conf > gfwlist1.conf
