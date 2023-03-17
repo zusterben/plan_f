@@ -1,6 +1,8 @@
 # [helloworld]
 
-> 此项目提供用于 **[SWRT](https://github.com/SWRT-dev)** 固件带软件中心路由器的helloworld ShadowSocksR Plus 科学上网。
+> 此项目提供用于 **[SWRT](https://github.com/SWRT-dev)** 固件带软件中心路由器的 ShadowSocksR Plus 科学上网。
+
+> 本项目实现兼容ss、ssr、v2ray、trojan大部分协议且安装包不超过10M，可支持大部分机型以及部分jffs过小机型。
 
 > 本项目为[helloworld](https://github.com/fw876/helloworld)的 **SWRT** 固件实现,部分代码来自[passwall](https://github.com/xiaorouji/openwrt-passwall)
 
