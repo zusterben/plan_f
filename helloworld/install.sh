@@ -58,7 +58,7 @@ echo_date 开始复制文件！
 cd /tmp
 
 echo_date 复制相关二进制文件！此步时间可能较长！
-[ -f "/usr/sbin/lua" ] && rm -f /tmp/helloworld/bin/lua
+[ -f "/usr/sbin/lua" ] && rm -f /tmp/helloworld/bin/lua && ln -sf /usr/sbin/lua /jffs/softcenter/bin/lua
 cp -rf /tmp/helloworld/bin/* /jffs/softcenter/bin/
 
 echo_date 复制相关的脚本文件！
