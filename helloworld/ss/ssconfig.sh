@@ -23,6 +23,7 @@ OUTBOUNDS="[]"
 NODE_JSON=""
 NODE_TYPE=0
 NODE_MODE="tcp,udp"
+TMP_BIN_PATH=/tmp/ssbin
 KVER=$(uname -r)
 #if [ "$(/jffs/softcenter/bin/versioncmp 3.10 $KVER)" == "1" ];then
 #	FASTOPEN=0
@@ -271,6 +272,9 @@ start_dns() {
 			uptest=none;
 			interval=10m;
 			purge_cache=off;
+			reject=::/0;
+			reject_policy=negate;
+			reject_recursively=on;
 			}
 		EOF
 		chmod 644 /etc/pdnsd.conf
@@ -284,7 +288,7 @@ start_dns() {
 		[ "$DNS_PLAN" == "1" ] && echo_date "开启chinadns-ng，用于【国内所有网站 + 国外gfwlist站点】的DNS解析..."
 		[ "$DNS_PLAN" == "2" ] && echo_date "开启chinadns-ng，用于【国内所有网站 + 国外所有网站】的DNS解析..."
 		cat /jffs/softcenter/ss/rules/gfwlist.conf|sed '/^server=/d'|sed 's/ipset=\/.//g'|sed 's/\/gfwlist//g' > /tmp/gfwlist.txt
-		chinadns-ng -l ${DNSF_PORT} -c ${CDN}#${DNSC_PORT} -t 127.0.0.1#1055 -g /tmp/gfwlist.txt -m /jffs/softcenter/ss/rules/cdn.txt -M >/dev/null 2>&1 &
+		chinadns-ng -l ${DNSF_PORT} -c ${CDN}#${DNSC_PORT} -t 127.0.0.1#1055 -g /tmp/gfwlist.txt -m /jffs/softcenter/ss/rules/cdn.txt -p 3 -N=gt >/dev/null 2>&1 &
 	fi
 
 	# Start DNS2SOCKS (default)
@@ -299,10 +303,10 @@ start_dns() {
 	if [ "$ssconf_foreign_dns" == "4" ]; then
 		[ "$DNS_PLAN" == "1" ] && echo_date "开启smartdns，用于【国外gfwlist站点】的DNS解析..."
 		[ "$DNS_PLAN" == "2" ] && echo_date "开启smartdns，用于【国外所有网站】的DNS解析..."
-		echo "bind [::]:$DNSF_PORT -group foreign" >> /etc/seconddns.conf
-		echo "bind-tcp [::]:$DNSF_PORT -group foreign" >> /etc/seconddns.conf
-		echo "force-AAAA-SOA yes" >> /etc/seconddns.conf
-		echo "server-tcp 8.8.8.8:53 -group foreign" >> /etc/seconddns.conf
+		echo "bind [::]:$DNSF_PORT -group foreign -force-aaaa-soa -no-speed-check -no-dualstack-selection" >> /etc/seconddns.conf
+		echo "bind-tcp [::]:$DNSF_PORT -group foreign -force-aaaa-soa -no-speed-check -no-dualstack-selection" >> /etc/seconddns.conf
+		echo "proxy-server socks5://127.0.0.1:23456 -name socks5" >> /etc/seconddns.conf
+		echo "server-tcp 8.8.8.8:53 -group foreign -exclude-default-group -proxy socks5" >> /etc/seconddns.conf
 		service restart_smartdns
 	fi
 	# direct
@@ -614,9 +618,8 @@ start_v2ray() {
 	fi
 
 	# v2ray start
-	cd /jffs/softcenter/bin
 	export GOGC=30
-	xray run -config=${CONFIG_FILE} >/dev/null 2>&1 &
+	${TMP_BIN_PATH}/xray run -config=${CONFIG_FILE} >/dev/null 2>&1 &
 	local V2PID
 	local i=10
 	until [ -n "$V2PID" ]; do
@@ -1201,12 +1204,12 @@ start_netflix() {
 
 		case "$NODE_TYPE" in
 		0|1)
-			xray run -config $CONFIG_NETFLIX_FILE -f /var/run/ssr-netflix.pid >/dev/null 2>&1
+			${TMP_BIN_PATH}/xray run -config $CONFIG_NETFLIX_FILE -f /var/run/ssr-netflix.pid >/dev/null 2>&1
 			dns2socks 127.0.0.1:1088 8.8.8.8:53 127.0.0.1:5555 -q >/dev/null 2>&1 &
 			;;
 		2|3)
 			create_v2ray_netflix
-			xray run -config $CONFIG_NETFLIX_FILE >/dev/null 2>&1 &
+			${TMP_BIN_PATH}/xray run -config $CONFIG_NETFLIX_FILE >/dev/null 2>&1 &
 			dns2socks 127.0.0.1:1088 8.8.8.8:53 127.0.0.1:5555 -q >/dev/null 2>&1 &
 			;;
 		esac
@@ -1317,10 +1320,12 @@ gen_conf(){
 start_shunt(){
 	case $NODE_TYPE in
 	0|1)
+		ln -sf /jffs/softcenter/bin/xray2 ${TMP_BIN_PATH}/xray
 		start_v2ray
 		start_kcp
 		;;
 	2|3)
+		ln -sf /jffs/softcenter/bin/xray1 ${TMP_BIN_PATH}/xray
 		start_v2ray
 		;;
 	4)

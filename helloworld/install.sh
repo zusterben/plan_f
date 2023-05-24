@@ -46,6 +46,8 @@ rm -rf /jffs/softcenter/bin/pdnsd
 rm -rf /jffs/softcenter/bin/dns2socks
 rm -rf /jffs/softcenter/bin/chinadns-ng
 rm -rf /jffs/softcenter/bin/xray
+rm -rf /jffs/softcenter/bin/xray1
+rm -rf /jffs/softcenter/bin/xray2
 rm -rf /jffs/softcenter/bin/httping
 rm -rf /jffs/softcenter/res/icon-helloworld.png
 rm -rf /jffs/softcenter/res/ss-menu.js
