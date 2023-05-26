@@ -32,6 +32,7 @@
 var db_ss = {};
 var dbus = {};
 var confs = {};
+var scarch;
 var node_max = 0;
 var node_nu = 0;
 var ss_nodes = [];
@@ -61,7 +62,7 @@ var option_obfs = ["plain", "http_simple", "http_post", "random_head", "tls1.2_t
 var option_v2enc = [["none", "不加密"], ["auto", "自动"], ["zero", "zero"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]];
 var option_headtcp = [["none", "不伪装"], ["http", "伪装http"]];
 var option_headkcp = [["none", "不伪装"], ["srtp", "伪装视频通话(srtp)"], ["utp", "伪装BT下载(uTP)"], ["wechat-video", "伪装微信视频通话"], ["dtls", "DTLS 1.2"], ["wireguard", "WireGuard"]];
-var xtls_flows = [["xtls-rprx-origin", "xtls-rprx-origin"], ["xtls-rprx-origin-udp443", "xtls-rprx-origin-udp443"], ["xtls-rprx-direct", "xtls-rprx-direct"], ["xtls-rprx-direct-udp443", "xtls-rprx-direct-udp443"], ["xtls-rprx-splice", "xtls-rprx-splice"], ["xtls-rprx-splice-udp443", "xtls-rprx-splice-udp443"]];
+var tls_flows = [["xtls-rprx-vision", "xtls-rprx-vision"], ["xtls-rprx-vision-udp443", "xtls-rprx-vision-udp443"]];
 var heart_count = 1;
 const pattern=/[`~!@#$^&*()=|{}':;'\\\[\]\.<>\/?~！@#￥……&*（）——|{}%【】'；：""'。，、？\s]/g;
 
@@ -165,17 +166,12 @@ function conf2obj(obj, p) {
 	E(p + "server").value = c.server || "";
 	E(p + "port").value = c.server_port || "";
 	E(p + "password").value = c.password || "";
-	E(p + "v2_xtls").value = "0";
-	E(p + "v2_xtls").checked =  E("sstable_v2_xtls").value != 0;
 	E(p + "v2_protocol").value = c.v2ray_protocol;
 	E(p + "alias").value = c.alias || "";
 	if(type == "shadowsocks"){
 		E(p + "type").value = "0";
 		E(p + "method_ss").value = c.encrypt_method_ss || "none";
-		if("xray-plugin" == c.plugin)//fix me
-			E(p + "plugin").value = "none";
-		else
-			E(p + "plugin").value = c.plugin;
+		E(p + "plugin").value = c.plugin;
 		E(p + "plugin_opts").value = c.plugin_opts;
 		E(p + "v2_tls").value = c.tls || "0";
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
@@ -195,40 +191,32 @@ function conf2obj(obj, p) {
 		if(c.v2ray_protocol == "vmess"){
 			E(p + "v2_alter_id").value = c.alter_id;
 			E(p + "v2_security").value = c.security || "auto";
-			E(p + "v2_packet_encoding").value = c.packet_encoding || "xudp";
 		}
 		if(c.v2ray_protocol == "vless"){
 			E(p + "v2_encryption").value = c.vless_encryption;
-			E(p + "v2_packet_encoding").value = c.packet_encoding || "xudp";
-			if(transport == "tcp" || transport == "kcp"){
-				E(p + "v2_xtls").value = c.xtls || "0";
-				E(p + "v2_xtls").checked =  E(p + "v2_xtls").value != 0;
-				E(p + "v2_vless_flow").value = c.vless_flow || "xtls-rprx-splice";
+			E(p + "v2_reality").value = c.reality || "0";
+			E(p + "v2_reality").checked =  E(p + "v2_reality").value != 0;
+			E(p + "v2_tls_flow").value = c.tls_flow || "xtls-rprx-vision";
+			if(E(p + "v2_reality").checked == true){
+				E(p + "v2_reality_publickey").value = c.reality_publickey || "";
+				E(p + "v2_reality_shortid").value = c.reality_shortid || "";
+				E(p + "v2_reality_spiderx").value = c.reality_spiderx || "";
 			}
 		}
-		if(c.v2ray_protocol == "shadowsocks")
-			E(p + "v2_ivCheck").value = c.ivCheck || "1";
-		if(c.v2ray_protocol != "shadowsocksr"){
-			E(p + "v2_transport").value = transport;
-			if(E(p + "v2_xtls").value == "0"){
-				E(p + "v2_tls").value = c.tls || "0";
-				E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
-				E(p + "v2_mux").value = c.mux || "0";
-				E(p + "v2_mux").checked =  E(p + "v2_mux").value != 0;
-				if(E(p + "v2_mux").value != "0")
-				E(p + "v2_concurrency").value = c.concurrency || "4";
-			}else{
-				E(p + "v2_tls").value = "0";
-				E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
-			}
+		E(p + "v2_transport").value = transport;
+		if(E(p + "v2_reality").checked == false){
+			E(p + "v2_mux").value = c.mux || "0";
+			E(p + "v2_mux").checked =  E(p + "v2_mux").value != 0;
+			E(p + "v2_concurrency").value = c.concurrency || "4";
 		}
-		if(E(p + "v2_tls").value != "0" || E(p + "v2_xtls").value != "0"){
+		E(p + "v2_tls").value = "0";
+		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
+		if(E(p + "v2_tls").checked || E(p + "v2_reality").checked ){
 			E(p + "tls_host").value = c.tls_host || "";
 			E(p + "insecure").value = c.insecure || "0";
 			E(p + "insecure").checked =  E(p + "insecure").value != 0;	
-		}
-		if(E(p + "v2_tls").value != "0")
 			E(p + "v2_fingerprint").value = c.fingerprint || "disable";
+		}
 		if (transport == "tcp") {
 			E(p + "v2_tcp_guise").value = c.tcp_guise || "none";
 			if(c.tcp_guise == "http"){
@@ -280,8 +268,6 @@ function conf2obj(obj, p) {
 		E(p + "insecure").checked =  E(p + "insecure").value != 0;
 		E(p + "v2_tls").value = c.tls || "0";
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
-		E(p + "v2_xtls").value = c.xtls || "0";
-		E(p + "v2_xtls").checked =  E(p + "v2_xtls").value != 0;
 		E(p + "tls_host").value = c.tls_host || "";
 		if(E(p + "v2_tls").checked == true)
 			E(p + "tls_sessionTicket").value = c.tls_sessionTicket || "0";
@@ -437,28 +423,29 @@ function save() {
 		if(tmp_db.v2ray_protocol == "vmess"){
 			tmp_db.alter_id = E("sstable_v2_alter_id").value;
 			tmp_db.security = E("sstable_v2_security").value;
-			tmp_db.packet_encoding = E("sstable_v2_packet_encoding").value;
 		}
 		if(tmp_db.v2ray_protocol == "vless"){
 			tmp_db.vless_encryption = E("sstable_v2_encryption").value;
-			tmp_db.vless_packet_encoding = E("sstable_v2_packet_encoding").value;
-			if(tmp_db.transport == "tcp" || tmp_db.transport == "kcp"){
-				tmp_db.xtls = E("sstable_v2_xtls").checked ? '1' : '0';
-				tmp_db.vless_flow = E("sstable_v2_vless_flow").value;
+			if(tmp_db.transport == "tcp"){
+				tmp_db.reality = E("sstable_v2_reality").checked ? '1' : '0';
+				tmp_db.tls_flow = E("sstable_v2_tls_flow").value;
+				if(E("sstable_v2_reality").checked == true){
+					tmp_db.reality_publickey = E("sstable_v2_reality_publickey").value;
+					tmp_db.reality_shortid = E("sstable_v2_reality_shortid").value;
+					tmp_db.reality_spiderx = E("sstable_v2_reality_spiderx").value;
+				}
 			}
 		}
 		tmp_db.tls = E("sstable_v2_tls").checked ? '1' : '0';
-		if(E("sstable_v2_xtls").checked == false){
+		if(E("sstable_v2_reality").checked == false){
 			tmp_db.mux = E("sstable_v2_mux").checked ? '1' : '0';
 			tmp_db.concurrency = E("sstable_v2_concurrency").value;
 		}
-		if(E("sstable_v2_tls").checked == true || E("sstable_v2_xtls").checked == true){
+		if(E("sstable_v2_tls").checked || E("sstable_v2_reality").checked){
 			tmp_db.tls_host = E("sstable_tls_host").value;
 			tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
-		}
-		if(E("sstable_v2_tls").checked == true)
 			tmp_db.fingerprint = E("sstable_v2_fingerprint").value;
-
+		}
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = E("sstable_v2_tcp_guise").value;
 			if(tmp_db.tcp_guise == "http"){
@@ -504,8 +491,7 @@ function save() {
 	}else if(node_type == 3){
 		tmp_db.password = E("sstable_password").value;
 		tmp_db.tls = E("sstable_v2_tls").checked ? '1' : '0';
-		tmp_db.xtls = E("sstable_v2_xtls").checked ? '1' : '0';
-		if(E("sstable_v2_tls").checked || E("sstable_v2_xtls").checked){
+		if(E("sstable_v2_tls").checked){
 			tmp_db.tls_host = E("sstable_tls_host").value;
 			tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
 		}
@@ -628,13 +614,16 @@ function verifyFields(r) {
 	elem.display(elem.parentElem('sstable_v2_permit_without_stream', 'tr'), grpc_on);
 	elem.display(elem.parentElem('sstable_v2_health_check_timeout', 'tr'), (grpc_on || h2_on));
 	elem.display(elem.parentElem('sstable_v2_initial_windows_size', 'tr'), grpc_on);
-	elem.display(elem.parentElem('sstable_v2_tls', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_xtls").checked == false));
-	elem.display(elem.parentElem('sstable_v2_xtls', 'tr'), ((vless_on || trojan_on) && E("sstable_v2_tls").checked == false));
-	elem.display(elem.parentElem('sstable_tls_host', 'tr'), (E("sstable_v2_tls").checked || E("sstable_v2_xtls").checked));
-	elem.display(elem.parentElem('sstable_v2_fingerprint', 'tr'), E("sstable_v2_tls").checked);
-	elem.display(elem.parentElem('sstable_v2_vless_flow', 'tr'), E("sstable_v2_xtls").checked);
+	elem.display(elem.parentElem('sstable_v2_tls', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_reality").checked == false));
+	elem.display(elem.parentElem('sstable_v2_reality', 'tr'), (vless_on && E("sstable_v2_tls").checked == false));
+	elem.display(elem.parentElem('sstable_tls_host', 'tr'), (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked));
+	elem.display(elem.parentElem('sstable_v2_fingerprint', 'tr'), (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked));
+	elem.display(elem.parentElem('sstable_v2_tls_flow', 'tr'), (vless_on && E("sstable_v2_transport").value == "tcp" && (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked)));
+	elem.display(elem.parentElem('sstable_v2_reality_publickey', 'tr'), (vless_on && E("sstable_v2_reality").checked));
+	elem.display(elem.parentElem('sstable_v2_reality_shortid', 'tr'), (vless_on && E("sstable_v2_reality").checked));
+	elem.display(elem.parentElem('sstable_v2_reality_spiderx', 'tr'), (vless_on && E("sstable_v2_reality").checked));
 	elem.display(elem.parentElem('sstable_v2_ivCheck', 'tr'), ss_on);
-	elem.display(elem.parentElem('sstable_v2_mux', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_xtls").checked == false));
+	elem.display(elem.parentElem('sstable_v2_mux', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_reality").checked == false));
 	elem.display(elem.parentElem('sstable_v2_concurrency', 'tr'), E("sstable_v2_mux").checked);
 	elem.display(elem.parentElem('sstable_tls_sessionTicket', 'tr'), (trojan_on && E("sstable_v2_tls").checked));
 	elem.display(elem.parentElem('sstable_server', 'tr'), true);
@@ -651,17 +640,15 @@ function verifyFields(r) {
 		showhide("ss_node_table_plugin_tr", ($("#ss_node_table_mode").val() != "3"));
 		showhide("ss_node_table_plugin_opts_tr", ($("#ss_node_table_mode").val() != "3" && $("#ss_node_table_plugin").val() != "none"));
 		showhide("ss_node_table_v2_tls_tr", true);
-		showhide("ss_node_table_v2_xtls_tr", false);
+		showhide("ss_node_table_v2_reality_tr", false);
 		showhide("ss_node_table_tls_host_tr", E("ss_node_table_v2_tls").checked);
-		showhide("ss_node_table_v2_packet_encoding_tr", false);
 		showhide("ss_node_table_insecure_tr", E("ss_node_table_v2_tls").checked);
 	}
 	if (save_flag == "shadowsocksr") {
 		showhide("ss_node_table_method_tr", true);
 		showhide("ss_node_table_v2_tls_tr", false);
-		showhide("ss_node_table_v2_xtls_tr", false);
+		showhide("ss_node_table_v2_reality_tr", false);
 		showhide("ss_node_table_tls_host_tr", false);
-		showhide("ss_node_table_v2_packet_encoding_tr", false);
 		showhide("ss_node_table_insecure_tr", false);
 	}
 	if (save_flag == "v2ray") {
@@ -676,7 +663,7 @@ function verifyFields(r) {
 		E('ss_node_table_v2_kcp_guise_tr').style.display = "";
 		E('ss_node_table_v2_http_path_tr').style.display = "";
 		E('ss_node_table_v2_http_host_tr').style.display = "";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "";
+		E('ss_node_table_v2_tls_flow_tr').style.display = "";
 		E('ss_node_table_v2_mux_tr').style.display = "";
 		E('ss_node_table_v2_concurrency_tr').style.display = "";
 		var http_on_2 = E("ss_node_table_v2_transport").value == "tcp" && E("ss_node_table_v2_tcp_guise").value == "http";
@@ -691,7 +678,7 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_kcp_guise_tr", (E("ss_node_table_v2_transport").value == "mkcp"));
 		showhide("ss_node_table_v2_http_host_tr", host_on_2);
 		showhide("ss_node_table_v2_http_path_tr", path_on_2);
-		showhide("ss_node_table_v2_encryption_tr", E("ss_node_table_v2_protocol").value == "vless");
+		showhide("ss_node_table_v2_encryption_tr", vless_on_2);
 		showhide("ss_node_table_v2_quic_security_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_quic_key_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_quic_guise_tr", (E("ss_node_table_v2_transport").value == "quic"));
@@ -701,7 +688,6 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_permit_without_stream_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_initial_windows_size_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_tls_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr"));
-		showhide("ss_node_table_v2_xtls_tr", (E("ss_node_table_v2_protocol").value == "trojan" || E("ss_node_table_v2_protocol").value == "vless"));
 		showhide("ss_node_table_v2_mtu_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_tti_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_uplink_capacity_tr", E("ss_node_table_v2_transport").value == "mkcp");
@@ -710,25 +696,26 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_write_buffer_size_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_seed_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_congestion_tr", E("ss_node_table_v2_transport").value == "mkcp");
-		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
-		showhide("ss_node_table_v2_fingerprint_tr", E("ss_node_table_v2_tls").checked);
-		showhide("ss_node_table_v2_vless_flow_tr", E("ss_node_table_v2_xtls").checked);
+		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_tr", (vless_on_2 && E("ss_node_table_v2_tls").checked == false));
+		showhide("ss_node_table_v2_fingerprint_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_tls_flow_tr", (vless_on_2 && E("ss_node_table_v2_transport").value == "tcp" && (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked)));
 		showhide("ss_node_table_v2_ivCheck_tr", (E("ss_node_table_v2_protocol").value == "shadowsocks"));
-		showhide("ss_node_table_v2_mux_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr" && E("ss_node_table_v2_xtls").checked == false));
+		showhide("ss_node_table_v2_mux_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr" && E("ss_node_table_v2_reality").checked == false));
 		showhide("ss_node_table_v2_concurrency_tr", E("ss_node_table_v2_mux").checked);
-		showhide("ss_node_table_v2_packet_encoding_tr", (E("ss_node_table_v2_protocol").value == "vmess" || E("ss_node_table_v2_protocol").value == "vless"));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_publickey_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_shortid_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_spiderx_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
 	}
 	if (save_flag == "trojan") {
 		showhide("ss_node_table_v2_tls_tr", true);
-		showhide("ss_node_table_v2_xtls_tr", true);
-		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
-		showhide("ss_node_table_v2_vless_flow_tr", E("ss_node_table_v2_xtls").checked);
+		showhide("ss_node_table_v2_reality_tr", false);
+		showhide("ss_node_table_tls_host_tr", E("ss_node_table_v2_tls").checked);
 		showhide("ss_node_table_tls_sessionTicket_tr", E("ss_node_table_v2_tls").checked);
-		showhide("ss_node_table_v2_mux_tr", E("ss_node_table_v2_xtls").checked == false);
+		showhide("ss_node_table_v2_mux_tr", true);
 		showhide("ss_node_table_v2_concurrency_tr", E("ss_node_table_v2_mux").checked);
-		showhide("ss_node_table_v2_packet_encoding_tr", false);
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
+		showhide("ss_node_table_insecure_tr", E("ss_node_table_v2_tls").checked);
 	}
 	//kcp pannel
 	E("sstable_kcp_parameter_tr").style.display = "";
@@ -837,7 +824,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_http_path_tr').style.display = "none";
 		E('ss_node_table_v2_http_host_tr').style.display = "none";
 		E('ss_node_table_v2_fingerprint_tr').style.display = "none";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "none";
+		E('ss_node_table_v2_tls_flow_tr').style.display = "none";
 		E('ss_node_table_v2_quic_security_tr').style.display = "none";
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
@@ -848,15 +835,14 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_initial_windows_size_tr').style.display = "none";
 		E('ss_node_table_v2_tls_tr').style.display = "";
 		E('ss_node_table_v2_tls').value = "0";
-		E('ss_node_table_v2_xtls').value = "0";
-		E('ss_node_table_v2_xtls_tr').style.display = "none";
+		E('ss_node_table_v2_reality').value = "0";
+		E('ss_node_table_v2_reality_tr').style.display = "none";
 		E('ss_node_table_v2_mux_tr').style.display = "none";
 		E('ss_node_table_v2_concurrency_tr').style.display = "none";
-		E('ss_node_table_v2_packet_encoding_tr').style.display = "none";
 		showhide("ss_node_table_plugin_tr", ($("#ss_node_table_mode").val() != "3"));
 		showhide("ss_node_table_plugin_opts_tr", ($("#ss_node_table_mode").val() != "3" && $("#ss_node_table_plugin").val() != "none"));
-		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
+		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
 	} else if (_type == 1) {
 		save_flag = "shadowsocksr";
 		E('ssrTitle').className = "vpnClientTitle_td_click";
@@ -882,7 +868,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_http_path_tr').style.display = "none";
 		E('ss_node_table_v2_http_host_tr').style.display = "none";
 		E('ss_node_table_v2_fingerprint_tr').style.display = "none";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "none";
+		E('ss_node_table_v2_tls_flow_tr').style.display = "none";
 		E('ss_node_table_v2_quic_security_tr').style.display = "none";
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
@@ -894,12 +880,11 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_mux_tr').style.display = "none";
 		E('ss_node_table_v2_concurrency_tr').style.display = "none";
 		E('ss_node_table_v2_tls_tr').style.display = "none";
-		E('ss_node_table_v2_xtls_tr').style.display = "none";
+		E('ss_node_table_v2_reality_tr').style.display = "none";
 		E('ss_node_table_v2_tls').value = "0";
-		E('ss_node_table_v2_xtls').value = "0";
+		E('ss_node_table_v2_reality').value = "0";
 		E('ss_node_table_tls_host_tr').style.display = "none";
 		E('ss_node_table_insecure_tr').style.display = "none";
-		E('ss_node_table_v2_packet_encoding_tr').style.display = "none";
 	} else if (_type == 2) {
 		save_flag = "v2ray";
 		E('v2rayTitle').className = "vpnClientTitle_td_click";
@@ -922,14 +907,12 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_kcp_guise_tr').style.display = "";
 		E('ss_node_table_v2_http_path_tr').style.display = "";
 		E('ss_node_table_v2_http_host_tr').style.display = "";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "";
-		E('ss_node_table_v2_packet_encoding_tr').style.display = "none";
 		E('ss_node_table_v2_mux_tr').style.display = "";
 		E('ss_node_table_v2_concurrency_tr').style.display = "";
 		E('ss_node_table_v2_tls_tr').style.display = "";
-		E('ss_node_table_v2_xtls_tr').style.display = "none";
 		E('ss_node_table_v2_tls').value = "0";
-		E('ss_node_table_v2_xtls').value = "0";
+		E('ss_node_table_v2_reality_tr').style.display = "none";
+		E('ss_node_table_v2_reality').value = "0";
 		E('ss_node_table_server_tr').style.display = "";
 		E('ss_node_table_port_tr').style.display = "";
 		E('ss_node_table_v2_vmess_id_tr').style.display = "";
@@ -941,13 +924,15 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_kcp_guise_tr').style.display = "";
 		E('ss_node_table_v2_http_path_tr').style.display = "";
 		E('ss_node_table_v2_http_host_tr').style.display = "";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "none";
+		E('ss_node_table_v2_tls_flow_tr').style.display = "none";
 		E('ss_node_table_v2_mux_tr').style.display = "";
 		E('ss_node_table_v2_concurrency_tr').style.display = "";
 		var http_on_2 = E("ss_node_table_v2_transport").value == "tcp" && E("ss_node_table_v2_tcp_guise").value == "http";
 		var host_on_2 = E("ss_node_table_v2_transport").value == "ws" || E("ss_node_table_v2_transport").value == "h2" || http_on_2;
 		var path_on_2 = E("ss_node_table_v2_transport").value == "ws" || E("ss_node_table_v2_transport").value == "h2" || E("ss_node_table_v2_transport").value == "mkcp";
 		showhide("ss_node_table_v2_tcp_guise_tr", (E("ss_node_table_v2_transport").value == "tcp"));
+		showhide("ss_node_table_v2_reality_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_transport").value == "tcp" && E('ss_node_table_v2_tls').value == "0"));
+		showhide("ss_node_table_v2_tls_flow_tr", (E("ss_node_table_v2_tls").value == "1" && E('ss_node_table_v2_reality').value == "1"));
 		showhide("ss_node_table_v2_kcp_guise_tr", (E("ss_node_table_v2_transport").value == "mkcp"));
 		showhide("ss_node_table_v2_http_host_tr", host_on_2);
 		showhide("ss_node_table_v2_http_path_tr", path_on_2);
@@ -961,12 +946,14 @@ function tabclickhandler(_type) {
 		showhide("ss_node_table_v2_initial_windows_size_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_vmess_id_tr", (E("ss_node_table_v2_protocol").value == "vmess" || E("ss_node_table_v2_protocol").value == "vless"));
 		showhide("ss_node_table_v2_alter_id_tr", (E("ss_node_table_v2_protocol").value == "vmess"));
-		showhide("ss_node_table_v2_packet_encoding_tr", (E("ss_node_table_v2_protocol").value == "vmess" || E("ss_node_table_v2_protocol").value == "vless"));
 		showhide("ss_node_table_v2_security_tr", (E("ss_node_table_v2_protocol").value == "vmess"));
 		showhide("ss_node_table_v2_ivCheck_tr", (E("ss_node_table_v2_protocol").value == "shadowsocks"));
 		showhide("ss_node_table_v2_concurrency_tr", (E("ss_node_table_v2_mux").checked));
-		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
+		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_publickey_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_shortid_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_v2_reality_spiderx_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
 	}else if (_type == 3) {
 		save_flag = "trojan";
 		E('TrojanTitle').className = "vpnClientTitle_td_click";
@@ -991,7 +978,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_http_path_tr').style.display = "none";
 		E('ss_node_table_v2_http_host_tr').style.display = "none";
 		E('ss_node_table_v2_fingerprint_tr').style.display = "none";
-		E('ss_node_table_v2_vless_flow_tr').style.display = "none";
+		E('ss_node_table_v2_tls_flow_tr').style.display = "none";
 		E('ss_node_table_v2_quic_security_tr').style.display = "none";
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
@@ -1004,12 +991,11 @@ function tabclickhandler(_type) {
 		E("ss_node_table_v2_mux").checked = false;
 		E('ss_node_table_v2_concurrency_tr').style.display = "none";
 		E('ss_node_table_v2_tls_tr').style.display = "";
-		E('ss_node_table_v2_xtls_tr').style.display = "";
+		E('ss_node_table_v2_reality_tr').style.display = "none";
 		E('ss_node_table_v2_tls').value = "0";
-		E('ss_node_table_v2_xtls').value = "0";
-		E('ss_node_table_v2_packet_encoding_tr').style.display = "none";
-		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_xtls").checked));
+		E('ss_node_table_v2_reality').value = "0";
+		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
 	} 
 	return save_flag;
 }
@@ -1044,30 +1030,27 @@ function add_edit_node(flag, node_idx, add) {
 		if(tmp_db.v2ray_protocol == "vmess"){
 			tmp_db.alter_id = $.trim($('#ss_node_table_v2_alter_id').val());
 			tmp_db.security = $.trim($('#ss_node_table_v2_security').val());
-			tmp_db.packet_encoding = $.trim($('#ss_node_table_v2_packet_encoding').val());
 			tmp_db.v2ray_protocol = "vmess";
 		}
 		if(tmp_db.v2ray_protocol == "vless"){
 			tmp_db.v2ray_protocol = "vless";
 			tmp_db.vless_encryption = $.trim($('#ss_node_table_v2_encryption').val());
-			tmp_db.packet_encoding = $.trim($('#ss_node_table_v2_packet_encoding').val());
-			if(tmp_db.transport == "tcp" || tmp_db.transport == "kcp"){
-				tmp_db.xtls = E("ss_node_table_v2_xtls").checked ? '1' : '0';
-				tmp_db.vless_flow = $.trim($('#ss_node_table_v2_vless_flow').val());
-			}
 		}
 		tmp_db.tls = E("ss_node_table_v2_tls").checked ? '1' : '0';
-		if(tmp_db.tls == "0"){
-			tmp_db.mux = E("ss_node_table_v2_mux").checked ? '1' : '0';
-			tmp_db.concurrency = $.trim($('#ss_node_table_v2_concurrency').val());
+		tmp_db.mux = E("ss_node_table_v2_mux").checked ? '1' : '0';
+		tmp_db.concurrency = $.trim($('#ss_node_table_v2_concurrency').val());
+		tmp_db.reality = E("ss_node_table_v2_reality").checked ? '1' : '0';
+		if(tmp_db.reality == "1"){
+			tmp_db.reality_publickey = $.trim($('#ss_node_table_v2_reality_publickey').val());
+			tmp_db.reality_shortid = $.trim($('#ss_node_table_v2_reality_shortid').val());
+			tmp_db.reality_spiderx = $.trim($('#ss_node_table_v2_reality_spiderx').val());
 		}
-		if(tmp_db.tls == "1" || tmp_db.xtls == "1"){
+		if(tmp_db.tls == "1" || tmp_db.reality == "1"){
 			tmp_db.tls_host = $.trim($('#ss_node_table_tls_host').val());
 			tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
-		}
-		if(tmp_db.tls == "1")
 			tmp_db.fingerprint = $.trim($('#ss_node_table_v2_fingerprint').val());
-
+			tmp_db.tls_flow = $.trim($('#ss_node_table_v2_tls_flow').val());
+		}
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = $.trim($('#ss_node_table_v2_tcp_guise').val());
 			if(tmp_db.tcp_guise == "http"){
@@ -1114,13 +1097,11 @@ function add_edit_node(flag, node_idx, add) {
 		tmp_db.v2ray_protocol = "trojan";
 		tmp_db.password = $.trim($('#ss_node_table_password').val());
 		tmp_db.tls = E("ss_node_table_v2_tls").checked ? '1' : '0';
-		tmp_db.xtls = E("ss_node_table_v2_xtls").checked ? '1' : '0';
-		if(tmp_db.tls == "1" ||tmp_db.xtls == "1"){
+		if(tmp_db.tls == "1"){
 			tmp_db.tls_host = $.trim($('#ss_node_table_tls_host').val());
 			tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
-		}
-		if(tmp_db.tls == "1")
 			tmp_db.tls_sessionTicket = $.trim($('#ss_node_table_tls_sessionTicket').val());
+		}
 	}
 
 	dbus["ssconf_basic_json_" + node_idx] = Base64.encode(JSON.stringify(tmp_db));
@@ -1919,7 +1900,6 @@ function updatelist(arg) {
 function version_show() {
 	if(!db_ss["ssconf_basic_version_local"]) db_ss["ssconf_basic_version_local"] = "0.0.0"
 	$("#ss_version_show").html("<a class='hintstyle' href='javascript:void(12);' onclick='openssHint(12)'><i>当前版本：" + db_ss['ssconf_basic_version_local'] + "</i></a>");
-	var scarch;
 	if(db_scarch["softcenter_arch"]=="armv7l")
 		scarch="arm";
 	else if(db_scarch["softcenter_arch"]=="aarch64")
@@ -2859,7 +2839,7 @@ function save_failover() {
 															</a>
 														</div>
 														<div style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 5.5px 0px;">
-															<a type="button" class="ss_btn" target="_blank" href="https://github.com/zusterben/plan_b">更新日志</a>
+															<a type="button" class="ss_btn" target="_blank" href="https://github.com/zusterben/plan_f">更新日志</a>
 														</div>
 														<div style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 5.5px 0px;">
 															<a type="button" class="ss_btn" href="javascript:void(0);" onclick="pop_help()">插件帮助</a>
@@ -2963,7 +2943,10 @@ function save_failover() {
 																	{ title: '伪装域名 (host)', rid:'ss_node_table_v2_http_host_tr', id:'ss_node_table_v2_http_host', type:'text', maxlen:'300', style:'width:338px', hidden:"yes"},
 																	{ title: '路径 (path)', rid:'ss_node_table_v2_http_path_tr', id:'ss_node_table_v2_http_path', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'TLS', rid:'ss_node_table_v2_tls_tr', id:'ss_node_table_v2_tls', type:'checkbox', func:'v', value:false, hidden:"yes"},
-																	{ title: 'XTLS', rid:'ss_node_table_v2_xtls_tr', id:'ss_node_table_v2_xtls', type:'checkbox', func:'v', value:false, hidden:"yes"},
+																	{ title: 'Reality', rid:'ss_node_table_v2_reality_tr', id:'ss_node_table_v2_reality', type:'checkbox', func:'v', value:false, hidden:"yes"},
+																	{ title: 'Public key', rid:'ss_node_table_v2_reality_publickey_tr', id:'ss_node_table_v2_reality_publickey', type:'text', maxlen:'999', style:'width:338px', ph:'没有请留空', hidden:"yes"},
+																	{ title: 'Short ID', rid:'ss_node_table_v2_reality_shortid_tr', id:'ss_node_table_v2_reality_shortid', type:'text', maxlen:'20', style:'width:338px', ph:'没有请留空', hidden:"yes"},
+																	{ title: 'spiderX', rid:'ss_node_table_v2_reality_spiderx_tr', id:'ss_node_table_v2_reality_spiderx', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'TLS伪装域名', rid:'ss_node_table_tls_host_tr', id:'ss_node_table_tls_host', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: '指纹伪造', rid:'ss_node_table_v2_fingerprint_tr', id:'ss_node_table_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "disable", hidden:"yes"},
 																	{ title: 'QUIC加密', rid:'ss_node_table_v2_quic_security_tr', id:'ss_node_table_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
@@ -2976,10 +2959,9 @@ function save_failover() {
 																	{ title: 'Health Check Timeout', rid:'ss_node_table_v2_health_check_timeout_tr', id:'ss_node_table_v2_health_check_timeout', type:'text', maxlen:'3', value: "20", hidden:"yes"},
 																	{ title: 'Permit Without Stream', rid:'ss_node_table_v2_permit_without_stream_tr', id:'ss_node_table_v2_permit_without_stream', type:'select', func:'v', options:[["1", "启用"], ["0", "关闭"]], value: "0", hidden:"yes"},
 																	{ title: 'Initial Windows Size', rid:'ss_node_table_v2_initial_windows_size_tr', id:'ss_node_table_v2_initial_windows_size', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
-																	{ title: '流控', rid:'ss_node_table_v2_vless_flow_tr', id:'ss_node_table_v2_vless_flow', func:'v',type:'select', options: xtls_flows, style:'width:350px', value: "xtls-rprx-origin", hidden:"yes"},
+																	{ title: '流控', rid:'ss_node_table_v2_tls_flow_tr', id:'ss_node_table_v2_tls_flow', func:'v',type:'select', options: tls_flows, style:'width:350px', value: "xtls-rprx-vision", hidden:"yes"},
 																	{ title: '多路复用 (Mux)', rid:'ss_node_table_v2_mux_tr', id:'ss_node_table_v2_mux', type:'checkbox', func:'v', value:false, hidden:"yes"},
 																	{ title: 'Mux并发连接数', rid:'ss_node_table_v2_concurrency_tr', id:'ss_node_table_v2_concurrency', type:'text', maxlen:'300', style:'width:338px', hidden:"yes"},
-																	{ title: '数据包编码', rid:'ss_node_table_v2_packet_encoding_tr', id:'ss_node_table_v2_packet_encoding', func:'v',type:'select', options: [["none", "none"], ["packet", "packet (v2ray-core v5+)"], ["xudp", "xudp (Xray-core)"]], style:'width:350px', value: "xudp", hidden:"yes"},
 														{ title: 'Session Ticket', rid:'ss_node_table_tls_sessionTicket_tr', id:'ss_node_table_tls_sessionTicket', type:'text', maxlen:'300', value: "0", hidden:"yes"},
 																]);
 															</script>
@@ -3018,7 +3000,7 @@ function save_failover() {
 														{ title: '布隆过滤器', id:'sstable_v2_ivCheck', type:'select', func:'v', options:[["1", "开启"], ["0", "关闭"]], value: "1", hidden:"yes"},
 														{ title: '用户id (UUID)', id:'sstable_v2_vmess_id', type:'password', hint:'49', maxlen:'300', style:'width:300px;', peekaboo:'1', hidden:"yes"},
 														{ title: '额外ID (Alterld)', id:'sstable_v2_alter_id', type:'text', hint:'48', maxlen:'50', hidden:"yes"},
-														{ title: '协议（vmess/vless/trojan/ss/ssr）', id:'sstable_v2_protocol', type:'select', func:'v', options:[ "vmess", "vless", "trojan", "shadowsocks", "shadowsocksr", "wireguard", "socks", "http"], value: "vmess", hidden:"yes"},
+														{ title: '协议(vmess/vless/trojan/ss/ssr)', id:'sstable_v2_protocol', type:'select', func:'v', options:[ "vmess", "vless", "trojan", "shadowsocks", "shadowsocksr", "wireguard", "socks", "http"], value: "vmess", hidden:"yes"},
 														{ title: '加密方式 (security)', id:'sstable_v2_security', type:'select', hint:'47', options:option_v2enc, hidden:"yes"},
 														{ title: 'VLESS 加密', id:'sstable_v2_encryption', type:'text', maxlen:'50', hidden:"yes", value: "none"},
 														{ title: '传输协议 (network)', id:'sstable_v2_transport', type:'select', func:'v', hint:'35', options:["tcp", "mkcp", "ws", "h2", "quic", "grpc"], hidden:"yes"},
@@ -3035,7 +3017,10 @@ function save_failover() {
 														{ title: '* 伪装域名 (host)', id:'sstable_v2_http_host', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: '* 路径 (path)', id:'sstable_v2_http_path', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: 'TLS', id:'sstable_v2_tls', type:'checkbox', func:'v', hidden:"yes"},
-														{ title: 'XTLS', id:'sstable_v2_xtls', type:'checkbox', func:'v', hidden:"yes"},
+														{ title: 'Reality', id:'sstable_v2_reality', type:'checkbox', func:'v', hidden:"yes"},
+														{ title: 'Public key', id:'sstable_v2_reality_publickey', type:'text', maxlen:'999', ph:'没有请留空', hidden:"yes", hint:'112'},
+														{ title: 'Short ID', id:'sstable_v2_reality_shortid', type:'text', maxlen:'20', ph:'没有请留空', hidden:"yes", hint:'113'},
+														{ title: 'spiderX', id:'sstable_v2_reality_spiderx', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes", hint:'114'},
 														{ title: 'TLS伪装域名', id:'sstable_tls_host', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: '指纹伪造', id:'sstable_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "disable", hidden:"yes"},
 														{ title: 'QUIC加密', id:'sstable_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
@@ -3048,10 +3033,9 @@ function save_failover() {
 														{ title: 'Health Check Timeout', id:'sstable_v2_health_check_timeout', type:'text', maxlen:'3', ph:'没有请留空', hidden:"yes"},
 														{ title: 'Permit Without Stream', id:'sstable_v2_permit_without_stream', type:'select',func:'v', options:[["1", "启用"], ["0", "关闭"]], value: "0", hidden:"yes"},
 														{ title: 'Initial Windows Size', id:'sstable_v2_initial_windows_size', type:'text', maxlen:'6', ph:'没有请留空', hidden:"yes"},
-														{ title: '流控', id:'sstable_v2_vless_flow', type:'select', func:'v', options:xtls_flows, value: "xtls-rprx-origin", hidden:"yes"},
+														{ title: '流控', id:'sstable_v2_tls_flow', type:'select', func:'v', options:tls_flows, value: "xtls-rprx-vision", hidden:"yes"},
 														{ title: '多路复用 (Mux)', id:'sstable_v2_mux', type:'checkbox', func:'v', hint:'31', hidden:"yes"},
 														{ title: 'Mux并发连接数', id:'sstable_v2_concurrency', type:'text', hint:'32', maxlen:'300', hidden:"yes"},
-														{ title: '数据包编码', id:'sstable_v2_packet_encoding',  type:'select', func:'v', options:[["none", "none"], ["packet", "packet (v2ray-core v5+)"], ["xudp", "xudp (Xray-core)"]],value: "xudp", hidden:"yes"},
 														{ title: 'Session Ticket', id:'sstable_tls_sessionTicket', type:'text', maxlen:'300', value: "0", hidden:"yes"},
 													]);
 												</script>
@@ -3109,7 +3093,7 @@ function save_failover() {
 														]},
 														{ title: '状态检测时间间隔', rid:'interval_settings', multi: [
 															{ id:'ssconf_basic_interval', type:'select', style:'width:auto',options:fa5, value:'2'},
-															{ suffix:'<small>&nbsp;默认：4 - 7s</small>' },
+															{ suffix:'<small>&nbsp;默认:4 - 7s</small>' },
 														]},
 														{ title: '历史记录保存数量', rid:'failover_settings_2', multi: [
 															{ suffix:'<lable>最多保留&nbsp;</lable>' },
@@ -3134,13 +3118,13 @@ function save_failover() {
 												<script type="text/javascript">
 													var option_dnsc = [["1", "运营商DNS【自动获取】"], ["2", "阿里DNS1【223.5.5.5】"], ["3", "阿里DNS2【223.6.6.6】"], ["4", "114DNS1【114.114.114.114】"], ["5", "114DNS2【114.114.115.115】"], ["6", "cnnic DNS1【1.2.4.8】"], ["7", "cnnic DNS2【210.2.4.8】"], ["8", "oneDNS1【117.50.11.11】"], ["9", "oneDNS2【117.50.11.22】"], ["10", "百度DNS【180.76.76.76】"], ["11", "DNSpod DNS【119.29.29.29】"]];
 													var option_dnsf = [ ["1", "pdnsd"], ["2", "chinadns-ng"], ["3", "dns2socks"], ["4", "smartdns"], ["8", "direct"]];
-													var ph1 = "需端口号如：8.8.8.8:53"
-													var ph2 = "需端口号如：8.8.8.8#53"
-													var ph3 = "# 填入自定义的dnsmasq设置，一行一个&#10;# 例如hosts设置：&#10;address=/weibo.com/2.2.2.2&#10;# 防DNS劫持设置：&#10;bogus-nxdomain=220.250.64.18"
+													var ph1 = "需端口号如:8.8.8.8:53"
+													var ph2 = "需端口号如:8.8.8.8#53"
+													var ph3 = "# 填入自定义的dnsmasq设置，一行一个&#10;# 例如hosts设置:&#10;address=/weibo.com/2.2.2.2&#10;# 防DNS劫持设置:&#10;bogus-nxdomain=220.250.64.18"
 													$('#table_dns').forms([
 														{ title: '选择中国DNS', id: 'ssconf_dns_china', type:'select', func:'u', options:option_dnsc, style:'width:auto;', value:'11'},
 														{ title: '选择外国DNS', hint:'26', rid:'dns_plan_foreign', id: 'ssconf_foreign_dns', type:'select', func:'u', options:option_dnsf, style:'width:auto;', value:'1'},
-														{ title: 'DNS劫持（原chromecast功能）', id:'ssconf_basic_dns_hijack', type:'checkbox', func:'v', hint:'106', value:true},
+														{ title: 'DNS劫持(原chromecast功能)', id:'ssconf_basic_dns_hijack', type:'checkbox', func:'v', hint:'106', value:true},
 														{ title: '节点域名解析DNS服务器', hint:'107', id: 'ssconf_basic_server_resolver', type:'select', func:'u', options:option_dnsc, style:'width:auto;', value:'1'},	
 														{ title: '自定义dnsmasq', id:'ssconf_dnsmasq', type:'textarea', hint:'34', rows:'12', ph:ph3},
 													]);
@@ -3215,17 +3199,17 @@ function save_failover() {
 													$('#table_rules').forms([
 														{ title: 'gfwlist域名数量', multi: [
 															{ suffix: '<em>'+ gfwl +'</em>&nbsp;条，版本：' },
-															{ suffix: '<a href="https://github.com/zusterben/plan_b/blob/master/rules/gfwlist.conf" target="_blank">' },
+															{ suffix: '<a href="https://github.com/zusterben/plan_f/blob/master/rules/gfwlist.conf" target="_blank">' },
 															{ suffix: '<i><% nvram_get("update_ipset"); %></i></a>' },
 														]},
 														{ title: '大陆白名单IP段数量', multi: [
 															{ suffix: '<em>'+ chnl +'</em>&nbsp;行，包含 <em>' + chnn + '</em>&nbsp;个ip地址，版本：' },
-															{ suffix: '<a href="https://github.com/zusterben/plan_b/blob/master/rules/chnroute.txt" target="_blank">' },
+															{ suffix: '<a href="https://github.com/zusterben/plan_f/blob/master/rules/chnroute.txt" target="_blank">' },
 															{ suffix: '<i><% nvram_get("update_chnroute"); %></i></a>' },
 														]},
 														{ title: '国内域名数量（cdn名单）', multi: [
 															{ suffix: '<em>'+ cdnn +'</em>&nbsp;条，版本：' },
-															{ suffix: '<a href="https://github.com/zusterben/plan_b/blob/master/rules/cdn.txt" target="_blank">' },
+															{ suffix: '<a href="https://github.com/zusterben/plan_f/blob/master/rules/cdn.txt" target="_blank">' },
 															{ suffix: '<i><% nvram_get("update_cdn"); %></i></a>' },
 														]},
 														{ title: '规则定时更新任务', hint:'44', multi: [

@@ -13,6 +13,7 @@ rm -rf /jffs/softcenter/bin/ss_url.lua
 rm -rf /jffs/softcenter/bin/pdnsd
 rm -rf /jffs/softcenter/bin/dns2socks
 rm -rf /jffs/softcenter/bin/chinadns-ng
+rm -rf /jffs/softcenter/bin/client_linux
 rm -rf /jffs/softcenter/bin/xray
 rm -rf /jffs/softcenter/bin/xray1
 rm -rf /jffs/softcenter/bin/xray2

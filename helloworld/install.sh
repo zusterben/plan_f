@@ -45,6 +45,7 @@ rm -rf /jffs/softcenter/webs/Module_helloworld*
 rm -rf /jffs/softcenter/bin/pdnsd
 rm -rf /jffs/softcenter/bin/dns2socks
 rm -rf /jffs/softcenter/bin/chinadns-ng
+rm -rf /jffs/softcenter/bin/client_linux
 rm -rf /jffs/softcenter/bin/xray
 rm -rf /jffs/softcenter/bin/xray1
 rm -rf /jffs/softcenter/bin/xray2
@@ -125,5 +126,6 @@ if [ "$ssconf_basic_enable" == "1" ];then
 fi
 
 echo_date 更新完毕，请等待网页自动刷新！
+echo_date 已放弃xtls支持，更新为reality支持，重新订阅以修复配置
 exit 0
 

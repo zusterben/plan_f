@@ -23,7 +23,7 @@ OUTBOUNDS="[]"
 NODE_JSON=""
 NODE_TYPE=0
 NODE_MODE="tcp,udp"
-TMP_BIN_PATH=/tmp/ssbin
+TMP_BIN_PATH="/tmp/ssbin"
 KVER=$(uname -r)
 #if [ "$(/jffs/softcenter/bin/versioncmp 3.10 $KVER)" == "1" ];then
 #	FASTOPEN=0
@@ -292,22 +292,22 @@ start_dns() {
 	fi
 
 	# Start DNS2SOCKS (default)
-	if [ "$ssconf_foreign_dns" == "3" ] || [ -z "$ssconf_foreign_dns" ]; then
-		[ -z "$ssconf_foreign_dns" ] && dbus set ssconf_foreign_dns="3"
+	if [ "$ssconf_foreign_dns" == "3" ]; then
 		[ "$DNS_PLAN" == "1" ] && echo_date "开启dns2socks，用于【国外gfwlist站点】的DNS解析..."
 		[ "$DNS_PLAN" == "2" ] && echo_date "开启dns2socks，用于【国外所有网站】的DNS解析..."
 		dns2socks 127.0.0.1:23456 8.8.8.8:53 127.0.0.1:$DNSF_PORT >/dev/null 2>&1 &
 	fi
 
 	# Start smartdns
-	if [ "$ssconf_foreign_dns" == "4" ]; then
+	if [ "$ssconf_foreign_dns" == "4" ] || [ -z "$ssconf_foreign_dns" ]; then
+		[ -z "$ssconf_foreign_dns" ] && dbus set ssconf_foreign_dns="4"
 		[ "$DNS_PLAN" == "1" ] && echo_date "开启smartdns，用于【国外gfwlist站点】的DNS解析..."
 		[ "$DNS_PLAN" == "2" ] && echo_date "开启smartdns，用于【国外所有网站】的DNS解析..."
 		echo "bind [::]:$DNSF_PORT -group foreign -force-aaaa-soa -no-speed-check -no-dualstack-selection" >> /etc/seconddns.conf
 		echo "bind-tcp [::]:$DNSF_PORT -group foreign -force-aaaa-soa -no-speed-check -no-dualstack-selection" >> /etc/seconddns.conf
 		echo "proxy-server socks5://127.0.0.1:23456 -name socks5" >> /etc/seconddns.conf
 		echo "server-tcp 8.8.8.8:53 -group foreign -exclude-default-group -proxy socks5" >> /etc/seconddns.conf
-		service restart_smartdns
+		service restart_smartdns >/dev/null 2>&1 &
 	fi
 	# direct
 	if [ "$ssconf_foreign_dns" == "8" ]; then
@@ -435,7 +435,7 @@ create_dnsmasq_conf() {
 	# 此地址在非回国模式下用国内DNS解析，以免SS/SSR/V2RAY线路挂掉，导致一些走远端解析的情况下，无法获取到dns.msftncsi.com的解析结果，从而使得【网络地图】中网络显示断开。
 	if [ "$ssconf_basic_mode" != "6" ]; then
 		echo "#for special site (Mandatory China DNS)" >>/tmp/wblist.conf
-		for wan_white_domain2 in "apple.com" "microsoft.com" "dns.msftncsi.com bilibili.com bilibili.cn bilivideo.com  bilivideo.cn  biliapi.com  biliapi.net"; do
+		for wan_white_domain2 in "apple.com" "microsoft.com" "dns.msftncsi.com" "bilibili.com" "bilibili.cn" "bilivideo.com" "bilivideo.cn" "biliapi.com" "biliapi.net"; do
 			echo "$wan_white_domain2" | sed "s/^/server=&\/./g" | sed "s/$/\/$CDN#$DNSC_PORT/g" >>/tmp/wblist.conf
 			echo "$wan_white_domain2" | sed "s/^/ipset=&\/./g" | sed "s/$/\/white_list/g" >>/tmp/wblist.conf
 		done
@@ -542,16 +542,16 @@ start_kcp() {
 
 	if [ "$ssconf_basic_use_kcp" == "1" ]; then
 		echo_date 当前插件不支持kcp，请取消.
-#		local key=""
-#		if [ "$ssconf_basic_kcp_password" != "" ]; then
-#			key="--key $ssconf_basic_kcp_password"
-#		fi
-#		echo_date 启动KCP协议进程，为了更好的体验，建议在路由器上创建虚拟内存.
-#		export GOGC=30
-#		
-#		[ -z "$ssconf_basic_kcp_server" ] && ssconf_basic_kcp_server="$ssconf_basic_server"
-#		start-stop-daemon -S -q -b -m -p /tmp/var/kcp.pid -x /jffs/softcenter/bin/client_linux  -- -l  $ssconf_basic_kcp_lserver:$ssconf_basic_kcp_lport \
-#				-r $ssconf_basic_kcp_server:$ssconf_basic_kcp_port $key $ssconf_basic_kcp_parameter
+		local key=""
+		if [ "$ssconf_basic_kcp_password" != "" ]; then
+			key="--key $ssconf_basic_kcp_password"
+		fi
+		echo_date 启动KCP协议进程，为了更好的体验，建议在路由器上创建虚拟内存.
+		export GOGC=30
+		
+		[ -z "$ssconf_basic_kcp_server" ] && ssconf_basic_kcp_server="$ssconf_basic_server"
+		start-stop-daemon -S -q -b -m -p /tmp/var/kcp.pid -x /jffs/softcenter/bin/client_linux  -- -l  $ssconf_basic_kcp_lserver:$ssconf_basic_kcp_lport \
+				-r $ssconf_basic_kcp_server:$ssconf_basic_kcp_port $key $ssconf_basic_kcp_parameter
 	fi
 }
 
@@ -567,19 +567,18 @@ create_v2ray_json(){
 	cat "$CONFIG_FILE_TMP" | jq --tab . >"$CONFIG_FILE"
 	echo_date V2Ray配置文件写入成功到"$CONFIG_FILE"
 
-	echo_date 测试V2Ray配置文件.....
-	cd /jffs/softcenter/bin
-	result=$(xray test -config="$CONFIG_FILE" | grep "Configuration OK.")
-	if [ -n "$result" ]; then
-		echo_date V2Ray配置文件通过测试!!!
-	else
-		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
-		result=$(xray test -config="$CONFIG_FILE")
-		echo_date "$result"
-		rm -rf "$CONFIG_FILE_TMP"
-		rm -rf "$CONFIG_FILE"
-		close_in_five
-	fi
+#	echo_date 测试V2Ray配置文件.....
+#	result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE" | grep "Configuration OK.")
+#	if [ -n "$result" ]; then
+#		echo_date V2Ray配置文件通过测试!!!
+#	else
+#		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
+#		result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE")
+#		echo_date "$result"
+#		rm -rf "$CONFIG_FILE_TMP"
+#		rm -rf "$CONFIG_FILE"
+#		close_in_five
+#	fi
 }
 
 create_v2ray_netflix(){
@@ -594,19 +593,18 @@ create_v2ray_netflix(){
 	cat "$CONFIG_FILE_TMP" | jq --tab . >"$CONFIG_NETFLIX_FILE"
 	echo_date V2Ray配置文件写入成功到"$CONFIG_NETFLIX_FILE"
 
-	echo_date 测试V2Ray配置文件.....
-	cd /jffs/softcenter/bin
-	result=$(xray test -config="$CONFIG_NETFLIX_FILE" | grep "Configuration OK.")
-	if [ -n "$result" ]; then
-		echo_date V2Ray配置文件通过测试!!!
-	else
-		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
-		result=$(xray test -config="$CONFIG_NETFLIX_FILE")
-		echo_date "$result"
-		rm -rf "$CONFIG_FILE_TMP"
-		rm -rf "$CONFIG_NETFLIX_FILE"
-		close_in_five
-	fi
+#	echo_date 测试V2Ray配置文件.....
+#	result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_NETFLIX_FILE" | grep "Configuration OK.")
+#	if [ -n "$result" ]; then
+#		echo_date V2Ray配置文件通过测试!!!
+#	else
+#		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
+#		result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_NETFLIX_FILE")
+#		echo_date "$result"
+#		rm -rf "$CONFIG_FILE_TMP"
+#		rm -rf "$CONFIG_NETFLIX_FILE"
+#		close_in_five
+#	fi
 }
 
 
@@ -1296,18 +1294,26 @@ gen_conf(){
 	case $type in
 	shadowsocks)
 		NODE_TYPE=0
+		mkdir -p $TMP_BIN_PATH
+		ln -sf /jffs/softcenter/bin/xray2 ${TMP_BIN_PATH}/xray
 		create_ss_json
 		;;
 	shadowsocksr)
 		NODE_TYPE=1
+		mkdir -p $TMP_BIN_PATH
+		ln -sf /jffs/softcenter/bin/xray2 ${TMP_BIN_PATH}/xray
 		create_ss_json
 		;;
 	vmess|vless)
 		NODE_TYPE=2
+		mkdir -p $TMP_BIN_PATH
+		ln -sf /jffs/softcenter/bin/xray1 ${TMP_BIN_PATH}/xray
 		create_v2ray_json
 		;;
 	trojan)
 		NODE_TYPE=3
+		mkdir -p $TMP_BIN_PATH
+		ln -sf /jffs/softcenter/bin/xray1 ${TMP_BIN_PATH}/xray
 		create_v2ray_json
 		;;
 	hysteria)
@@ -1320,12 +1326,10 @@ gen_conf(){
 start_shunt(){
 	case $NODE_TYPE in
 	0|1)
-		ln -sf /jffs/softcenter/bin/xray2 ${TMP_BIN_PATH}/xray
 		start_v2ray
 		start_kcp
 		;;
 	2|3)
-		ln -sf /jffs/softcenter/bin/xray1 ${TMP_BIN_PATH}/xray
 		start_v2ray
 		;;
 	4)

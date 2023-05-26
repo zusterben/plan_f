@@ -189,7 +189,6 @@ local function processData(szType, content)
 		result.alter_id = info.aid or "0"
 		result.vmess_id = info.id
 		result.alias = info.ps
-		result.packet_encoding = packet_encoding
 		-- result.mux = 1
 		-- result.concurrency = 8
 		if info.net == 'ws' then
@@ -234,10 +233,10 @@ local function processData(szType, content)
 		end
 		if info.tls == "tls" or info.tls == "1" then
 			result.tls = "1"
-			if info.host then
-				result.tls_host = info.host
-			elseif info.sni then
+			if info.sni and info.sni ~= "" then
 				result.tls_host = info.sni
+			elseif info.host then
+				result.tls_host = info.host
 			end
 			result.insecure = 1
 		else
@@ -385,15 +384,18 @@ local function processData(szType, content)
 		result.vmess_id = url.user
 		result.vless_encryption = params.encryption or "none"
 		result.transport = params.type or "tcp"
-		result.packet_encoding = packet_encoding
 		result.tls = (params.security == "tls") and "1" or "0"
 		result.tls_host = params.sni
-		result.xtls = params.security == "xtls" and "1" or nil
-		result.vless_flow = params.flow
-		result.fingerprint = params.fp and params.fp or nil
+		result.tls_flow = (params.security == "tls" or params.security == "reality") and params.flow or nil
+		result.fingerprint = params.fp
+		result.reality = (params.security == "reality") and "1" or "0"
+		result.reality_publickey = params.pbk and UrlDecode(params.pbk) or nil
+		result.reality_shortid = params.sid
+		result.reality_spiderx = params.spx and UrlDecode(params.spx) or nil
 		if result.transport == "ws" then
 			result.ws_host = (result.tls ~= "1") and (params.host and UrlDecode(params.host)) or nil
 			result.ws_path = params.path and UrlDecode(params.path) or "/"
+		-- make it compatible with bullshit, "h2" transport is non-existent at all
 		elseif result.transport == "http" or result.transport == "h2" then
 			result.transport = "h2"
 			result.h2_host = params.host and UrlDecode(params.host) or nil
@@ -585,4 +587,3 @@ end
 		log('订阅更新成功')
 	end
 --end
-
