@@ -30,6 +30,12 @@ get_dns_name() {
 	3)
 		echo "dns2socks"
 		;;
+	4)
+		echo "smartdns"
+		;;
+	8)
+		echo "直连"
+		;;
 	esac
 }
 

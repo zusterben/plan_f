@@ -384,7 +384,7 @@ local function processData(szType, content)
 		result.vmess_id = url.user
 		result.vless_encryption = params.encryption or "none"
 		result.transport = params.type or "tcp"
-		result.tls = (params.security == "tls") and "1" or "0"
+		result.tls = (params.security == "tls" or params.security == "xtls") and "1" or "0"
 		result.tls_host = params.sni
 		result.tls_flow = (params.security == "tls" or params.security == "reality") and params.flow or nil
 		result.fingerprint = params.fp

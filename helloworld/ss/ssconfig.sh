@@ -234,10 +234,6 @@ start_dns() {
 		ssconf_foreign_dns="8"
 		dbus set ssconf_foreign_dns="8"
 	fi
-	if [ "$NODE_TYPE" == "3" -a "$ssconf_foreign_dns" == "1" ]; then
-		ssconf_foreign_dns=3
-		dbus set ssconf_foreign_dns=3
-	fi
 	# Start pdnsd
 	if [ "$ssconf_foreign_dns" == "1" ]; then
 		[ "$DNS_PLAN" == "1" ] && echo_date "开启pdnsd，用于【国外gfwlist站点】的DNS解析..."
@@ -1045,7 +1041,7 @@ chromecast() {
 	if [ "$ssconf_basic_dns_hijack" == "1" ]; then
 		if [ -z "$chromecast_nu" ]; then
 			iptables -t nat -A PREROUTING -p udp -s $(get_lan_cidr) --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
-			echo_date 开启DNS劫持功能功能，防止DNS污染...
+			echo_date 开启DNS劫持功能，防止DNS污染...
 		else
 			echo_date DNS劫持规则已经添加，跳过~
 		fi
@@ -1144,7 +1140,7 @@ set_ss_trigger_job() {
 		else
 			echo_date "设置每隔$ssconf_basic_tri_reboot_time分钟检查服务器IP地址，如果IP发生变化，则重启dnsmasq..."
 		fi
-		echo_date "科学上网插件触发重启功能的日志将显示再系统日志内。"
+		echo_date "科学上网插件触发重启功能的日志将显示在系统日志内。"
 		cru d ss_tri_check >/dev/null 2>&1
 		cru a ss_tri_check "*/$ssconf_basic_tri_reboot_time * * * * /jffs/softcenter/scripts/ssconf_reboot_job.sh check_ip"
 	fi

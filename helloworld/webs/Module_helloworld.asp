@@ -339,7 +339,7 @@ function refresh_options() {
 			}));
 		}
 	}
-	if(typeof(db_ss["ssconf_basic_node"]) && parseInt(db_ss["ssconf_basic_node"]) < node_max)
+	if(typeof(db_ss["ssconf_basic_node"]) != "undefined" && parseInt(db_ss["ssconf_basic_node"]) != node_max)
 		option.val(db_ss["ssconf_basic_node"]);
 	else
 		option.val("1");
@@ -704,7 +704,7 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_ivCheck_tr", (E("ss_node_table_v2_protocol").value == "shadowsocks"));
 		showhide("ss_node_table_v2_mux_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr" && E("ss_node_table_v2_reality").checked == false));
 		showhide("ss_node_table_v2_concurrency_tr", E("ss_node_table_v2_mux").checked);
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked));
 		showhide("ss_node_table_v2_reality_publickey_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
 		showhide("ss_node_table_v2_reality_shortid_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
 		showhide("ss_node_table_v2_reality_spiderx_tr", (vless_on_2 && E("ss_node_table_v2_reality").checked));
@@ -843,7 +843,7 @@ function tabclickhandler(_type) {
 		showhide("ss_node_table_plugin_tr", ($("#ss_node_table_mode").val() != "3"));
 		showhide("ss_node_table_plugin_opts_tr", ($("#ss_node_table_mode").val() != "3" && $("#ss_node_table_plugin").val() != "none"));
 		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked));
 	} else if (_type == 1) {
 		save_flag = "shadowsocksr";
 		E('ssrTitle').className = "vpnClientTitle_td_click";
@@ -951,7 +951,7 @@ function tabclickhandler(_type) {
 		showhide("ss_node_table_v2_ivCheck_tr", (E("ss_node_table_v2_protocol").value == "shadowsocks"));
 		showhide("ss_node_table_v2_concurrency_tr", (E("ss_node_table_v2_mux").checked));
 		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked));
 		showhide("ss_node_table_v2_reality_publickey_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
 		showhide("ss_node_table_v2_reality_shortid_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
 		showhide("ss_node_table_v2_reality_spiderx_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_reality").checked));
@@ -996,7 +996,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_tls').value = "0";
 		E('ss_node_table_v2_reality').value = "0";
 		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
-		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
+		showhide("ss_node_table_insecure_tr", (E("ss_node_table_v2_tls").checked));
 	} 
 	return save_flag;
 }
@@ -1634,7 +1634,7 @@ function reorder_trs(){
 	//console.log("更改顺序OK");
 }
 function select_default_node(o){
-	var sel_node = E("sstable_node").value||"1";
+	var sel_node = E("sstable_node").value || "1";
 	$(".activate_icon").addClass("deactivate_icon");
 	$(".activate_icon").removeClass("activate_icon");
 	if (sel_node != db_ss["ssconf_basic_node"]){
@@ -2954,7 +2954,7 @@ function save_failover() {
 																	{ title: 'QUIC加密', rid:'ss_node_table_v2_quic_security_tr', id:'ss_node_table_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 																	{ title: 'QUIC Key', rid:'ss_node_table_v2_quic_key_tr', id:'ss_node_table_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 																	{ title: '伪装类型', rid:'ss_node_table_v2_quic_guise_tr', id:'ss_node_table_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},
-																	{ title: '验证ssl证书', rid:'ss_node_table_insecure_tr', id:'ss_node_table_insecure', type:'checkbox', func:'v', value:false, hidden:"yes"},
+																	{ title: '允许不安全连接', rid:'ss_node_table_insecure_tr', id:'ss_node_table_insecure', type:'checkbox', func:'v', value:false, hidden:"yes"},
 																	{ title: 'serviceName', rid:'ss_node_table_v2_serviceName_tr', id:'ss_node_table_v2_serviceName', type:'text', maxlen:'300', ph:'没有请留空', value: "none", hidden:"yes"},
 																	{ title: 'gRPC/H2 Health Check', rid:'ss_node_table_v2_health_check_tr', id:'ss_node_table_v2_health_check', type:'checkbox', func:'v', value:false, hidden:"yes"},
 																	{ title: 'gRPC/H2 Read Idle Timeout', rid:'ss_node_table_v2_idle_timeout_tr', id:'ss_node_table_v2_idle_timeout', type:'text', maxlen:'3', value: "60", hidden:"yes"},
@@ -3028,7 +3028,7 @@ function save_failover() {
 														{ title: 'QUIC加密', id:'sstable_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 														{ title: 'QUIC Key', id:'sstable_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: '伪装类型', id:'sstable_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},
-														{ title: '验证ssl证书', id:'sstable_insecure', type:'checkbox', func:'v', hidden:"yes"},
+														{ title: '允许不安全连接', id:'sstable_insecure', type:'checkbox', func:'v', hidden:"yes"},
 														{ title: 'serviceName', id:'sstable_v2_serviceName', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: 'gRPC/H2 Health Check', id:'sstable_v2_health_check', type:'checkbox', func:'v', hidden:"yes"},
 														{ title: 'gRPC/H2 Read Idle Timeout', id:'sstable_v2_idle_timeout', type:'text', maxlen:'3', ph:'没有请留空', hidden:"yes"},
@@ -3341,8 +3341,8 @@ function save_failover() {
 															{ suffix:'&nbsp;<a type="button" class="ss_btn" style="cursor:pointer" onclick="set_cron(1)">保存设置</a>'},
 														]},
 														{ title: '&nbsp;&nbsp;&nbsp;&nbsp;插件触发重启设定', multi: [
-															{ id:'sstable_tri_reboot_time', type:'select', style:'width:auto', help:'109', func:'u', options:option_trit, value:'0'},
-															{ suffix:'<span id="sstable_tri_reboot_time_note">&nbsp;解析服务器IP，如果发生变更，则重启插件！</span>'},
+															{ id:'ssconf_basic_tri_reboot_time', type:'select', style:'width:auto', help:'109', func:'u', options:option_trit, value:'0'},
+															{ suffix:'<span id="ssconf_basic_tri_reboot_time_note">&nbsp;解析服务器IP，如果发生变更，则重启插件！</span>'},
 															{ suffix:'&nbsp;<a type="button" class="ss_btn" style="cursor:pointer" onclick="set_cron(2)">保存设置</a>'},
 														]},
 														{ td: '<tr><td class="smth" style="font-weight: bold;" colspan="2">节点列表</td></tr>'},
