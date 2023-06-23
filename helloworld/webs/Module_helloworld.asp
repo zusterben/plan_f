@@ -197,7 +197,7 @@ function conf2obj(obj, p) {
 			E(p + "v2_reality").value = c.reality || "0";
 			E(p + "v2_reality").checked =  E(p + "v2_reality").value != 0;
 			E(p + "v2_tls_flow").value = c.tls_flow || "xtls-rprx-vision";
-			if(E(p + "v2_reality").checked == true){
+			if(E(p + "v2_reality").checked){
 				E(p + "v2_reality_publickey").value = c.reality_publickey || "";
 				E(p + "v2_reality_shortid").value = c.reality_shortid || "";
 				E(p + "v2_reality_spiderx").value = c.reality_spiderx || "";
@@ -209,13 +209,15 @@ function conf2obj(obj, p) {
 			E(p + "v2_mux").checked =  E(p + "v2_mux").value != 0;
 			E(p + "v2_concurrency").value = c.concurrency || "4";
 		}
-		E(p + "v2_tls").value = "0";
+		E(p + "v2_tls").value = c.tls || "0";
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
-		if(E(p + "v2_tls").checked || E(p + "v2_reality").checked ){
+		if(E(p + "v2_tls").checked || E(p + "v2_reality").checked){
 			E(p + "tls_host").value = c.tls_host || "";
-			E(p + "insecure").value = c.insecure || "0";
-			E(p + "insecure").checked =  E(p + "insecure").value != 0;	
 			E(p + "v2_fingerprint").value = c.fingerprint || "disable";
+		}
+		if(E(p + "v2_tls").checked){
+			E(p + "insecure").value = c.insecure || "0";
+			E(p + "insecure").checked =  E(p + "insecure").value != 0;
 		}
 		if (transport == "tcp") {
 			E(p + "v2_tcp_guise").value = c.tcp_guise || "none";
@@ -426,14 +428,12 @@ function save() {
 		}
 		if(tmp_db.v2ray_protocol == "vless"){
 			tmp_db.vless_encryption = E("sstable_v2_encryption").value;
-			if(tmp_db.transport == "tcp"){
-				tmp_db.reality = E("sstable_v2_reality").checked ? '1' : '0';
-				tmp_db.tls_flow = E("sstable_v2_tls_flow").value;
-				if(E("sstable_v2_reality").checked == true){
+			tmp_db.reality = E("sstable_v2_reality").checked ? '1' : '0';
+			tmp_db.tls_flow = E("sstable_v2_tls_flow").value;
+			if(E("sstable_v2_reality").checked == true){
 					tmp_db.reality_publickey = E("sstable_v2_reality_publickey").value;
 					tmp_db.reality_shortid = E("sstable_v2_reality_shortid").value;
 					tmp_db.reality_spiderx = E("sstable_v2_reality_spiderx").value;
-				}
 			}
 		}
 		tmp_db.tls = E("sstable_v2_tls").checked ? '1' : '0';
@@ -443,9 +443,10 @@ function save() {
 		}
 		if(E("sstable_v2_tls").checked || E("sstable_v2_reality").checked){
 			tmp_db.tls_host = E("sstable_tls_host").value;
-			tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
 			tmp_db.fingerprint = E("sstable_v2_fingerprint").value;
 		}
+		if(E("sstable_v2_tls").checked)
+			tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = E("sstable_v2_tcp_guise").value;
 			if(tmp_db.tcp_guise == "http"){
@@ -614,8 +615,8 @@ function verifyFields(r) {
 	elem.display(elem.parentElem('sstable_v2_permit_without_stream', 'tr'), grpc_on);
 	elem.display(elem.parentElem('sstable_v2_health_check_timeout', 'tr'), (grpc_on || h2_on));
 	elem.display(elem.parentElem('sstable_v2_initial_windows_size', 'tr'), grpc_on);
-	elem.display(elem.parentElem('sstable_v2_tls', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_reality").checked == false));
-	elem.display(elem.parentElem('sstable_v2_reality', 'tr'), (vless_on && E("sstable_v2_tls").checked == false));
+	elem.display(elem.parentElem('sstable_v2_tls', 'tr'), ((v2ray_on || ss_on || trojan_on) && E("sstable_v2_reality").checked != true));
+	elem.display(elem.parentElem('sstable_v2_reality', 'tr'), (vless_on && E("sstable_v2_tls").checked != true));
 	elem.display(elem.parentElem('sstable_tls_host', 'tr'), (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked));
 	elem.display(elem.parentElem('sstable_v2_fingerprint', 'tr'), (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked));
 	elem.display(elem.parentElem('sstable_v2_tls_flow', 'tr'), (vless_on && E("sstable_v2_transport").value == "tcp" && (E("sstable_v2_tls").checked || E("sstable_v2_reality").checked)));
@@ -687,7 +688,7 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_health_check_timeout_tr", (E("ss_node_table_v2_transport").value == "grpc" || E("ss_node_table_v2_transport").value == "h2"));
 		showhide("ss_node_table_v2_permit_without_stream_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_initial_windows_size_tr", (E("ss_node_table_v2_transport").value == "grpc"));
-		showhide("ss_node_table_v2_tls_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr"));
+		showhide("ss_node_table_v2_tls_tr", (E("ss_node_table_v2_protocol").value != "shadowsocksr" && E("ss_node_table_v2_reality").checked != true));
 		showhide("ss_node_table_v2_mtu_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_tti_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_uplink_capacity_tr", E("ss_node_table_v2_transport").value == "mkcp");
@@ -697,7 +698,7 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_seed_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_v2_congestion_tr", E("ss_node_table_v2_transport").value == "mkcp");
 		showhide("ss_node_table_tls_host_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
-		showhide("ss_node_table_v2_reality_tr", (vless_on_2 && E("ss_node_table_v2_tls").checked == false));
+		showhide("ss_node_table_v2_reality_tr", (vless_on_2 && E("ss_node_table_v2_tls").checked != true));
 		showhide("ss_node_table_v2_fingerprint_tr", (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked));
 		showhide("ss_node_table_v2_tls_flow_tr", (vless_on_2 && E("ss_node_table_v2_transport").value == "tcp" && (E("ss_node_table_v2_tls").checked || E("ss_node_table_v2_reality").checked)));
 		showhide("ss_node_table_v2_ivCheck_tr", (E("ss_node_table_v2_protocol").value == "shadowsocks"));
@@ -931,7 +932,7 @@ function tabclickhandler(_type) {
 		var host_on_2 = E("ss_node_table_v2_transport").value == "ws" || E("ss_node_table_v2_transport").value == "h2" || http_on_2;
 		var path_on_2 = E("ss_node_table_v2_transport").value == "ws" || E("ss_node_table_v2_transport").value == "h2" || E("ss_node_table_v2_transport").value == "mkcp";
 		showhide("ss_node_table_v2_tcp_guise_tr", (E("ss_node_table_v2_transport").value == "tcp"));
-		showhide("ss_node_table_v2_reality_tr", (E("ss_node_table_v2_protocol").value == "vless" && E("ss_node_table_v2_transport").value == "tcp" && E('ss_node_table_v2_tls').value == "0"));
+		showhide("ss_node_table_v2_reality_tr", (E("ss_node_table_v2_protocol").value == "vless" && E('ss_node_table_v2_tls').value != "1"));
 		showhide("ss_node_table_v2_tls_flow_tr", (E("ss_node_table_v2_tls").value == "1" && E('ss_node_table_v2_reality').value == "1"));
 		showhide("ss_node_table_v2_kcp_guise_tr", (E("ss_node_table_v2_transport").value == "mkcp"));
 		showhide("ss_node_table_v2_http_host_tr", host_on_2);
@@ -1035,22 +1036,23 @@ function add_edit_node(flag, node_idx, add) {
 		if(tmp_db.v2ray_protocol == "vless"){
 			tmp_db.v2ray_protocol = "vless";
 			tmp_db.vless_encryption = $.trim($('#ss_node_table_v2_encryption').val());
+			tmp_db.reality = E("ss_node_table_v2_reality").checked ? '1' : '0';
+			if(tmp_db.reality == "1"){
+				tmp_db.reality_publickey = $.trim($('#ss_node_table_v2_reality_publickey').val());
+				tmp_db.reality_shortid = $.trim($('#ss_node_table_v2_reality_shortid').val());
+				tmp_db.reality_spiderx = $.trim($('#ss_node_table_v2_reality_spiderx').val());
+			}
 		}
 		tmp_db.tls = E("ss_node_table_v2_tls").checked ? '1' : '0';
 		tmp_db.mux = E("ss_node_table_v2_mux").checked ? '1' : '0';
 		tmp_db.concurrency = $.trim($('#ss_node_table_v2_concurrency').val());
-		tmp_db.reality = E("ss_node_table_v2_reality").checked ? '1' : '0';
-		if(tmp_db.reality == "1"){
-			tmp_db.reality_publickey = $.trim($('#ss_node_table_v2_reality_publickey').val());
-			tmp_db.reality_shortid = $.trim($('#ss_node_table_v2_reality_shortid').val());
-			tmp_db.reality_spiderx = $.trim($('#ss_node_table_v2_reality_spiderx').val());
-		}
 		if(tmp_db.tls == "1" || tmp_db.reality == "1"){
 			tmp_db.tls_host = $.trim($('#ss_node_table_tls_host').val());
-			tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
 			tmp_db.fingerprint = $.trim($('#ss_node_table_v2_fingerprint').val());
 			tmp_db.tls_flow = $.trim($('#ss_node_table_v2_tls_flow').val());
 		}
+		if(tmp_db.tls == "1")
+			tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = $.trim($('#ss_node_table_v2_tcp_guise').val());
 			if(tmp_db.tcp_guise == "http"){

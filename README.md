@@ -58,7 +58,7 @@
 
 ### [arm64](https://github.com/zusterben/plan_f/tree/master/bin/arm64)
 
-> **arm64**离线安装包支持所有arm64/aarch64架构的机器上使用！
+> **arm64**离线安装包支持所有arm64/aarch64架构的机器上使用！(包含博通(BCM6765/6766/BCM49XX)、高通(IPQ5/6/80XX非官改)、MTK(MT798X)
 
 **arm64**支持机型如下：
 
@@ -75,7 +75,7 @@
 
 ### [armng](https://github.com/zusterben/plan_f/tree/master/bin/armng)
 
-> **armng**离线安装包能在带有FPU且内核工作在armv7架构的机器上使用(包含博通(BCM675x)、高通(IPQ4/5/6/80xx)、MTK(MT7622/3/9))！
+> **armng**离线安装包能在带有FPU且内核工作在armv7架构的机器上使用(包含博通(BCM6750/6753/6755/6756/6855)、高通(IPQ4/5/6/80xx)、MTK(MT7622/3/9))！
 
 **armng**支持机型如下：
 
