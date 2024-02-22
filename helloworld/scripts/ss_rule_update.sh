@@ -12,10 +12,14 @@ start_update(){
 	version_gfwlist1=$(cat /jffs/softcenter/ss/rules/version | sed -n 1p | sed 's/ /\n/g'| sed -n 1p)
 	version_chnroute1=$(cat /jffs/softcenter/ss/rules/version | sed -n 2p | sed 's/ /\n/g'| sed -n 1p)
 	version_cdn1=$(cat /jffs/softcenter/ss/rules/version | sed -n 3p | sed 's/ /\n/g'| sed -n 1p)
+	hsts=""
+	if [ "$(wget --help|grep hsts)" != "" ];then
+		hsts="--no-hsts"
+	fi
 	
 	echo ==================================================================================================
 	echo_date 开始更新helloworld规则，请等待...
-	wget --no-check-certificate --timeout=8 -qO - "$url_main"/version1 > /tmp/ss_version
+	wget --no-check-certificate --timeout=8 $hsts -qO - "$url_main"/version1 > /tmp/ss_version
 	if [ "$?" == "0" ]; then
 		echo_date 检测到在线版本文件，继续...
 	else
@@ -49,7 +53,7 @@ start_update(){
 			if [ "$version_gfwlist1" != "$version_gfwlist2" ];then
 				echo_date 检测到新版本gfwlist，开始更新...
 				echo_date 下载gfwlist到临时文件...
-				wget --no-check-certificate --timeout=8 -qO - "$url_main"/gfwlist.conf > /tmp/gfwlist.conf
+				wget --no-check-certificate --timeout=8 $hsts -qO - "$url_main"/gfwlist.conf > /tmp/gfwlist.conf
 				md5sum_gfwlist1=$(md5sum /tmp/gfwlist.conf | sed 's/ /\n/g'| sed -n 1p)
 				if [ "$md5sum_gfwlist1"x = "$md5sum_gfwlist2"x ];then
 					echo_date 下载完成，校验通过，将临时文件覆盖到原始gfwlist文件
@@ -78,7 +82,7 @@ start_update(){
 			if [ "$version_chnroute1" != "$version_chnroute2" ];then
 				echo_date 检测到新版本chnroute，开始更新...
 				echo_date 下载chnroute到临时文件...
-				wget --no-check-certificate --timeout=8 -qO - "$url_main"/chnroute.txt > /tmp/chnroute.txt
+				wget --no-check-certificate --timeout=8 $hsts -qO - "$url_main"/chnroute.txt > /tmp/chnroute.txt
 				md5sum_chnroute1=$(md5sum /tmp/chnroute.txt | sed 's/ /\n/g'| sed -n 1p)
 				if [ "$md5sum_chnroute1"x = "$md5sum_chnroute2"x ];then
 					echo_date 下载完成，校验通过，将临时文件覆盖到原始chnroute文件
@@ -106,7 +110,7 @@ start_update(){
 			if [ "$version_cdn1" != "$version_cdn2" ];then
 				echo_date 检测到新版本cdn名单，开始更新...
 				echo_date 下载cdn名单到临时文件...
-				wget --no-check-certificate --timeout=8 -qO - "$url_main"/cdn.txt > /tmp/cdn.txt
+				wget --no-check-certificate --timeout=8 $hsts -qO - "$url_main"/cdn.txt > /tmp/cdn.txt
 				md5sum_cdn1=$(md5sum /tmp/cdn.txt | sed 's/ /\n/g'| sed -n 1p)
 				if [ "$md5sum_cdn1"x = "$md5sum_cdn2"x ];then
 					echo_date 下载完成，校验通过，将临时文件覆盖到原始cdn名单文件

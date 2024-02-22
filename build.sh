@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=helloworld
-VERSION=0.9.3
+VERSION=0.9.4
 TITLE="ShadowSocksR lite"
 DESCRIPTION="ShadowSocksR lite"
 HOME_URL=Module_helloworld.asp

@@ -753,13 +753,13 @@ function verifyFields(r) {
 function update_visibility() {
 	var a = E("ssconf_basic_rule_update").value == "1";
 	var b = E("ssconf_basic_node_update").value == "1";
-	var c = E("sstable_tri_reboot_time").value;
+	var c = E("ssconf_basic_tri_reboot_time").value;
 	var d = E("ssconf_basic_ping_node").value != "off" && E("ssconf_basic_ping_node").value != "";
 	showhide("ssconf_basic_rule_update_time", a);
 	showhide("update_choose", a);
 	showhide("ssconf_basic_node_update_day", b);
 	showhide("ssconf_basic_node_update_hr", b);
-	showhide("sstable_tri_reboot_time_note", (c != "0"));
+	showhide("ssconf_basic_tri_reboot_time_note", (c != "0"));
 	showhide("ssconf_basic_ping_method", d);
 	showhide("sstable_ping_btn", d);
 }
@@ -1897,7 +1897,7 @@ function updatelist(arg) {
 	dbus_post["ssconf_basic_gfwlist_update"] = E("ssconf_basic_gfwlist_update").checked ? '1' : '0';
 	dbus_post["ssconf_basic_chnroute_update"] = E("ssconf_basic_chnroute_update").checked ? '1' : '0';
 	dbus_post["ssconf_basic_cdn_update"] = E("ssconf_basic_cdn_update").checked ? '1' : '0';
-	push_data("ssconf_rule_update.sh", arg,  dbus_post);
+	push_data("ss_rule_update.sh", arg,  dbus_post);
 }
 function version_show() {
 	if(!db_ss["ssconf_basic_version_local"]) db_ss["ssconf_basic_version_local"] = "0.0.0"

@@ -1,11 +1,11 @@
 {
-"build_date":"2023-06-23_09:53:59",
+"build_date":"2024-02-22_16:53:13",
 "description":"ShadowSocksR lite",
 "home_url":"Module_helloworld.asp",
-"md5":"4a645af76b3c0e817e8618294e48282d",
+"md5":"1d644a21f3cfa30e8d94d1149ecc2a58",
 "name":"helloworld",
 "arch":"arm",
 "tar_url": "https://raw.githubusercontent.com/zusterben/plan_f/master/bin/arm/helloworld.tar.gz", 
 "title":"ShadowSocksR lite",
-"version":"0.9.3"
+"version":"0.9.4"
 }
