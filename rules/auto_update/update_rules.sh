@@ -34,6 +34,31 @@ echo "truthsocial.com" >> gfwlist_tmp.conf
 echo "openai.com" >> gfwlist_tmp.conf
 echo "ai.com" >> gfwlist_tmp.conf
 echo "linksysinfo.org" >> gfwlist_tmp.conf
+#tiktok
+echo "bytedapm.com" >> gfwlist_tmp.conf
+echo "bytegecko-i18n.com" >> gfwlist_tmp.conf
+echo "bytegecko.com" >> gfwlist_tmp.conf
+echo "byteoversea.com" >> gfwlist_tmp.conf
+echo "capcut.com" >> gfwlist_tmp.conf
+echo "ibytedtos" >> gfwlist_tmp.conf
+echo "ibyteimg.com" >> gfwlist_tmp.conf
+echo "ipstatp.com" >> gfwlist_tmp.conf
+echo "isnssdk.com" >> gfwlist_tmp.conf
+echo "muscdn.com" >> gfwlist_tmp.conf
+echo "musical.ly" >> gfwlist_tmp.conf
+echo "sgpstatp.com" >> gfwlist_tmp.conf
+echo "snssdk.com" >> gfwlist_tmp.conf
+echo "tik-tokapi.com" >> gfwlist_tmp.conf
+echo "tiktok.com" >> gfwlist_tmp.conf
+echo "tiktokcdn-us.com" >> gfwlist_tmp.conf
+echo "tiktokcdn.com" >> gfwlist_tmp.conf
+echo "tiktokd.net" >> gfwlist_tmp.conf
+echo "tiktokd.org" >> gfwlist_tmp.conf
+echo "tiktokmusic.app" >> gfwlist_tmp.conf
+echo "tiktokv.com" >> gfwlist_tmp.conf
+echo "p16-tiktokcdn-com.akamaized.net" >> gfwlist_tmp.conf
+echo "lf16-pkgcdn.pitaya-clientai.com" >> gfwlist_tmp.conf
+echo "lf16-effectcdn.byteeffecttos-g.com" >> gfwlist_tmp.conf
 generate_china_banned gfwlist_download.conf > gfwlist_download_tmp.conf
 
 sed '/.*/s/.*/server=\/&\/127.0.0.1#7913\nipset=\/&\/gfwlist/' gfwlist_download_tmp.conf > gfwlist1.conf
