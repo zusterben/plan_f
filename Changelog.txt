@@ -1,0 +1,9 @@
+helloworld Changelog
+===========================================
+0.9.5  (20240317)
+   - add	helloworld划分full和lite版本
+   - add	helloworld full添加hysteria协议支持
+   - add	helloworld full新增websocket通讯，避免极个别httpd锁死情况
+   - update	更新规则到最新
+   - update	xray二进制更新到最新v1.8.9版本
+
