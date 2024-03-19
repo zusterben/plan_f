@@ -204,7 +204,7 @@ start_offline_update() {
 	echo_date "==================================================================="
 }
 
-case $2 in
+case $ACTION in
 0)
 	# 删除所有节点
 	set_lock

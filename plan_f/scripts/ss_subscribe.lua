@@ -30,7 +30,13 @@ local function base64Decode(text)
 	if result then
 		return result:gsub("%z", "")
 	else
-		return raw
+		local resultt = io.popen('echo ' .. text .. '|base64 -d') --too large?
+		result = resultt:read("*a")
+		if result then
+			return result:gsub("%z", "")
+		else
+			return raw
+		end
 	end
 end
 local ssrindext = io.popen('dbus list ssconf_basic_json_ | cut -d "=" -f1 | cut -d "_" -f4 | sort -rn|head -n1')

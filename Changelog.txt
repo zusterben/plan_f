@@ -6,6 +6,8 @@ helloworld Changelog
    - fix 修复ss没有开启混淆插件时页面错误
    - fix 修复节点过多时无法显示ping延时
    - fix 修复配置文件生成错误
+   - fix 修复订阅长度过长导致失败
+
 0.9.5  (20240317)
    - add	helloworld划分full和lite版本
    - add	helloworld full添加hysteria协议支持
