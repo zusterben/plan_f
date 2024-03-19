@@ -8,12 +8,18 @@ if [ -n "$(pidof ping)" ] && [ -n "$(pidof lua)" ]; then
 		usleep 500000
 	done
 	sleep 2
+	rm -rf /tmp/upload/ping.log
 	response_text=$(/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_ping.lua)
-	http_response "$response_text"
+	echo $response_text > /tmp/upload/ping.log
+	echo XU6J03M6 >> /tmp/upload/ping.log
+	http_response "$1"
 	rm -rf /var/lock/ss_ping.lock
 else
-	rm -rf /tmp/ping.txt
+	rm -rf /tmp/upload/ping.log
 	response_text=$(/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_ping.lua)
-	http_response "$response_text"
+	echo $response_text > /tmp/upload/ping.log
+	echo XU6J03M6 >> /tmp/upload/ping.log
+	http_response "$1"
 	rm -rf /var/lock/ss_ping.lock
 fi
+

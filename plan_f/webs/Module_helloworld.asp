@@ -222,8 +222,8 @@ function conf2obj(obj, p) {
 	if(type == "shadowsocks"){
 		E(p + "type").value = "0";
 		E(p + "method_ss").value = c.encrypt_method_ss || "none";
-		E(p + "plugin").value = c.plugin;
-		E(p + "plugin_opts").value = c.plugin_opts;
+		E(p + "plugin").value = c.plugin || "none";
+		E(p + "plugin_opts").value = c.plugin_opts || "";
 		E(p + "v2_tls").value = c.tls || "0";
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
 		E(p + "tls_host").value = c.tls_host || "";
@@ -474,6 +474,7 @@ function save() {
 	tmp_db.server = E("sstable_server").value;
 	tmp_db.server_port = E("sstable_port").value;
 	tmp_db.v2ray_protocol = E("sstable_v2_protocol").value;
+	tmp_db.type = "v2ray";
 	if(node_type == 0){
 		tmp_db.password = E("sstable_password").value;
 		tmp_db.encrypt_method_ss = E("sstable_method_ss").value;
@@ -2030,10 +2031,7 @@ function ping_test() {
 		data: JSON.stringify(postData),
 		dataType: "json",
 		success: function(response) {
-			if(typeof response.result == "number")
-				get_result(response.result);
-			else
-				write_ping(response);
+			get_result();
 		},
 		error: function(XmlHttpRequest, textStatus, errorThrown){
 			//console.log(XmlHttpRequest.responseText);
@@ -2042,28 +2040,29 @@ function ping_test() {
 		timeout: 60000
 	});
 }
-function get_result(n) {
+function get_result() {
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		async: true,
 		cache:false,
-		url: "/_result/"+n,
-		dataType: "json",
+		url: "/_temp/ping.log",
+		dataType: "text",
 		success: function(response) {
-			if (response.result == n){
-				setTimeout("get_result("+response.result+");", 1000);
-			}
-			else {
-				write_ping(response);
-			}
+			if (response.search("XU6J03M6") != -1) {
+				write_ping(response.replace("XU6J03M6", " "));
+			} else 
+				setTimeout("get_result();", 500);
 		},
+		error: function(){
+			setTimeout("get_result();", 1000);
+		}
 	});
 }
 function write_ping(r){
 	if(E("ssconf_basic_ping_node") == "off"){
 		return false;
 	}
-	if ((String(r.result)).length <= 2 || typeof r.result == "number"){
+	if ((String(r)).length <= 2){
 		if(db_ss["ssconf_basic_ping_node"] == "0"){
 			$(".ping").html("超时！");
 		}else{
@@ -2072,7 +2071,7 @@ function write_ping(r){
 		}
 	}else{
 		ping_result = r;
-		ps = eval(Base64.decode(r.result));
+		ps = eval(Base64.decode(r));
 		for(var i = 0; i<ps.length; i++){
 			var nu = parseInt(ps[i][0]);
 			var ping = parseFloat(ps[i][1]);
@@ -3384,7 +3383,7 @@ function save_failover() {
 															<a><i>当前版本：</i></a>
 														</div>
 														<div style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 5.5px 0px;">
-															<a type="button" class="ss_btn" target="_blank" href="https://github.com/zusterben/plan_f/blob/Changelog.txt">更新日志</a>
+															<a type="button" class="ss_btn" target="_blank" href="https://github.com/zusterben/plan_f/blob/master/Changelog.txt">更新日志</a>
 														</div>
 														<div style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 5.5px 0px;">
 															<a type="button" class="ss_btn" href="javascript:void(0);" onclick="pop_help()">插件帮助</a>

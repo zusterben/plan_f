@@ -458,8 +458,8 @@ local function processData(szType, content)
 			result.insecure = "0"
 		end
 		-- result.alpn = params.alpn
-		result.uplink_capacity = params.upmbps || 5
-		result.downlink_capacity = params.downmbps || 20
+		result.uplink_capacity = params.upmbps and params.upmbps or 5
+		result.downlink_capacity = params.downmbps and params.downmbps or 20
 		result.fast_open = 0
 	end
 	if not result.alias then

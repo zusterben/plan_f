@@ -6,9 +6,9 @@ local proto = arg[2]
 local local_port = arg[3] or "0"
 local socks_port = arg[4] or "0"
 
-local log = function(...)
-	print(os.date("%Y-%m-%d %H:%M:%S ") .. table.concat({...}, " "))
-end
+--local log = function(...)
+--	print(os.date("%Y-%m-%d %H:%M:%S ") .. table.concat({...}, " "))
+--end
 local function base64Decode(text)
 	local raw = text
 	if not text then return '' end
