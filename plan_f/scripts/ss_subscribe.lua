@@ -27,16 +27,14 @@ local function base64Decode(text)
 	text = text .. string.sub('====', mod4 + 1)
 	local result = b64decode(text)
 	
+	if type(result) == nil then
+		local resultt = io.popen('echo ' .. text .. '|base64 -d')
+		result = resultt:read("*a")
+	end
 	if result then
 		return result:gsub("%z", "")
 	else
-		local resultt = io.popen('echo ' .. text .. '|base64 -d') --too large?
-		result = resultt:read("*a")
-		if result then
-			return result:gsub("%z", "")
-		else
-			return raw
-		end
+		return raw
 	end
 end
 local ssrindext = io.popen('dbus list ssconf_basic_json_ | cut -d "=" -f1 | cut -d "_" -f4 | sort -rn|head -n1')

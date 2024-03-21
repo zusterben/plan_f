@@ -64,7 +64,7 @@ prepare(){
 	echo_date "开始节点数据检查..."
 	local REASON=0
 	local SEQ_NU=$(echo ${NODES_SEQ} | tr ' ' '\n' | wc -l)
-	local MAX_NU=${NODE_INDEX}
+	local MAX_NU=${NODE_INDEX:-1}
 	local KEY_NU=$(export -p | grep ssconf_basic_json_ | cut -d "=" -f1 | sed '/^$/d' | wc -l)
 	local VAL_NU=$(export -p | grep ssconf_basic_json_ | cut -d "=" -f2 | sed '/^$/d' | wc -l)
 
