@@ -14,7 +14,7 @@ elif [ "$ARCH_SUFFIX" == "aarch64" ]; then
 fi
 main_url="https://raw.githubusercontent.com/zusterben/plan_f/master/bin"
 PLATFORM=$(cat /jffs/softcenter/webs/Module_helloworld.asp | tr -d '\r' | grep -Eo "PKG_ARCH=.+"|awk -F "=" '{print $2}'|sed 's/"//g')
-PKGTYPE=$(cat /jffs/softcenter/webs/Module_helloworld.asp | tr -d '\r' | grep -Eo "PKG_TYPE=.+"|awk -F "=" '{print $2}'|sed 's/"//g')
+PKGTYPE=$(cat /jffs/softcenter/webs/Module_helloworld.asp | tr -d '\r' | grep -Eo "PKG_TYPE=.+"|awk -F "=" '{print $2}'|sed 's/"//g'|sed 's/;//g')
 MD5NAME=md5_${PLATFORM}_${PKGTYPE}
 PACKAGE=helloworld_${PLATFORM}_${PKGTYPE}
 VERSION=version.json.js
@@ -62,10 +62,12 @@ update_ss(){
 		cd /tmp
 		md5_online=$(cat /tmp/version.json.js | run jq -r .$MD5NAME)
 		echo_date "开启下载进程，从主服务器上下载更新包..."
-		echo_date "下载链接：${main_url}/${PACKAGE}.tar.gz"
-		wget -4 --no-check-certificate --timeout=5 $hsts ${main_url}/${PACKAGE}.tar.gz
+		echo_date "下载链接：${main_url}/${PLATFORM}/${PACKAGE}.tar.gz"
+		wget -4 --no-check-certificate --timeout=5 $hsts ${main_url}/${PLATFORM}/${PACKAGE}.tar.gz
 		if [ "$?" != "0" ];then
 			echo_date "下载失败！请检查你的网络！"
+			echo "XU6J03M6"
+			exit
 		fi
 		echo_date "${PACKAGE}.tar.gz 下载成功！"
 		mv ${PACKAGE}.tar.gz helloworld.tar.gz
