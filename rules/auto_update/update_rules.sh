@@ -164,8 +164,8 @@ get_cdn(){
 #curl https://cdn.jsdelivr.net/gh/QiuSimons/Netflix_IP/getflix.txt > netflix_download.txt
 # ======================================
 finish(){
-	rm google.china.conf
-	rm apple.china.conf
+	rm google.china.conf cdn1.txt gfwlist1.conf
+	rm apple.china.conf chnroute_tmp.txt
 	rm gfwlist_download.conf gfwlist_download_tmp.conf gfwlist_tmp.conf
 	rm accelerated-domains.china.conf cdn_download.txt
 }

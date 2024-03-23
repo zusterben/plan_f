@@ -16,8 +16,8 @@
   },
   "cdn_china": {
     "name": "cdn.txt",
-    "date": "2024-03-17 16:36",
-    "md5": "68663dfdbd2e616037c6cac9affa10ec",
-    "count": "72395"
+    "date": "2024-03-23 09:43",
+    "md5": "506c89fb0a2d9dc5aa7631a33d2e4d42",
+    "count": "72548"
   }
 }
