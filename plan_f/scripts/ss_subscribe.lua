@@ -269,6 +269,10 @@ local function processData(szType, content)
 			host = split(hostInfo[2], ":")
 			userinfo = base64Decode(hostInfo[1])
 		end
+		if userinfo:find("ss://") then --这个就是垃圾机场
+			local userinfo2 = userinfo:sub(userinfo:find(":") + 3, #userinfo)
+			userinfo = base64Decode(userinfo2)
+		end
 		local method = userinfo:sub(1, userinfo:find(":") - 1)
 		local password = userinfo:sub(userinfo:find(":") + 1, #userinfo)
 		result.alias = UrlDecode(alias)
