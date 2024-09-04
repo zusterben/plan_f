@@ -82,7 +82,14 @@ close_in_five() {
 		echo_date $i
 		let i--
 	done
-	dbus set ssconf_basic_enable="0"
+	if [ -f "/tmp/reboot" ] || [ -f "/tmp/upgrade" ];then
+		echo_date "系统正在重启,仅关闭插件运行！！"
+	elif [ "$(nvram get link_internet)" != "2" ];then
+		echo_date "网络中断,仅关闭插件运行！！"
+	else
+		echo_date "插件启动失败,完全关闭插件！！"
+		dbus set ssconf_basic_enable="0"
+	fi
 	disable_ss >/dev/null
 	echo_date "插件已关闭！！"
 	echo_date ======================= 梅林固件 - 【科学上网】 ========================
