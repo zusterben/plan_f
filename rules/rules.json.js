@@ -1,23 +1,23 @@
 {
   "gfwlist": {
     "name": "gfwlist.conf",
-    "date": "2024-03-17 16:36",
-    "md5": "fe2d7e14b4c17dbf4eaa47ca4c828128",
-    "count": "5721"
+    "date": "2024-10-29 09:08",
+    "md5": "ee7214e34a606835858933e30c4f5757",
+    "count": "5758"
   },
   "chnroute": {
     "name": "chnroute.txt",
-    "date": "2024-03-17 16:36",
-    "md5": "8f666fc3ea51785c775b606a7fba27a2",
-    "count": "6817",
-    "count_ip": "374016518582",
+    "date": "2024-10-29 09:08",
+    "md5": "73c8e0ee208a4bc719a70ed0e9ae67b2",
+    "count": "7392",
+    "count_ip": "481391294410",
     "source": "ipip",
     "url": "https://github.com/firehol/blocklist-ipsets/blob/master/ipip_country/ipip_country_cn.netset"
   },
   "cdn_china": {
     "name": "cdn.txt",
-    "date": "2024-03-23 09:43",
-    "md5": "506c89fb0a2d9dc5aa7631a33d2e4d42",
-    "count": "72548"
+    "date": "2024-10-29 09:08",
+    "md5": "fb2127f30d32762e122dc0d3c6f0b226",
+    "count": "89125"
   }
 }
