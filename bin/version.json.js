@@ -1,12 +1,12 @@
 {
   "name": "helloworld",
-  "version": "1.0.2",
-  "md5_arm_full": "2244ef8bda5471b6e17893627f720ece",
-  "md5_arm_lite": "c847792fadf80900116f77d92aa421ae",
-  "md5_armng_full": "a69845f9d4f0fd42ffbc7ea88a68001f",
-  "md5_armng_lite": "3daa50014cf50b8d767ec1d02d2855e9",
-  "md5_arm64_full": "cc9bb6ff80da8be9d387e4bd280df792",
-  "md5_arm64_lite": "b392ee901a6154ec90dfc91ae2fad775",
-  "md5_mips_lite": "2829a25c7debf77df8d9b242d6b1eea7",
-  "md5_mipsle_lite": "d2812d19af79400a57b41b5b7abaee8b"
+  "version": "1.0.3",
+  "md5_arm_full": "674fafab40a95e960b58582abf5edc12",
+  "md5_arm_lite": "cf52838ef6f68389f659f4d0328a2af0",
+  "md5_armng_full": "3411d673db3864e0e7103eec65a77733",
+  "md5_armng_lite": "0bc29d1dd9138c62493536bd38371af1",
+  "md5_arm64_full": "2790aa72294936c4789448b581aaef6a",
+  "md5_arm64_lite": "6da068c4ca680e34e28efea235d5eaf4",
+  "md5_mips_lite": "7cd48adbca3feee3614c366669841c9a",
+  "md5_mipsle_lite": "9315ea9c02446cacad3ab5924482e23e"
 }

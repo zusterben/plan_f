@@ -267,10 +267,8 @@ function conf2obj(obj, p) {
 			E(p + "tls_host").value = c.tls_host || "";
 			E(p + "v2_fingerprint").value = c.fingerprint || "disable";
 		}
-		if(E(p + "v2_tls").checked){
-			E(p + "insecure").value = c.insecure || "0";
-			E(p + "insecure").checked =  E(p + "insecure").value != 0;
-		}
+		E(p + "insecure").value = c.insecure || "0";
+		E(p + "insecure").checked =  E(p + "insecure").value != 0;
 		if (transport == "tcp") {
 			E(p + "v2_tcp_guise").value = c.tcp_guise || "none";
 			if(c.tcp_guise == "http"){
@@ -517,8 +515,7 @@ function save() {
 			tmp_db.tls_host = E("sstable_tls_host").value;
 			tmp_db.fingerprint = E("sstable_v2_fingerprint").value;
 		}
-		if(E("sstable_v2_tls").checked)
-			tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
+		tmp_db.insecure = E("sstable_insecure").checked ? '1' : '0';
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = E("sstable_v2_tcp_guise").value;
 			if(tmp_db.tcp_guise == "http"){
@@ -1286,8 +1283,7 @@ function add_edit_node(flag, node_idx, add) {
 			tmp_db.fingerprint = $.trim($('#ss_node_table_v2_fingerprint').val());
 			tmp_db.tls_flow = $.trim($('#ss_node_table_v2_tls_flow').val());
 		}
-		if(tmp_db.tls == "1")
-			tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
+		tmp_db.insecure = E("ss_node_table_insecure").checked ? '1' : '0';
 		if (tmp_db.transport == "tcp") {
 			tmp_db.tcp_guise = $.trim($('#ss_node_table_v2_tcp_guise').val());
 			if(tmp_db.tcp_guise == "http"){
