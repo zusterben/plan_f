@@ -80,7 +80,7 @@ __get_server_resolver_port() {
 
 __resolve_ip() {
 	local domain1=$(echo "$1" | grep -E "^https://|^http://|/")
-	local domain2=$(echo "$1" | grep -E "\.")
+	local domain2=$(echo "$1" | grep -E "\.|\:")
 	if [ -n "$domain1" ] || [ -z "$domain2" ]; then
 		# not ip, not domain
 		echo ""

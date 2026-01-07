@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=helloworld
-VERSION=1.0.3
+VERSION=1.0.4
 TITLE="helloworld"
 DESCRIPTION="helloworld"
 HOME_URL=Module_helloworld.asp

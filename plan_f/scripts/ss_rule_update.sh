@@ -70,7 +70,7 @@ start_update(){
 		if [ "${version_gfw_local}" != "${version_gfw_online}" ];then
 			echo_date "检测到新版本gfwlist，开始更新..."
 			echo_date "下载gfwlist到临时文件..."
-			wget -4 --no-check-certificate --timeout=8 $hsts -qO - ${URL_MAIN}/gfwlist.conf > /tmp/gfwlist.conf
+			wget -4 --no-check-certificate --timeout=8 $hsts -qO - ${url_main}/gfwlist.conf > /tmp/gfwlist.conf
 			md5sum_gfwlist_local=$(md5sum /tmp/gfwlist.conf | awk '{print $1}')
 			if [ "${md5sum_gfwlist_local}" == "${md5sum_gfw_online}" ];then
 				echo_date "下载完成，校验通过，将临时文件覆盖到原始gfwlist文件"
