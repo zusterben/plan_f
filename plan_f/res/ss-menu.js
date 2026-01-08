@@ -1,6 +1,9 @@
 function E(e) {
 	return (typeof(e) == 'string') ? document.getElementById(e) : e;
 }
+function isObjectEmpty(obj) {
+	return Object.keys(obj).length === 0;
+}
 var elem = {
 	parentElem: function(e, tagName) {
 		e = E(e);
@@ -54,7 +57,7 @@ function createFormFields(data, settings) {
 		}
 		if (v.ignore) return;
 		if (v.th) {
-			form += '<tr' + ((v.class) ? ' class="' + v.class + '"' : '') + '><th colspan="2">' + v.title + '</th></tr>';
+			form += '<tr' + ((v.class) ? ' class="' + v.class + '"' : '') + '><th colspan="' + v.th + '">' + v.title + '</th></tr>';
 			return;
 		}
 		if (v.thead) {
@@ -97,8 +100,7 @@ function createFormFields(data, settings) {
 					output += '<input type="checkbox"' + (f.value ? ' checked' : '') + common + '>' + (f.suffix ? f.suffix : '');
 					break;
 				case 'radio':
-					output += '<div class="radio c-radio"><label><input class="custom" type="radio"' + (f.value ? ' checked' : '') + common + '>\
-					<span></span> ' + (f.suffix ? f.suffix : '') + '</label></div>';
+					output += '<input type="radio"' + (f.name ? 'name=' + f.name : '') + common + 'class="input"'  + (f.value == 1 ? ' checked' : '') + '>' + (f.suffix ? f.suffix : '');
 					break;
 				case 'password':
 					common += ' class="input_ss_table" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"';
@@ -125,7 +127,11 @@ function createFormFields(data, settings) {
 							output += '<option value="' + a + '"' + ((a == f.value) ? ' selected' : '') + '>' + a + '</option>';
 						} else {
 							if (a.length == 1) a.push(a[0]);
-							output += '<option value="' + a[0] + '"' + ((a[0] == f.value) ? ' selected' : '') + '>' + a[1] + '</option>';
+							if (a[0] == "group"){
+								output += '<optgroup label="' + a[1] + '">';
+							}else{
+								output += '<option value="' + a[0] + '"' + ((a[0] == f.value) ? ' selected' : '') + '>' + a[1] + '</option>';
+							}
 						}
 					}
 					output += '</select>';
@@ -143,84 +149,149 @@ function createFormFields(data, settings) {
 			}
 			if (f.suffix && (f.type != 'checkbox' && f.type != 'radio')) output += f.suffix;
 		});
-		if (v.hint) form += '<th><a class="hintstyle" href="javascript:void(0);" onclick="openssHint(' + v.hint + ')">' + v.title + '</a></th><td>' + output;
+		//if (v.hint) form += '<th><a class="hintstyle" href="javascript:void(0);" onclick="openssHint(' + v.hint + ')">' + v.title + '</a></th><td>' + output;
+		//if (v.hint) form += '<th><a class="hintstyle" href="javascript:void(0);" onmouseover="mOver(this, ' + v.hint + ')" onmouseout="mOut(this)" ><em>' + v.title + '</em></a></th><td>' + output;
+		if (v.hint) form += '<th><a class="hintstyle" style="color:#03a9f4;" href="javascript:void(0);" onclick="openssHint(' + v.hint + ', 0)" onmouseover="mOver(this, ' + v.hint + ')" onmouseout="RunmOut(this)" >' + v.title + '</a></th><td>' + output;
+		else if (v.thtd) form += '<th>' + v.title + '</th><td>' + output;
 		else form += '<th>' + v.title + '</th><td>' + output;
 		form += '</td></tr>';
 	});
 	return form;
 }
 function pop_111() {
-	require(['/res/layer/layer.js'], function(layer) {
-		layer.open({
-			type: 2,
-			shade: .7,
-			scrollbar: 0,
-			title: '国内外分流信息来源：<a style="color:#00F" href="https://ip.skk.moe/" target="_blank">https://ip.skk.moe/</a>',
-			area: ['850px', '760px'],
-			fixed: false,
-			maxmin: true,
-			shadeClose: 1,
-			id: 'LAY_layuipro',
-			btnAlign: 'c',
-			content: ['https://ip.skk.moe/', 'yes'],
-		});
+	layer.open({
+		type: 2,
+		shade: .7,
+		scrollbar: 0,
+		title: '国内外分流信息来源：<a style="color:#00F" href="https://ip.skk.moe/" target="_blank">https://ip.skk.moe/</a>',
+		area: ['850px', '760px'],
+		fixed: false,   
+		move: false,
+		maxmin: true,
+		shadeClose: 1,
+		id: 'LAY_layuipro',
+		btnAlign: 'c',
+		content: ['https://ip.skk.moe/', 'yes'],
 	});
 }
-
 function pop_help() {
-	require(['/res/layer/layer.js'], function(layer) {
-		layer.open({
-			type: 1,
-			title: false,
-			closeBtn: false,
-			area: '600px;',
-			shade: 0.8,
-			shadeClose: 1,
-			scrollbar: false,
-			id: 'LAY_layuipro',
-			btn: ['关闭窗口'],
-			btnAlign: 'c',
-			moveType: 1,
-			content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
-				<b><% nvram_get("modelname"); %> - 科学上网插件 - ' + db_ss["ssconf_basic_version_local"] + '</b><br><br>\
-				<a target="_blank" href="https://github.com/shadowsocks/shadowsocks-libev"><u>SS</u></a>\
-				、<a target="_blank" href="https://github.com/shadowsocksrr/shadowsocksr-libev"><u>SSR</u></a>\
-				、<a target="_blank" href="https://github.com/v2ray/v2ray-core"><u>V2ray</u></a>\
-				、<a target="_blank" href="https://github.com/XTLS/xray-core"><u>Xray</u></a>\
-				、<a target="_blank" href="https://github.com/trojan-gfw/trojan"><u>Trojan</u></a>\
-				、<a target="_blank" href="https://github.com/apernet/hysteria"><u>hysteria</u></a>\
-				六种客户端的科学上网工具。<br \><br \>\
-				本插件仅支持SWRT、SWRT官改固件，请不要用于其它固件安装。<br>\
-				使用本插件有任何问题，可以前往<a style="color:#e7bd16" target="_blank" href="https://github.com/zusterben/plan_f/issues"><u>github的issue页面</u></a>反馈~<br><br>\
-				● SS/SSR一键脚本：<a style="color:#e7bd16" target="_blank" href="https://github.com/onekeyshell/kcptun_for_ss_ssr/tree/master"><u>一键安装KCPTUN for SS/SSR on Linux</u></a><br>\
-				● V2Ray一键脚本：<a style="color:#e7bd16" target="_blank" href="https://233blog.com/post/17/"><u>V2Ray 搭建和优化详细图文教程</u></a><br>\
-				我们的征途是星辰大海 ^_^</div>'
-		});
+	layer.open({
+		type: 1,
+		title: false,
+		closeBtn: false,
+		area: '600px;',
+		shade: 0.8,
+		shadeClose: 1,
+		scrollbar: false,
+		id: 'LAY_layuipro',
+		btn: ['关闭窗口'],
+		btnAlign: 'c',
+		moveType: 1,
+		content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
+			<b><% nvram_get("modelname"); %> - 科学上网插件 - ' + db_ss["ssconf_basic_version_local"] + '</b><br><br>\
+			<a target="_blank" href="https://github.com/shadowsocks/shadowsocks-libev"><u>SS</u></a>\
+			、<a target="_blank" href="https://github.com/shadowsocksrr/shadowsocksr-libev"><u>SSR</u></a>\
+			、<a target="_blank" href="https://github.com/v2ray/v2ray-core"><u>V2ray</u></a>\
+			、<a target="_blank" href="https://github.com/XTLS/xray-core"><u>Xray</u></a>\
+			、<a target="_blank" href="https://github.com/trojan-gfw/trojan"><u>Trojan</u></a>\
+			、<a target="_blank" href="https://github.com/apernet/hysteria"><u>hysteria</u></a>\
+			六种客户端的科学上网工具。<br \><br \>\
+			本插件仅支持SWRT、SWRT官改固件，请不要用于其它固件安装。<br>\
+			使用本插件有任何问题，可以前往<a style="color:#e7bd16" target="_blank" href="https://github.com/zusterben/plan_f/issues"><u>github的issue页面</u></a>反馈~<br><br>\
+			● SS/SSR一键脚本：<a style="color:#e7bd16" target="_blank" href="https://github.com/onekeyshell/kcptun_for_ss_ssr/tree/master"><u>一键安装KCPTUN for SS/SSR on Linux</u></a><br>\
+			● V2Ray一键脚本：<a style="color:#e7bd16" target="_blank" href="https://233blog.com/post/17/"><u>V2Ray 搭建和优化详细图文教程</u></a><br>\
+			我们的征途是星辰大海 ^_^</div>'
 	});
 }
 function pop_node_add() {
-	require(['/res/layer/layer.js'], function(layer) {
-		layer.open({
-			type: 0,
-			shade: 0.8,
-			title: '警告',
-			time: 0,
-			maxmin: true,
-			content: '你尚未添加任何节点信息！<br /> 点击下面按钮添加节点信息！',
-			btn: ['手动添加', '订阅节点', '恢复配置'],
-			btn1: function() {
-				$("#add_ss_node").trigger("click");
-				layer.closeAll();
-			},
-			btn2: function() {
-				$("#show_btn6").trigger("click");
-			},
-			btn3: function() {
-				$("#show_btn8").trigger("click");
-			},
-		});
-		poped = 1;
+	note = "<li>检测到你尚未添加任何代理节点！你至少需要一个节点，才能让插件正常工作！</li><br /> ";
+	note += "<li>如果你已经有节点，请从【手动添加】【节点订阅】【恢复配置】中选择一种添加。</li><br />";
+	layer.open({
+		type: 0,
+		skin: 'layui-layer-lan',
+		shade: 0.8,
+		title: '提醒',
+		area: ['620px', '220px'],
+		time: 0,
+		btnAlign: 'c',
+		maxmin: true,
+		content: note,
+		btn: ['手动添加', '订阅节点', '恢复配置'],
+		btn1: function() {
+			$("#add_ss_node").trigger("click");
+			layer.closeAll();
+		},
+		btn2: function() {
+			$("#show_btn6").trigger("click");
+		},
+		btn3: function() {
+			$("#show_btn8").trigger("click");
+		},
+		success: function(layero, index){
+			console.log(index);
+			var page_h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			var page_w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			var elem_h = E("layui-layer" + index).clientHeight;
+			var elem_w = E("layui-layer" + index).clientWidth;
+			var elem_h_offset = (page_h - elem_h) / 2 - 90;
+			var elem_w_offset = (page_w - elem_w) / 2 + 90;
+			if(elem_h_offset < 0){
+				elem_h_offset = 10;
+			}
+			$('#layui-layer' + index).offset({top: elem_h_offset, left: elem_w_offset});
+		}
 	});
+	poped = 1;
+}
+
+function pop_node_add_ads() {
+	note = "<li>检测到你尚未添加任何代理节点！你至少需要一个节点，才能让插件正常工作！</li><br /> ";
+	note += "<li>如果你已经有节点，请从【手动添加】【节点订阅】【恢复配置】中选择一种添加。</li><br />";
+	note += "<li>如果你没有节点且不知道如何购买或搭建，可以点击【机场推荐】购买本插件推荐的机场<br />";
+	//ads_url_1 = 'https://123s.co/#/register?code=dapj01OT';
+	layer.open({
+		type: 0,
+		skin: 'layui-layer-lan',
+		shade: 0.8,
+		title: '提醒',
+		area: ['620px', '280px'],
+		time: 0,
+		btnAlign: 'c',
+		maxmin: true,
+		content: note,
+		btn: ['手动添加', '订阅节点', '恢复配置', '机场推荐'],
+		btn1: function() {
+			$("#add_ss_node").trigger("click");
+			layer.closeAll();
+		},
+		btn2: function() {
+			$("#show_btn6").trigger("click");
+		},
+		btn3: function() {
+			$("#show_btn8").trigger("click");
+		},
+		btn4: function() {
+			window.open(
+				ads_url_1,
+				'_blank'
+			);
+			return false;
+		},
+		success: function(layero, index){
+			console.log(index);
+			var page_h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			var page_w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			var elem_h = E("layui-layer" + index).clientHeight;
+			var elem_w = E("layui-layer" + index).clientWidth;
+			var elem_h_offset = (page_h - elem_h) / 2 - 90;
+			var elem_w_offset = (page_w - elem_w) / 2 + 90;
+			if(elem_h_offset < 0){
+				elem_h_offset = 10;
+			}
+			$('#layui-layer' + index).offset({top: elem_h_offset, left: elem_w_offset});
+		}
+	});
+	poped = 1;
 }
 function compare(val1,val2){
 	return val1-val2;
@@ -289,8 +360,6 @@ function autoTextarea(elem, extra, maxHeight) {
 			};
 			style.height = height + extra + 'px';
 			scrollTop += parseInt(style.height) - elem.currHeight;
-			//document.body.scrollTop = scrollTop;
-			//document.documentElement.scrollTop = scrollTop;
 			elem.currHeight = parseInt(style.height);
 		};
 	};
@@ -414,7 +483,7 @@ function showSSLoadingBar(seconds) {
 
 	document.getElementById("loadingBarBlock").style.marginTop = blockmarginTop + "px";
 	document.getElementById("loadingBarBlock").style.marginLeft = blockmarginLeft + "px";
-	document.getElementById("loadingBarBlock").style.width = 770 + "px";
+	document.getElementById("loadingBarBlock").style.width = 780 + "px";
 	document.getElementById("LoadingBar").style.width = winW + "px";
 	document.getElementById("LoadingBar").style.height = winH + "px";
 
@@ -492,14 +561,46 @@ function hideSSLoadingBar() {
 	checkss = 0;
 	refreshpage();
 }
-function openssHint(itemNum) {
+function mOver(obj, hint){
+	mouse_status = 1;
+	//$("#overDiv").unbind('mouseout', function() { 
+	//	E("overDiv").style.visibility = "hidden";
+	//});
+	$("#overDiv").unbind();
+	$(obj).css({
+		"color": "#00ffe4",
+		"text-decoration": "underline"
+	});
+	openssHint(hint, mouse_status);
+}
+function mOut(obj){
+	if (mouse_status == 0) return;
+	if ($("#overDiv").is(":hover") == false){
+		// close hint automaticly
+		E("overDiv").style.visibility = "hidden";
+	}else{
+		// close hint whetn mounseout
+		$("#overDiv").bind('mouseleave', function() {
+			E("overDiv").style.visibility = "hidden";
+		});
+	}
+}
+function RunmOut(obj){
+	$(obj).css({
+		"color": "#03a9f4",
+		"text-decoration": ""
+	});
+	mOut("' + obj + '");
+	//setTimeout('mOut("' + obj + '");', 100);
+}
+var ol_textfont="Lucida Console";
+var ol_captionfont="Lucida Console";
+var ol_closefont="Lucida Console";
+
+function openssHint(itemNum, flag) {
+	mouse_status = flag;
 	statusmenu = "";
 	width = "350px";
-
-	if (itemNum == 10) {
-		statusmenu = "如果发现开关不能开启，那么请检查<a href='Advanced_System_Content.asp'><u><font color='#00F'>系统管理 -- 系统设置</font></u></a>页面内Enable JFFS custom scripts and configs是否开启。";
-		_caption = "服务器说明";
-	}
 	if (itemNum == 0) {
 		width = "850px";
 		bgcolor = "#CC0066",
@@ -529,41 +630,34 @@ function openssHint(itemNum) {
 		statusmenu += "</br>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#00F'>5.2：在开启ipv6的情况下，有概率显示状态失败"
 		statusmenu += "</br><b><font color='#CC0066'>6：你遇到了非常少见的情况：</font></b>来这里反馈吧：<a href='https://telegram.me/joinchat/DCq55kC7pgWKX9J4cJ4dJw' target='_blank'><u><font color='#00F'>telegram</font></u></a>。"
 		_caption = "状态检测";
-		return overlib(statusmenu, OFFSETX, -460, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	}
 	if (itemNum == 1) {
 		width = "700px";
 		bgcolor = "#CC0066",
-		//gfwlist
 		statusmenu = "<span><b><font color='#CC0066'>【1】gfwlist模式:</font></b></br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;该模式使用gfwlist区分流量，Shadowsocks会将所有访问gfwlist内域名的TCP链接转发到Shadowsocks服务器，实现透明代理；</br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;和真正的gfwlist模式相比较，路由器内的gfwlist模式还是有一定缺点，因为它没法做到像gfwlist PAC文件一样，对某些域名的二级域名有例外规则。</br>"
 		statusmenu += "<b><font color='#669900'>优点：</font></b>节省SS流量，可防止迅雷和PT流量。</br>"
 		statusmenu += "<b><font color='#669900'>缺点：</font></b>代理受限于名单内的4000多个被墙网站，需要维护黑名单。一些不走域名解析的应用，比如telegram，需要单独添加IP/CIDR黑名单。</span></br></br>"
-		//redchn
 		statusmenu += "<span><b><font color='#CC0066'>【2】大陆白名单模式:</font></b></br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;该模式使用chnroute IP网段区分国内外流量，ss-redir将流量转发到Shadowsocks服务器，实现透明代理；</br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;由于采用了预先定义的ip地址块(chnroute)，所以DNS解析就非常重要，如果一个国内有的网站被解析到了国外地址，那么这个国内网站是会走ss的；</br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;因为使用了大量的cdn名单，能够保证常用的国内网站都获得国内的解析结果，但是即使如此还是不能完全保证国内的一些网站解析到国内地址，这个时候就推荐使用具备cdn解析能力的cdns或者chinadns2。</br>"
 		statusmenu += "<b><font color='#669900'>优点：</font></b>所有被墙国外网站均能通过代理访问，无需维护域名黑名单；主机玩家用此模式可以实现TCP代理UDP国内直连。</br>"
 		statusmenu += "<b><font color='#669900'>缺点：</font></b>消耗更多的Shadowsocks流量，迅雷下载和BT可能消耗SS流量。</span></br></br>"
-		//game
 		statusmenu += "<span><b><font color='#CC0066'>【3】游戏模式:</font></b></br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;游戏模式较于其它模式最大的特点就是支持UDP代理，能让游戏的UDP链接走SS，主机玩家用此模式可以实现TCP+UDP走SS代理；</br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;由于采用了预先定义的ip地址块(chnroute)，所以DNS解析就非常重要，如果一个国内有的网站被解析到了国外地址，那么这个国内网站是会走ss的。</br>"
 		statusmenu += "<b><font color='#669900'>优点：</font></b>除了具有大陆白名单模式的优点外，还能代理UDP链接，并且实现主机游戏<b> NAT2!</b></br>"
 		statusmenu += "<b><font color='#669900'>缺点：</font></b>由于UDP链接也走SS，而迅雷等BT下载多为UDP链接，如果下载资源的P2P链接中有国外链接，这部分流量就会走SS！</span></br></br>"
-		//overall
 		statusmenu += "<span><b><font color='#CC0066'>【4】全局模式:</font></b></br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;除局域网和ss服务器等流量不走代理，其它都走代理(udp不走)，高级设置中提供了对代理协议的选择。</br>"
 		statusmenu += "<b><font color='#669900'>优点：</font></b>简单暴力，全部出国；可选仅web浏览走ss，还是全部tcp代理走ss，因为不需要区分国内外流量，因此性能最好。</br>"
 		statusmenu += "<b><font color='#669900'>缺点：</font></b>国内网站全部走ss，迅雷下载和BT全部走SS流量。</span></br></br>"
-		//overall
 		statusmenu += "<span><b><font color='#CC0066'>【5】回国模式:</font></b></br>"
 		statusmenu += "&nbsp;&nbsp;&nbsp;&nbsp;提供给国外的朋友，通过在中间服务器翻回来，以享受一些视频、音乐等网络服务。</br>"
 		statusmenu += "<b><font color='#669900'>提示：</font></b>回国模式选择外国DNS只能使用直连~</br>"
 		_caption = "模式说明";
-		return overlib(statusmenu, OFFSETX, -860, OFFSETY, -290, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 5) {
 		statusmenu = "此处填入你的ss/ssr服务器的加密方式。</br><font color='#F46'>建议</font>如果是自己搭建服务器，建议使用对路由器负担比较小的加密方式，例如chacha20,chacha20-ietf等。";
 		_caption = "服务器加密方式";
@@ -577,6 +671,10 @@ function openssHint(itemNum) {
 		statusmenu += "所以打开v2ray-plugin会<b>忽略原混淆(obfs)</b>的设置。";
 		statusmenu += "</br>关于这个插件的信息以及参数(opts)，请查看仓库：<a href='https://github.com/shadowsocks/v2ray-plugin' target='_blank'><u><font color='#00F'>v2ray-plugin</font></u></a>";
 		_caption = "v2ray-plugin设置";
+	if (itemNum == 10) {
+		statusmenu = "如果发现开关不能开启，那么请检查<a href='Advanced_System_Content.asp'><u><font color='#00F'>系统管理 -- 系统设置</font></u></a>页面内Enable JFFS custom scripts and configs是否开启。";
+		_caption = "服务器说明";
+	}
 	} else if (itemNum == 11) {
 		statusmenu = "如果不知道如何填写，请一定留空，不然可能带来副作用！"
 		statusmenu += "</br></br>请参考<a class='hintstyle' href='javascript:void(0);' onclick='openssHint(8)'><font color='#00F'>协议插件（protocol）</font></a>和<a class='hintstyle' href='javascript:void(0);' onclick='openssHint(9)'><font color='#00F'>混淆插件 (obfs)</font></a>内说明。"
@@ -645,7 +743,6 @@ function openssHint(itemNum) {
 		//直连
 		statusmenu += "</br><font color='#CC0066'><b>8:直连：</b></font>"
 		statusmenu += "</br>&nbsp;&nbsp;&nbsp;&nbsp;本地直接向DNS服务器请求获取国外网站的解析地址，目前此选项仅限于回国模式使用，因为在国外网络下查询国外DNS服务器不会有DNS污染。";
-		return overlib(statusmenu, OFFSETX, -860, OFFSETY, -290, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 28) {
 		width = "750px";
 		statusmenu = "<b>如果客户端json配置文件内没有此项，此处请留空！</b>"
@@ -658,7 +755,6 @@ function openssHint(itemNum) {
 		statusmenu += "</br>&nbsp;&nbsp;此参数在客户端json配置文件的【outbound → streamSettings → httpSettings → host】位置"
 		statusmenu += "</br>&nbsp;&nbsp;如有多个域名，请用英文逗号隔开，如：www.baidu.com,www.sina.com.cn"
 		_caption = "伪装域名 (host)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -290, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 29) {
 		width = "750px";
 		statusmenu = "<b>如果客户端json配置文件内没有此项，此处请留空！</b></br></br>path的设定应该和服务器端保持一致，值应该和你nginx或者candy的配置内的一致！"
@@ -667,25 +763,21 @@ function openssHint(itemNum) {
 		statusmenu += "</br></br><font color='#CC0066'><b>2:h2 path：</b></font>"
 		statusmenu += "</br>&nbsp;&nbsp;此参数在客户端json配置文件的【outbound → streamSettings → httpSettings → path】位置"
 		_caption = "路径 (path)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -290, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 30) {
 		width = "750px";
 		statusmenu = "<b>此处控制开启或者关闭tls传输</b>"
 		statusmenu += "</br></br>此参数在客户端json配置文件的【outbound → streamSettings → security】位置"
 		_caption = "底层传输安全";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 31) {
 		width = "400px";
 		statusmenu = "<b>此处控制开启或者关闭多路复用 (Mux)</b>"
 		statusmenu += "</br></br>此参数在客户端json配置文件的【outbound → mux → enabled】位置"
 		_caption = "多路复用 (Mux)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 32) {
 		width = "750px";
 		statusmenu = "<b>控制Mux并发连接数，默认值：8，如果客户端json配置文件没有请留空</b>"
 		statusmenu += "</br></br>此参数在客户端json配置文件的【outbound → mux → concurrency】位置，如果没有，请留空"
 		_caption = "Mux并发连接数";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 33) {
 		statusmenu = "填入需要强制用国内DNS解析的域名，一行一个，格式如下：。"
 		statusmenu += "</br>注意：不支持通配符！"
@@ -708,12 +800,10 @@ function openssHint(itemNum) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → streamSettings → network】位置"
 		_caption = "传输协议 (network)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 36) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → streamSettings → tcpSettings → header → type】位置，如果没有此参数，则为不伪装"
 		_caption = "tcp伪装类型 (type)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 37) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → streamSettings → kcpSettings → header → type】位置，如果参数为none，则为不伪装"
@@ -759,27 +849,22 @@ function openssHint(itemNum) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → settings → vnext → users → security】位置"
 		_caption = "加密方式 (security)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 48) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → settings → vnext → users → alterId】位置"
 		_caption = "额外ID (Alterld)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 49) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → settings → vnext → users → id】位置"
-		_caption = "加密方式 (security)";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
+		_caption = "用户id (id)";
 	} else if (itemNum == 50) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → settings → vnext → port】位置"
 		_caption = "端口（port）";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 51) {
 		width = "750px";
 		statusmenu = "</br>此参数在客户端json配置文件的【outbound → settings → vnext → address】位置"
 		_caption = "地址（address）";
-		return overlib(statusmenu, OFFSETX, -560, OFFSETY, -90, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 	} else if (itemNum == 54) {
 		statusmenu = "更多信息，请参考<a href='https://breakwa11.blogspot.jp/2017/01/shadowsocksr-mu.html' target='_blank'><u><font color='#00F'>ShadowsocksR 协议参数文档</font></u></a>"
 		_caption = "协议参数（protocol）";
@@ -813,7 +898,8 @@ function openssHint(itemNum) {
 		statusmenu = "&nbsp;&nbsp;&nbsp;&nbsp;爬虫初始路径与参数，建议每个客户端不同。"
 		_caption = "spiderX";
 	}
-	return overlib(statusmenu, OFFSETX, -160, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
+	//return overlib(statusmenu, OFFSETX, -160, LEFT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
+	return overlib(statusmenu, OFFSETX, 30, OFFSETY, 10, RIGHT, STICKY, WIDTH, 'width', CAPTION, _caption, CLOSETITLE, '');
 
 	var tag_name = document.getElementsByTagName('a');
 	for (var i = 0; i < tag_name.length; i++)
@@ -975,13 +1061,10 @@ function showDropdownClientList(_callBackFun, _callBackFunParam, _interfaceMode,
 	}
 }
 
-//=====================================
 function do_js_beautify(source) {
 	js_source = source.replace(/^\s+/, '');
 	tab_size = 2;
 	tabchar = ' ';
-	//tab_size = 1;
-	//tabchar = '\t';
 	return js_beautify(js_source, tab_size, tabchar);
 }
 
@@ -1104,7 +1187,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 				}
 			}
 
-			// small and surprisingly unugly hack for 1E-10 representation
 			if (parser_pos !== input.length && c.match(/^[0-9]+[Ee]$/) && input.charAt(parser_pos) === '-') {
 				parser_pos += 1;
 
@@ -1141,7 +1223,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 
 		if (c === '/') {
 			var comment = '';
-			// peek for comment /* ... */
 			if (input.charAt(parser_pos) === '*') {
 				parser_pos += 1;
 				if (parser_pos < input.length) {
@@ -1156,7 +1237,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 				parser_pos += 2;
 				return ['/*' + comment + '*/', 'TK_BLOCK_COMMENT'];
 			}
-			// peek for comment // ...
 			if (input.charAt(parser_pos) === '/') {
 				comment = c;
 				while (input.charAt(parser_pos) !== "\x0d" && input.charAt(parser_pos) !== "\x0a") {
@@ -1221,7 +1301,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 		return [c, 'TK_UNKNOWN'];
 	}
 
-	//----------------------------------
 
 	indent_character = indent_character || ' ';
 	indent_size = indent_size || 4;
@@ -1246,11 +1325,8 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 	wordchar = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$'.split('');
 	punct = '+ - * / % & ++ -- = += -= *= /= %= == === != !== > < >= <= >> << >>> >>>= >>= <<= && &= | || ! !! , : ? ^ ^= |='.split(' ');
 
-	// words which should always start on new line.
 	line_starters = 'continue,try,throw,return,var,if,switch,case,default,for,while,break,function'.split(',');
 
-	// states showing if we are currently in expression (i.e. "if" case) - 'EXPRESSION', or in usual block (like, procedure), 'BLOCK'.
-	// some formatting depends on that.
 	current_mode = 'BLOCK';
 	modes = [current_mode];
 
@@ -1271,7 +1347,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 				var_line = false;
 				set_mode('EXPRESSION');
 				if (last_type === 'TK_END_EXPR' || last_type === 'TK_START_EXPR') {
-					// do nothing on (( and )( and ][ and ]( ..
 				} else if (last_type !== 'TK_WORD' && last_type !== 'TK_OPERATOR') {
 					print_space();
 				} else if (in_array(last_word, line_starters) && last_word !== 'function') {
@@ -1305,7 +1380,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 
 			case 'TK_END_BLOCK':
 				if (last_type === 'TK_START_BLOCK') {
-					// nothing
 					trim_output();
 					unindent();
 				} else {
@@ -1327,10 +1401,8 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 
 				if (token_text === 'case' || token_text === 'default') {
 					if (last_text === ':') {
-						// switch cases following one another
 						remove_indent();
 					} else {
-						// case statement starts in the same line where switch
 						unindent();
 						print_newline();
 						indent();
@@ -1366,19 +1438,13 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 					print_newline();
 				} else if (in_array(token_text, line_starters) || prefix === 'NEWLINE') {
 					if (last_text === 'else') {
-						// no need to force newline on else break
 						print_space();
 					} else if ((last_type === 'TK_START_EXPR' || last_text === '=') && token_text === 'function') {
-						// no need to force newline on 'function': (function
-						// DONOTHING
 					} else if (last_type === 'TK_WORD' && (last_text === 'return' || last_text === 'throw')) {
-						// no newline between 'return nnn'
 						print_space();
 					} else if (last_type !== 'TK_END_EXPR') {
 						if ((last_type !== 'TK_START_EXPR' || token_text !== 'var') && last_text !== ':') {
-							// no need to force newline on 'var': for (var x = 0...)
 							if (token_text === 'if' && last_type === 'TK_WORD' && last_word === 'else') {
-								// no newline for } else if {
 								print_space();
 							} else {
 								print_newline();
@@ -1455,7 +1521,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 							print_token();
 							print_newline();
 						} else {
-							// EXPR od DO_BLOCK
 							print_token();
 							print_space();
 						}
@@ -1463,7 +1528,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 					break;
 				} else if (token_text === '--' || token_text === '++') { // unary operators special case
 					if (last_text === ';') {
-						// space for (;; ++i)
 						start_delim = true;
 						end_delim = false;
 					} else {
@@ -1471,7 +1535,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 						end_delim = false;
 					}
 				} else if (token_text === '!' && last_type === 'TK_START_EXPR') {
-					// special case handling: if (!a)
 					start_delim = false;
 					end_delim = false;
 				} else if (last_type === 'TK_OPERATOR') {
@@ -1481,15 +1544,11 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 					start_delim = true;
 					end_delim = true;
 				} else if (token_text === '.') {
-					// decimal digits or object.property
 					start_delim = false;
 					end_delim = false;
 
 				} else if (token_text === ':') {
-					// zz: xx
-					// can't differentiate ternary op, so for now it's a ? b: c; without space before colon
 					if (last_text.match(/^\d+$/)) {
-						// a little help for ternary a ? 1 : 0;
 						start_delim = true;
 					} else {
 						start_delim = false;
@@ -1515,7 +1574,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 
 			case 'TK_COMMENT':
 
-				// print_newline();
 				print_space();
 				print_token();
 				print_newline();
@@ -1534,7 +1592,6 @@ function js_beautify(js_source_text, indent_size, indent_character, indent_level
 
 }
 
-// ====================================
 var base2 = {
 	name: "base2",
 	version: "1.0",
@@ -3263,3 +3320,4 @@ new function() {
 		SHRUNK: /\x02\d+\b/g
 	})
 };
+

@@ -62,13 +62,13 @@ local function ping_func(server, method)
 			tmp = dbus_get("ssconf_basic_json_" .. v)
 			local node_doamin = jsonParse(b64decode(tmp))
 			if method == "1" then
-				cmd = "ping -4 " .. node_doamin.server .. " -c 1 -w 1 -q"
+				cmd = "ping " .. node_doamin.server .. " -c 1 -w 1 -q"
 			elseif method == "2" then
-				cmd = "ping -4 " .. node_doamin.server .. " -c 5 -w 5 -q"
+				cmd = "ping " .. node_doamin.server .. " -c 5 -w 5 -q"
 			elseif method == "3" then
-				cmd = "ping -4 " .. node_doamin.server .. " -c 10 -w 10 -q"
+				cmd = "ping " .. node_doamin.server .. " -c 10 -w 10 -q"
 			elseif method == "4" then
-				cmd = "ping -4 " .. node_doamin.server .. " -c 20 -w 20 -q"
+				cmd = "ping " .. node_doamin.server .. " -c 20 -w 20 -q"
 			end
 			tmp = io.popen(cmd)
 			local response = tmp:read("*a")
@@ -96,13 +96,13 @@ local function ping_func(server, method)
 		local tmp = dbus_get("ssconf_basic_json_" .. server)
 		local node_doamin = jsonParse(b64decode(tmp))
 		if method == "1" then
-			cmd = "ping -4 " .. node_doamin.server .. " -c 1 -w 1 -q"
+			cmd = "ping " .. node_doamin.server .. " -c 1 -w 1 -q"
 		elseif method == "2" then
-			cmd = "ping -4 " .. node_doamin.server .. " -c 5 -w 5 -q"
+			cmd = "ping " .. node_doamin.server .. " -c 5 -w 5 -q"
 		elseif method == "3" then
-			cmd = "ping -4 " .. node_doamin.server .. " -c 10 -w 10 -q"
+			cmd = "ping " .. node_doamin.server .. " -c 10 -w 10 -q"
 		elseif method == "4" then
-			cmd = "ping -4 " .. node_doamin.server .. " -c 20 -w 20 -q"
+			cmd = "ping " .. node_doamin.server .. " -c 20 -w 20 -q"
 		end
 		tmp = io.popen(cmd)
 		local response = tmp:read("*a")
