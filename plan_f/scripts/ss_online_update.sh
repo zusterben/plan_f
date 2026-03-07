@@ -173,11 +173,6 @@ start_online_update(){
 	echo_date "开始更新在线订阅列表..." 
 	cd /jffs/softcenter/scripts
 	/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_subscribe.lua
-	#等待订阅完成
-	while [ -n "$(pidof lua)" ]; do
-		sleep 2s
-	done
-
 
 	# 节点重新排序
 	remove_node_gap
@@ -196,11 +191,8 @@ start_offline_update() {
 	echo_date "==================================================================="
 	usleep 100000
 	echo_date "通过SS/SSR/v2ray/Trojan链接添加节点..."
+	cd /jffs/softcenter/scripts
 	/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_subscribe_off.lua
-	#等待订阅完成
-	while [ -n "$(pidof lua)" ]; do
-		sleep 2s
-	done
 	echo_date "==================================================================="
 }
 

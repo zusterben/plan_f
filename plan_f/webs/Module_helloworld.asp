@@ -266,7 +266,7 @@ function conf2obj(obj, p) {
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
 		if(E(p + "v2_tls").checked || E(p + "v2_reality").checked){
 			E(p + "tls_host").value = c.tls_host || "";
-			E(p + "v2_fingerprint").value = c.fingerprint || "disable";
+			E(p + "v2_fingerprint").value = c.fingerprint || "firefox";
 		}
 		E(p + "insecure").value = c.insecure || "0";
 		E(p + "insecure").checked =  E(p + "insecure").value != 0;
@@ -3492,7 +3492,7 @@ function save_failover() {
 																	{ title: 'Short ID', rid:'ss_node_table_v2_reality_shortid_tr', id:'ss_node_table_v2_reality_shortid', type:'text', maxlen:'20', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'spiderX', rid:'ss_node_table_v2_reality_spiderx_tr', id:'ss_node_table_v2_reality_spiderx', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'TLS伪装域名', rid:'ss_node_table_tls_host_tr', id:'ss_node_table_tls_host', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
-																	{ title: '指纹伪造', rid:'ss_node_table_v2_fingerprint_tr', id:'ss_node_table_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "disable", hidden:"yes"},
+																	{ title: '指纹伪造', rid:'ss_node_table_v2_fingerprint_tr', id:'ss_node_table_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "firefox", hidden:"yes"},
 																	{ title: 'QUIC加密', rid:'ss_node_table_v2_quic_security_tr', id:'ss_node_table_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 																	{ title: 'QUIC Key', rid:'ss_node_table_v2_quic_key_tr', id:'ss_node_table_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 																	{ title: '伪装类型', rid:'ss_node_table_v2_quic_guise_tr', id:'ss_node_table_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},
@@ -3571,7 +3571,7 @@ function save_failover() {
 														{ title: 'Short ID', id:'sstable_v2_reality_shortid', type:'text', maxlen:'20', ph:'没有请留空', hidden:"yes", hint:'113'},
 														{ title: 'spiderX', id:'sstable_v2_reality_spiderx', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes", hint:'114'},
 														{ title: 'TLS伪装域名', id:'sstable_tls_host', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
-														{ title: '指纹伪造', id:'sstable_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "disable", hidden:"yes"},
+														{ title: '指纹伪造', id:'sstable_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "firefox", hidden:"yes"},
 														{ title: 'QUIC加密', id:'sstable_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 														{ title: 'QUIC Key', id:'sstable_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: '伪装类型', id:'sstable_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},

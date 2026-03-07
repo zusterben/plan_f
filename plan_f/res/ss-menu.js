@@ -384,8 +384,8 @@ function getNowFormatDate(s) {
 	console.log(s, currentdate);
 }
 function menu_hook() {
-	tabtitle[tabtitle.length - 1] = new Array("", "ShadowSocksR Plus设置", "__INHERIT__");
-	tablink[tablink.length - 1] = new Array("", "Module_helloworld.asp", "NULL");
+	tabtitle[tabtitle.length - 1] = new Array("", "软件中心", "离线安装", "ShadowSocksR Plus设置");
+	tablink[tablink.length - 1] = new Array("", "Main_Soft_center.asp", "Main_Soft_setting.asp", "Module_helloworld.asp");
 }
 function versionCompare(v1, v2, options) {
 	var lexicographical = options && options.lexicographical,

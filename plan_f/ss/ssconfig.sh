@@ -201,6 +201,7 @@ create_ss_json(){
 	echo_date "创建$(__get_type_abbr_name)配置文件到$CONFIG_FILE"
 
 	/jffs/softcenter/bin/lua /jffs/softcenter/scripts/ss_genconfig2.lua "$ssconf_basic_node" "$NODE_MODE" 3333 23456 > $CONFIG_FILE_TMP
+	echo_date 解析$(__get_type_abbr_name)配置文件...
 	cat "$CONFIG_FILE_TMP" | jq --tab . > $CONFIG_FILE
 	if [ "$ssconf_basic_netflix_enable" == "1" ]; then
 		rm -rf $CONFIG_FILE_TMP
@@ -208,6 +209,20 @@ create_ss_json(){
 		cat "$CONFIG_FILE_TMP" | jq --tab . > $CONFIG_NETFLIX_FILE
 	fi
 	rm -rf $CONFIG_FILE_TMP
+
+	echo_date $(__get_type_abbr_name)配置文件写入成功到"$CONFIG_FILE"
+	echo_date 测试$(__get_type_abbr_name)配置文件.....
+	result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE" | grep "Configuration OK.")
+	if [ -n "$result" ]; then
+		echo_date $(__get_type_abbr_name)配置文件通过测试!!!
+	else
+		echo_date $(__get_type_abbr_name)配置文件没有通过测试，请检查设置!!!
+		result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE")
+		echo_date "$result"
+		rm -rf "$CONFIG_FILE_TMP"
+		rm -rf "$CONFIG_FILE"
+		close_in_five
+	fi
 }
 
 get_dns_name() {
@@ -570,18 +585,18 @@ create_v2ray_json(){
 	cat "$CONFIG_FILE_TMP" | jq --tab . >"$CONFIG_FILE"
 	echo_date V2Ray配置文件写入成功到"$CONFIG_FILE"
 
-#	echo_date 测试V2Ray配置文件.....
-#	result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE" | grep "Configuration OK.")
-#	if [ -n "$result" ]; then
-#		echo_date V2Ray配置文件通过测试!!!
-#	else
-#		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
-#		result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE")
-#		echo_date "$result"
-#		rm -rf "$CONFIG_FILE_TMP"
-#		rm -rf "$CONFIG_FILE"
-#		close_in_five
-#	fi
+	echo_date 测试V2Ray配置文件.....
+	result=$(${TMP_BIN_PATH}/xray run -test -config="$CONFIG_FILE" | grep "Configuration OK.")
+	if [ -n "$result" ]; then
+		echo_date V2Ray配置文件通过测试!!!
+	else
+		echo_date V2Ray配置文件没有通过测试，请检查设置!!!
+		result=$(${TMP_BIN_PATH}/xray run -test -config="$CONFIG_FILE")
+		echo_date "$result"
+		rm -rf "$CONFIG_FILE_TMP"
+		rm -rf "$CONFIG_FILE"
+		close_in_five
+	fi
 }
 
 create_v2ray_netflix(){

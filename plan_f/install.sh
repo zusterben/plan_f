@@ -73,17 +73,18 @@ platform_test(){
 set_skin(){
 	local UI_TYPE=ASUSWRT
 	local SC_SKIN=$(nvram get sc_skin)
-	local ROG_FLAG=$(grep -o "680516" /www/form_style.css 2>/dev/null|head -n1)
-	local TUF_FLAG=$(grep -o "D0982C" /www/form_style.css 2>/dev/null|head -n1)
 	local TS_FLAG=$(grep -o "2ED9C3" /www/css/difference.css 2>/dev/null|head -n1)
-	if [ -n "${ROG_FLAG}" ];then
-		UI_TYPE="ROG"
-	fi
-	if [ -n "${TUF_FLAG}" ];then
-		UI_TYPE="TUF"
-	fi
+	local ROG_FLAG=$(cat /www/form_style.css|grep -A1 ".tab_NW:hover{"|grep "background"|grep -o "2071044")
+	local TUF_FLAG=$(cat /www/form_style.css|grep -A1 ".tab_NW:hover{"|grep "background"|grep -o "D0982C")
+	local WRT_FLAG=$(cat /www/form_style.css|grep -A1 ".tab_NW:hover{"|grep "background"|grep -o "4F5B5F")
 	if [ -n "${TS_FLAG}" ];then
 		UI_TYPE="TS"
+	elif [ -n "${ROG_FLAG}" ];then
+		UI_TYPE="ROG"
+	elif [ -n "${TUF_FLAG}" ];then
+		UI_TYPE="TUF"
+	elif [ -n "${WRT_FLAG}" ];then
+		UI_TYPE="ASUSWRT"
 	fi
 	if [ -z "${SC_SKIN}" -o "${SC_SKIN}" != "${UI_TYPE}" ];then
 		echo_date "安装${UI_TYPE}皮肤！"
