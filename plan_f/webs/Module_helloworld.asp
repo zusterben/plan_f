@@ -74,6 +74,7 @@ var option_headtcp = [["none", "不伪装"], ["http", "伪装http"]];
 var option_headkcp = [["none", "不伪装"], ["srtp", "伪装视频通话(srtp)"], ["utp", "伪装BT下载(uTP)"], ["wechat-video", "伪装微信视频通话"], ["dtls", "DTLS 1.2"], ["wireguard", "WireGuard"]];
 var tls_flows = [["xtls-rprx-vision", "xtls-rprx-vision"], ["xtls-rprx-vision-udp443", "xtls-rprx-vision-udp443"]];
 var option_hy2_obfs = [["0", "停用"], ["1", "salamander"]];	//helloworld-full
+var option_fp_obfs = [["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"], ["safari", "safari"], ["ios", "ios"], ["android", "android"], ["edge", "edge"], ["random", "random"], ["randomized", "randomized"]];
 var heart_count = 1;
 const pattern=/[`~!@#$^&*()=|{}':;'\\\[\]\.<>\/?~！@#￥……&*（）——|{}%【】'；：""'。，、？\s]/g;
 if(PKG_TYPE == "full"){
@@ -266,7 +267,7 @@ function conf2obj(obj, p) {
 		E(p + "v2_tls").checked =  E(p + "v2_tls").value != 0;
 		if(E(p + "v2_tls").checked || E(p + "v2_reality").checked){
 			E(p + "tls_host").value = c.tls_host || "";
-			E(p + "v2_fingerprint").value = c.fingerprint || "firefox";
+			E(p + "v2_fingerprint").value = c.fingerprint || "disable";
 		}
 		E(p + "insecure").value = c.insecure || "0";
 		E(p + "insecure").checked =  E(p + "insecure").value != 0;
@@ -304,7 +305,7 @@ function conf2obj(obj, p) {
 			E(p + "v2_quic_key").value = c.quic_key;
 			E(p + "v2_quic_security").value = c.quic_security || "none";
 		} else if (transport == "grpc") {
-			E(p + "v2_serviceName").value = c.serviceName;
+			E(p + "v2_serviceName").value = c.serviceName || "";
 			E(p + "v2_grpc_mode").value = c.grpc_mode || "gun";
 			E(p + "v2_initial_windows_size").value = c.initial_windows_size || "0";
 			E(p + "v2_health_check").value = c.health_check || "0";
@@ -752,6 +753,7 @@ function verifyFields(r) {
 	elem.display(elem.parentElem('sstable_v2_quic_key', 'tr'), quic_on);
 	elem.display(elem.parentElem('sstable_v2_quic_guise', 'tr'), quic_on);
 	elem.display(elem.parentElem('sstable_v2_serviceName', 'tr'), grpc_on);
+	elem.display(elem.parentElem('sstable_v2_grpc_mode', 'tr'), grpc_on);
 	elem.display(elem.parentElem('sstable_v2_encryption', 'tr'), (v2ray_on && vless_on));
 	elem.display(elem.parentElem('sstable_v2_idle_timeout', 'tr'), (grpc_on || h2_on));
 	elem.display(elem.parentElem('sstable_v2_permit_without_stream', 'tr'), grpc_on);
@@ -832,6 +834,7 @@ function verifyFields(r) {
 		showhide("ss_node_table_v2_quic_key_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_quic_guise_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_serviceName_tr", (E("ss_node_table_v2_transport").value == "grpc"));
+		showhide("ss_node_table_v2_grpc_mode_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_idle_timeout_tr", (E("ss_node_table_v2_transport").value == "grpc" || E("ss_node_table_v2_transport").value == "h2"));
 		showhide("ss_node_table_v2_health_check_timeout_tr", (E("ss_node_table_v2_transport").value == "grpc" || E("ss_node_table_v2_transport").value == "h2"));
 		showhide("ss_node_table_v2_permit_without_stream_tr", (E("ss_node_table_v2_transport").value == "grpc"));
@@ -990,6 +993,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
 		E('ss_node_table_v2_serviceName_tr').style.display = "none";
+		E('ss_node_table_v2_grpc_mode_tr').style.display = "none";
 		E('ss_node_table_v2_idle_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_health_check_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_permit_without_stream_tr').style.display = "none";
@@ -1040,6 +1044,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
 		E('ss_node_table_v2_serviceName_tr').style.display = "none";
+		E('ss_node_table_v2_grpc_mode_tr').style.display = "none";
 		E('ss_node_table_v2_idle_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_health_check_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_permit_without_stream_tr').style.display = "none";
@@ -1114,6 +1119,7 @@ function tabclickhandler(_type) {
 		showhide("ss_node_table_v2_quic_key_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_quic_guise_tr", (E("ss_node_table_v2_transport").value == "quic"));
 		showhide("ss_node_table_v2_serviceName_tr", (E("ss_node_table_v2_transport").value == "grpc"));
+		showhide("ss_node_table_v2_grpc_mode_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_health_check_timeout_tr", (E("ss_node_table_v2_transport").value == "grpc" || E("ss_node_table_v2_transport").value == "h2"));
 		showhide("ss_node_table_v2_idle_timeout_tr", (E("ss_node_table_v2_transport").value == "grpc"));
 		showhide("ss_node_table_v2_permit_without_stream_tr", (E("ss_node_table_v2_transport").value == "grpc"));
@@ -1164,6 +1170,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";
 		E('ss_node_table_v2_serviceName_tr').style.display = "none";
+		E('ss_node_table_v2_grpc_mode_tr').style.display = "none";
 		E('ss_node_table_v2_idle_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_health_check_timeout_tr').style.display = "none";
 		E('ss_node_table_v2_permit_without_stream_tr').style.display = "none";
@@ -1209,6 +1216,7 @@ function tabclickhandler(_type) {
 		E('ss_node_table_v2_quic_key_tr').style.display = "none";	//helloworld-full
 		E('ss_node_table_v2_quic_guise_tr').style.display = "none";	//helloworld-full
 		E('ss_node_table_v2_serviceName_tr').style.display = "none";	//helloworld-full
+		E('ss_node_table_v2_grpc_mode_tr').style.display = "none";	//helloworld-full
 		E('ss_node_table_v2_idle_timeout_tr').style.display = "none";	//helloworld-full
 		E('ss_node_table_v2_health_check_timeout_tr').style.display = "none";	//helloworld-full
 		E('ss_node_table_v2_permit_without_stream_tr').style.display = "none";	//helloworld-full
@@ -2060,7 +2068,7 @@ function write_ping(r){
 	if(E("ssconf_basic_ping_node") == "off"){
 		return false;
 	}
-	if ((String(r)).length <= 2){
+	if ((String(r)).length <= 3){
 		if(db_ss["ssconf_basic_ping_node"] == "0"){
 			$(".ping").html("超时！");
 		}else{
@@ -3492,12 +3500,13 @@ function save_failover() {
 																	{ title: 'Short ID', rid:'ss_node_table_v2_reality_shortid_tr', id:'ss_node_table_v2_reality_shortid', type:'text', maxlen:'20', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'spiderX', rid:'ss_node_table_v2_reality_spiderx_tr', id:'ss_node_table_v2_reality_spiderx', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
 																	{ title: 'TLS伪装域名', rid:'ss_node_table_tls_host_tr', id:'ss_node_table_tls_host', type:'text', maxlen:'300', style:'width:338px', ph:'没有请留空', hidden:"yes"},
-																	{ title: '指纹伪造', rid:'ss_node_table_v2_fingerprint_tr', id:'ss_node_table_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "firefox", hidden:"yes"},
+																	{ title: '指纹伪造', rid:'ss_node_table_v2_fingerprint_tr', id:'ss_node_table_v2_fingerprint', type:'select', func:'v', options:option_fp_obfs,value: "chrome", hidden:"yes"},
 																	{ title: 'QUIC加密', rid:'ss_node_table_v2_quic_security_tr', id:'ss_node_table_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 																	{ title: 'QUIC Key', rid:'ss_node_table_v2_quic_key_tr', id:'ss_node_table_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 																	{ title: '伪装类型', rid:'ss_node_table_v2_quic_guise_tr', id:'ss_node_table_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},
 																	{ title: '允许不安全连接', rid:'ss_node_table_insecure_tr', id:'ss_node_table_insecure', type:'checkbox', func:'v', value:false, hidden:"yes"},
 																	{ title: 'serviceName', rid:'ss_node_table_v2_serviceName_tr', id:'ss_node_table_v2_serviceName', type:'text', maxlen:'300', ph:'没有请留空', value: "none", hidden:"yes"},
+																	{ title: 'gRPC Mode', rid:'ss_node_table_v2_grpc_mode_tr', id:'ss_node_table_v2_grpc_mode', type:'select', func:'v', options:[["multi", "Multi"], ["gun", "Gun"]], value: "gun", hidden:"yes"},
 																	{ title: 'gRPC/H2 Health Check', rid:'ss_node_table_v2_health_check_tr', id:'ss_node_table_v2_health_check', type:'checkbox', func:'v', value:false, hidden:"yes"},
 																	{ title: 'gRPC/H2 Read Idle Timeout', rid:'ss_node_table_v2_idle_timeout_tr', id:'ss_node_table_v2_idle_timeout', type:'text', maxlen:'3', value: "60", hidden:"yes"},
 																	{ title: 'Health Check Timeout', rid:'ss_node_table_v2_health_check_timeout_tr', id:'ss_node_table_v2_health_check_timeout', type:'text', maxlen:'3', value: "20", hidden:"yes"},
@@ -3571,12 +3580,13 @@ function save_failover() {
 														{ title: 'Short ID', id:'sstable_v2_reality_shortid', type:'text', maxlen:'20', ph:'没有请留空', hidden:"yes", hint:'113'},
 														{ title: 'spiderX', id:'sstable_v2_reality_spiderx', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes", hint:'114'},
 														{ title: 'TLS伪装域名', id:'sstable_tls_host', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
-														{ title: '指纹伪造', id:'sstable_v2_fingerprint', type:'select', func:'v', options:[["disable", "关闭"], ["firefox", "firefox"], ["chrome", "chrome"]],value: "firefox", hidden:"yes"},
+														{ title: '指纹伪造', id:'sstable_v2_fingerprint', type:'select', func:'v', options:option_fp_obfs,value: "chrome", hidden:"yes"},
 														{ title: 'QUIC加密', id:'sstable_v2_quic_security', type:'select', func:'v', options:[["none", "关闭"], ["aes-128-gcm", "aes-128-gcm"], ["chacha20-poly1305", "chacha20-poly1305"]],value: "none", hidden:"yes"},
 														{ title: 'QUIC Key', id:'sstable_v2_quic_key', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
 														{ title: '伪装类型', id:'sstable_v2_quic_guise', type:'select', func:'v', options:option_headkcp,value: "none", hidden:"yes"},
 														{ title: '允许不安全连接', id:'sstable_insecure', type:'checkbox', func:'v', hidden:"yes"},
 														{ title: 'serviceName', id:'sstable_v2_serviceName', type:'text', maxlen:'300', ph:'没有请留空', hidden:"yes"},
+														{ title: 'gRPC Mode', id:'sstable_v2_grpc_mode', type:'select', func:'v', options:[["multi", "Multi"], ["gun", "Gun"]], value: "gun", hidden:"yes"},
 														{ title: 'gRPC/H2 Health Check', id:'sstable_v2_health_check', type:'checkbox', func:'v', hidden:"yes"},
 														{ title: 'gRPC/H2 Read Idle Timeout', id:'sstable_v2_idle_timeout', type:'text', maxlen:'3', ph:'没有请留空', hidden:"yes"},
 														{ title: 'Health Check Timeout', id:'sstable_v2_health_check_timeout', type:'text', maxlen:'3', ph:'没有请留空', hidden:"yes"},

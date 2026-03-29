@@ -211,18 +211,7 @@ create_ss_json(){
 	rm -rf $CONFIG_FILE_TMP
 
 	echo_date $(__get_type_abbr_name)配置文件写入成功到"$CONFIG_FILE"
-	echo_date 测试$(__get_type_abbr_name)配置文件.....
-	result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE" | grep "Configuration OK.")
-	if [ -n "$result" ]; then
-		echo_date $(__get_type_abbr_name)配置文件通过测试!!!
-	else
-		echo_date $(__get_type_abbr_name)配置文件没有通过测试，请检查设置!!!
-		result=$(${TMP_BIN_PATH}/xray test -config="$CONFIG_FILE")
-		echo_date "$result"
-		rm -rf "$CONFIG_FILE_TMP"
-		rm -rf "$CONFIG_FILE"
-		close_in_five
-	fi
+
 }
 
 get_dns_name() {

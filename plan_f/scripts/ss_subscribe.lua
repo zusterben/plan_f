@@ -224,7 +224,7 @@ local function processData(szType, content)
 			if info.path then
 				result.serviceName = info.path
 			elseif info.serviceName then
-				result.serviceName = info.serviceName
+				result.serviceName = info.serviceName or nil
 			end
 		end
 		if info.net == 'quic' then
@@ -383,19 +383,22 @@ local function processData(szType, content)
 	elseif szType == "vless" then
 		local url = URL.parse("http://" .. content)
 		local params = url.query
-
+		local authority
 		result.alias = url.fragment and UrlDecode(url.fragment) or nil
 		result.type = "v2ray"
 		result.v2ray_protocol = "vless"
 		result.server = url.host
 		result.server_port = url.port
-		result.vmess_id = url.user
+		if url.user == nil then
+			authority = split(url.authority, "@")
+		end
+		result.vmess_id = url.user or authority[1]
 		result.vless_encryption = params.encryption or "none"
 		result.transport = params.type or "tcp"
 		result.tls = (params.security == "tls" or params.security == "xtls") and "1" or "0"
 		result.tls_host = params.sni
 		result.tls_flow = (params.security == "tls" or params.security == "reality") and params.flow or nil
-		result.fingerprint = params.fp
+		result.fingerprint = params.fp or "disable"
 		result.reality = (params.security == "reality") and "1" or "0"
 		result.reality_publickey = params.pbk and UrlDecode(params.pbk) or nil
 		result.reality_shortid = params.sid
@@ -422,7 +425,7 @@ local function processData(szType, content)
 			result.quic_security = params.quicSecurity or "none"
 			result.quic_key = params.key
 		elseif result.transport == "grpc" then
-			result.serviceName = params.serviceName
+			result.serviceName = params.serviceName or nil
 			result.grpc_mode = params.mode or "gun"
 		elseif result.transport == "tcp" then
 			result.tcp_guise = params.headerType or "none"

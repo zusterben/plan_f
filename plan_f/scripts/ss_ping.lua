@@ -72,7 +72,7 @@ local function ping_func(server, method)
 			end
 			tmp = io.popen(cmd)
 			local response = tmp:read("*a")
-			if response and response ~= "" then
+			if response and response ~= "" and response:find("transmitted") then
 				ping_time = stringsplit(response, "/")
 				if not ping_time or ping_time == "" then
 					ping_time = ""
@@ -106,7 +106,7 @@ local function ping_func(server, method)
 		end
 		tmp = io.popen(cmd)
 		local response = tmp:read("*a")
-		if response and response ~= "" then
+		if response and response ~= "" and response:find("transmitted") then
 			ping_time = stringsplit(response, "/")
 			if not ping_time or ping_time == "" then
 				ping_time = ""

@@ -277,7 +277,7 @@ local Xray = {
 			tlsSettings = (server.tls == '1') and {
 				-- tls
 				alpn = server.tls_alpn,
-				fingerprint = server.fingerprint,
+				fingerprint = (server.fingerprint == "disable") and "" or server.fingerprint,
 				allowInsecure = (server.insecure == "1"),
 				serverName = server.tls_host,
 				certificates = server.certificate and {
@@ -289,7 +289,7 @@ local Xray = {
 				publicKey = server.reality_publickey,
 				shortId = server.reality_shortid,
 				spiderX = server.reality_spiderx,
-				fingerprint = server.fingerprint,
+				fingerprint = (server.fingerprint == "disable") and "" or server.fingerprint,
 				serverName = server.tls_host
 			} or nil,
 			tcpSettings = (server.transport == "tcp" and server.tcp_guise == "http") and {
@@ -340,7 +340,7 @@ local Xray = {
 			} or nil,
 			grpcSettings = (server.transport == "grpc") and {
 				-- grpc
-				serviceName = server.serviceName or "",
+				serviceName = server.serviceName,
 				multiMode = (server.grpc_mode == "multi") and true or false,
 				idle_timeout = tonumber(server.idle_timeout) or nil,
 				health_check_timeout = tonumber(server.health_check_timeout) or nil,
