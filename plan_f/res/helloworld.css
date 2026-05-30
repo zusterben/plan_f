@@ -265,19 +265,19 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	--gap: 0.5rem;
 	--radius: 5px;
 }
-#app[skin=ASUSWRT] .dropdown {
+#scapp[skin=ASUSWRT] .dropdown {
 	border: solid 1px #67767d;
 	--color: #67767d;
 }
-#app[skin=ROG] .dropdown {
+#scapp[skin=ROG] .dropdown {
 	border: solid 1px #91071f;
 	--color: #91071f;
 }
-#app[skin=TUF] .dropdown {
+#scapp[skin=TUF] .dropdown {
 	border: solid 1px #92650F;
 	--color: #92650F;
 }
-#app[skin=TS] .dropdown {
+#scapp[skin=TS] .dropdown {
 	border: solid 1px #2ed9c3;
 	--color: #2ed9c3;
 }
@@ -298,37 +298,37 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	transform: translateY(0rem);
 }
 /*only for rog tuf ts*/
-#app[skin=ROG] .pop_div_bg{background-color: #030102;outline: solid 1px #91071f;}
-#app[skin=TUF] .pop_div_bg{background-color: #030102;outline: solid 1px #92650F;}
-#app[skin=TS] .pop_div_bg{background-color: #030102;outline: solid 1px #2ED9C3;}
-#app[skin=ROG] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
-#app[skin=TUF] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
-#app[skin=TS] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
-#app[skin=ROG] .FormTable th {border: none;}
-#app[skin=TUF] .FormTable th {border: none;}
-#app[skin=TS] .FormTable th {border: none;}
-#app[skin=ROG] .FormTable td {border: none;}
-#app[skin=TUF] .FormTable td {border: none;}
-#app[skin=TS] .FormTable td {border: none;}
-#app[skin=ROG] #table_test {border: 0.5px solid  #91071f;}
-#app[skin=TUF] #table_test {border: 0.5px solid  #92650F;}
-#app[skin=TS] #table_test {border: 0.5px solid  #2ED9C3;}
-#app[skin=ROG] .content_status_ext {outline: 1px solid #91071f;}
-#app[skin=TUF] .content_status_ext {outline: 1px solid #92650F;}
-#app[skin=TS] .content_status_ext {outline: 1px solid #2ED9C3;}
+#scapp[skin=ROG] .pop_div_bg{background-color: #030102;outline: solid 1px #91071f;}
+#scapp[skin=TUF] .pop_div_bg{background-color: #030102;outline: solid 1px #92650F;}
+#scapp[skin=TS] .pop_div_bg{background-color: #030102;outline: solid 1px #2ED9C3;}
+#scapp[skin=ROG] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
+#scapp[skin=TUF] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
+#scapp[skin=TS] .FormTable {background-color: rgb(177 177 177 / 0%);border: none;}
+#scapp[skin=ROG] .FormTable th {border: none;}
+#scapp[skin=TUF] .FormTable th {border: none;}
+#scapp[skin=TS] .FormTable th {border: none;}
+#scapp[skin=ROG] .FormTable td {border: none;}
+#scapp[skin=TUF] .FormTable td {border: none;}
+#scapp[skin=TS] .FormTable td {border: none;}
+#scapp[skin=ROG] #table_test {border: 0.5px solid  #91071f;}
+#scapp[skin=TUF] #table_test {border: 0.5px solid  #92650F;}
+#scapp[skin=TS] #table_test {border: 0.5px solid  #2ED9C3;}
+#scapp[skin=ROG] .content_status_ext {outline: 1px solid #91071f;}
+#scapp[skin=TUF] .content_status_ext {outline: 1px solid #92650F;}
+#scapp[skin=TS] .content_status_ext {outline: 1px solid #2ED9C3;}
 
 /*node add table 20240219*/
-#app[skin=TUF] .vpnClientTitle_td_click {background-color: #ff5722;}
+#scapp[skin=TUF] .vpnClientTitle_td_click {background-color: #ff5722;}
 
 /*ASUSWRT*/
-#app[skin=ASUSWRT] .myDragClass{
+#scapp[skin=ASUSWRT] .myDragClass{
 	background-color:#396995;
 	box-shadow: 3px 3px 10px #000;
 }
-#app[skin=ASUSWRT] #ss_node_list_table tr:hover {
+#scapp[skin=ASUSWRT] #ss_node_list_table tr:hover {
 	background-color:#396995;
 }
-#app[skin=ASUSWRT] .FormTable_table th{
+#scapp[skin=ASUSWRT] .FormTable_table th{
 	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	text-align:center;
@@ -338,13 +338,13 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 0px solid transparent;
 	background:#2F3A3E;
 }
-#app[skin=ASUSWRT] .shadow1, #app[skin=ASUSWRT] .shadow2{
+#scapp[skin=ASUSWRT] .shadow1, #scapp[skin=ASUSWRT] .shadow2{
 	height: 25px;
 	display: none;
 	border-radius: 3px;
 	background-color: #2F3A3E;
 }
-#app[skin=ASUSWRT] .show-btn0, #app[skin=ASUSWRT] .show-btn1, #app[skin=ASUSWRT] .show-btn2, #app[skin=ASUSWRT] .show-btn3, #app[skin=ASUSWRT] .show-btn4, #app[skin=ASUSWRT] .show-btn5, #app[skin=ASUSWRT] .show-btn6, #app[skin=ASUSWRT] .show-btn7, #app[skin=ASUSWRT] .show-btn8, #app[skin=ASUSWRT] .show-btn9, #app[skin=ASUSWRT] .show-btn10, #app[skin=ASUSWRT] .sub-node1, #app[skin=ASUSWRT] .sub-node2 {
+#scapp[skin=ASUSWRT] .show-btn0, #scapp[skin=ASUSWRT] .show-btn1, #scapp[skin=ASUSWRT] .show-btn2, #scapp[skin=ASUSWRT] .show-btn3, #scapp[skin=ASUSWRT] .show-btn4, #scapp[skin=ASUSWRT] .show-btn5, #scapp[skin=ASUSWRT] .show-btn6, #scapp[skin=ASUSWRT] .show-btn7, #scapp[skin=ASUSWRT] .show-btn8, #scapp[skin=ASUSWRT] .show-btn9, #scapp[skin=ASUSWRT] .show-btn10, #scapp[skin=ASUSWRT] .sub-node1, #scapp[skin=ASUSWRT] .sub-node2 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -356,11 +356,11 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border-bottom: none;
 	background: #67767d;
 }
-#app[skin=ASUSWRT] .show-btn0:hover, #app[skin=ASUSWRT] .show-btn1:hover, #app[skin=ASUSWRT] .show-btn2:hover, #app[skin=ASUSWRT] .show-btn3:hover, #app[skin=ASUSWRT] .show-btn4:hover, #app[skin=ASUSWRT] .show-btn5:hover, #app[skin=ASUSWRT] .show-btn6:hover, #app[skin=ASUSWRT] .show-btn7:hover, #app[skin=ASUSWRT] .show-btn8:hover, #app[skin=ASUSWRT] .show-btn9:hover, #app[skin=ASUSWRT] .show-btn10:hover, #app[skin=ASUSWRT] .sub-node1:hover, #app[skin=ASUSWRT] .sub-node2:hover, #app[skin=ASUSWRT] .active {
+#scapp[skin=ASUSWRT] .show-btn0:hover, #scapp[skin=ASUSWRT] .show-btn1:hover, #scapp[skin=ASUSWRT] .show-btn2:hover, #scapp[skin=ASUSWRT] .show-btn3:hover, #scapp[skin=ASUSWRT] .show-btn4:hover, #scapp[skin=ASUSWRT] .show-btn5:hover, #scapp[skin=ASUSWRT] .show-btn6:hover, #scapp[skin=ASUSWRT] .show-btn7:hover, #scapp[skin=ASUSWRT] .show-btn8:hover, #scapp[skin=ASUSWRT] .show-btn9:hover, #scapp[skin=ASUSWRT] .show-btn10:hover, #scapp[skin=ASUSWRT] .sub-node1:hover, #scapp[skin=ASUSWRT] .sub-node2:hover, #scapp[skin=ASUSWRT] .active {
 	border: 1px solid #2f3a3e;
 	background: #2f3a3e;
 }
-#app[skin=ASUSWRT] .sub-btn1, #app[skin=ASUSWRT] .sub-btn2, #app[skin=ASUSWRT] .sub-btn3 {
+#scapp[skin=ASUSWRT] .sub-btn1, #scapp[skin=ASUSWRT] .sub-btn2, #scapp[skin=ASUSWRT] .sub-btn3 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -372,22 +372,22 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border-bottom: none;
 	background: #67767d;
 }
-#app[skin=ASUSWRT] .sub-btn1:hover, #app[skin=ASUSWRT] .sub-btn2:hover, #app[skin=ASUSWRT] .sub-btn3:hover, #app[skin=ASUSWRT] .active2 {
+#scapp[skin=ASUSWRT] .sub-btn1:hover, #scapp[skin=ASUSWRT] .sub-btn2:hover, #scapp[skin=ASUSWRT] .sub-btn3:hover, #scapp[skin=ASUSWRT] .active2 {
 	border: 1px solid #2f3a3e;
 	background: #2f3a3e;
 }
-#app[skin=ASUSWRT] .smth{
+#scapp[skin=ASUSWRT] .smth{
 	background: #2F3A3E !important;
 }
-#app[skin=ASUSWRT] #tablet_0, #app[skin=ASUSWRT] #tablet_2, #app[skin=ASUSWRT] #tablet_3, #app[skin=ASUSWRT] #tablet_4, #app[skin=ASUSWRT] #tablet_5, #app[skin=ASUSWRT] #tablet_6, #app[skin=ASUSWRT] #tablet_7, #app[skin=ASUSWRT] #tablet_8, #app[skin=ASUSWRT] #tablet_9, #app[skin=ASUSWRT] #tablet_10, #app[skin=ASUSWRT] #lb_setting, #app[skin=ASUSWRT] #local_table {
+#scapp[skin=ASUSWRT] #tablet_0, #scapp[skin=ASUSWRT] #tablet_2, #scapp[skin=ASUSWRT] #tablet_3, #scapp[skin=ASUSWRT] #tablet_4, #scapp[skin=ASUSWRT] #tablet_5, #scapp[skin=ASUSWRT] #tablet_6, #scapp[skin=ASUSWRT] #tablet_7, #scapp[skin=ASUSWRT] #tablet_8, #scapp[skin=ASUSWRT] #tablet_9, #scapp[skin=ASUSWRT] #tablet_10, #scapp[skin=ASUSWRT] #lb_setting, #scapp[skin=ASUSWRT] #local_table {
     outline: none;
     margin-left: 1px;
     margin-right: 1px;
 }
-#app[skin=ASUSWRT] #sub_tablets{
+#scapp[skin=ASUSWRT] #sub_tablets{
 	border-bottom:none;
 }
-#app[skin=ASUSWRT] #log_content1, #app[skin=ASUSWRT] #log_content_f, #app[skin=ASUSWRT] #log_content_c{
+#scapp[skin=ASUSWRT] #log_content1, #scapp[skin=ASUSWRT] #log_content_f, #scapp[skin=ASUSWRT] #log_content_c{
 	width:100%;
 	padding-left:4px;
 	padding-right:37px;
@@ -400,7 +400,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:0px solid #222;
 	background:#475A5F;
 }
-#app[skin=ASUSWRT] #ss_basic_v2ray_json, #app[skin=ASUSWRT] #ss_basic_xray_json, #app[skin=ASUSWRT] #ss_basic_tuic_json, #app[skin=ASUSWRT] #ss_dnsmasq, #app[skin=ASUSWRT] #ss_wan_white_ip, #app[skin=ASUSWRT] #ss_wan_white_domain, #app[skin=ASUSWRT] #ss_wan_black_ip, #app[skin=ASUSWRT] #ss_wan_black_domain, #app[skin=ASUSWRT] #ss_online_links, #app[skin=ASUSWRT] #ss_base64_links, #app[skin=ASUSWRT] #ss_node_table_v2ray_json, #app[skin=ASUSWRT] #ss_node_table_xray_json, #app[skin=ASUSWRT] #ss_node_table_tuic_json, #app[skin=ASUSWRT] #ss_basic_kcp_parameter{
+#scapp[skin=ASUSWRT] #ss_basic_v2ray_json, #scapp[skin=ASUSWRT] #ss_basic_xray_json, #scapp[skin=ASUSWRT] #ss_basic_tuic_json, #scapp[skin=ASUSWRT] #ss_dnsmasq, #scapp[skin=ASUSWRT] #ss_wan_white_ip, #scapp[skin=ASUSWRT] #ss_wan_white_domain, #scapp[skin=ASUSWRT] #ss_wan_black_ip, #scapp[skin=ASUSWRT] #ss_wan_black_domain, #scapp[skin=ASUSWRT] #ss_online_links, #scapp[skin=ASUSWRT] #ss_base64_links, #scapp[skin=ASUSWRT] #ss_node_table_v2ray_json, #scapp[skin=ASUSWRT] #ss_node_table_xray_json, #scapp[skin=ASUSWRT] #ss_node_table_tuic_json, #scapp[skin=ASUSWRT] #ss_basic_kcp_parameter{
 	width:98%;
 	font-family:'Lucida Console';
 	font-size:12px;
@@ -409,7 +409,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #888;
 	background:#475A5F;
 }
-#app[skin=ASUSWRT] .input_ss_table{
+#scapp[skin=ASUSWRT] .input_ss_table{
 	margin-left:2px;
 	padding-left:5px;
 	padding-right:5px;
@@ -424,17 +424,17 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid gray;
 	background-color: #576d73;
 }
-#app[skin=ASUSWRT] .input_option_2:hover, #app[skin=ASUSWRT] .input_option_2:focus{
+#scapp[skin=ASUSWRT] .input_option_2:hover, #scapp[skin=ASUSWRT] .input_option_2:focus{
 	outline: none;
 	border: 1px solid grey;
 	background-color:#576D73;
 }
-#app[skin=ASUSWRT] .sel_option:hover, #app[skin=ASUSWRT] .sel_option:focus{
+#scapp[skin=ASUSWRT] .sel_option:hover, #scapp[skin=ASUSWRT] .sel_option:focus{
 	outline: none;
 	border: 1px solid grey;
 	background-color:#576D73;
 }
-#app[skin=ASUSWRT] .ss_btn {
+#scapp[skin=ASUSWRT] .ss_btn {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -443,7 +443,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #003333  0%, #000000 100%);
 }
-#app[skin=ASUSWRT] .ss_btn:hover, #app[skin=ASUSWRT] .active3 {
+#scapp[skin=ASUSWRT] .ss_btn:hover, #scapp[skin=ASUSWRT] .active3 {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -452,25 +452,25 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #27c9c9  0%, #279fd9 100%);
 }
-#app[skin=ASUSWRT] .smartdns_textarea {
+#scapp[skin=ASUSWRT] .smartdns_textarea {
 	background: #475A5F;
     border: 1px solid #222;
 }
-#app[skin=ASUSWRT] .loadingBarBlock {
+#scapp[skin=ASUSWRT] .loadingBarBlock {
     border: none;
 }
-#app[skin=ASUSWRT] .content_status {
+#scapp[skin=ASUSWRT] .content_status {
     border: none;
 }
 /*ROG*/
-#app[skin=ROG] .myDragClass{
+#scapp[skin=ROG] .myDragClass{
 	background-color:#91071f;
 	box-shadow: 3px 3px 10px #000;
 }
-#app[skin=ROG] #ss_node_list_table tr:hover {
+#scapp[skin=ROG] #ss_node_list_table tr:hover {
 	background-color:#91071f;
 }
-#app[skin=ROG] .FormTable_table th{
+#scapp[skin=ROG] .FormTable_table th{
 	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	text-align:center;
@@ -480,13 +480,13 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: none;
 	background: #91071f;
 }
-#app[skin=ROG] .shadow1, #app[skin=ROG] .shadow2{
+#scapp[skin=ROG] .shadow1, #scapp[skin=ROG] .shadow2{
 	height: 25px;
 	display: none;
 	border-radius: 3px;
 	background-color: #91071f;
 }
-#app[skin=ROG] .show-btn0, #app[skin=ROG] .show-btn1, #app[skin=ROG] .show-btn2, #app[skin=ROG] .show-btn3, #app[skin=ROG] .show-btn4, #app[skin=ROG] .show-btn5, #app[skin=ROG] .show-btn6, #app[skin=ROG] .show-btn7, #app[skin=ROG] .show-btn8, #app[skin=ROG] .show-btn9, #app[skin=ROG] .show-btn10, #app[skin=ROG] .sub-node1, #app[skin=ROG] .sub-node2 {
+#scapp[skin=ROG] .show-btn0, #scapp[skin=ROG] .show-btn1, #scapp[skin=ROG] .show-btn2, #scapp[skin=ROG] .show-btn3, #scapp[skin=ROG] .show-btn4, #scapp[skin=ROG] .show-btn5, #scapp[skin=ROG] .show-btn6, #scapp[skin=ROG] .show-btn7, #scapp[skin=ROG] .show-btn8, #scapp[skin=ROG] .show-btn9, #scapp[skin=ROG] .show-btn10, #scapp[skin=ROG] .sub-node1, #scapp[skin=ROG] .sub-node2 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -495,11 +495,11 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #91071f;
 	background: none;
 }
-#app[skin=ROG] .show-btn0:hover, #app[skin=ROG] .show-btn1:hover, #app[skin=ROG] .show-btn2:hover, #app[skin=ROG] .show-btn3:hover, #app[skin=ROG] .show-btn4:hover, #app[skin=ROG] .show-btn5:hover, #app[skin=ROG] .show-btn6:hover, #app[skin=ROG] .show-btn7:hover, #app[skin=ROG] .show-btn8:hover, #app[skin=ROG] .show-btn9:hover, #app[skin=ROG] .show-btn10:hover, #app[skin=ROG] .sub-node1:hover, #app[skin=ROG] .sub-node2:hover, #app[skin=ROG] .active {
+#scapp[skin=ROG] .show-btn0:hover, #scapp[skin=ROG] .show-btn1:hover, #scapp[skin=ROG] .show-btn2:hover, #scapp[skin=ROG] .show-btn3:hover, #scapp[skin=ROG] .show-btn4:hover, #scapp[skin=ROG] .show-btn5:hover, #scapp[skin=ROG] .show-btn6:hover, #scapp[skin=ROG] .show-btn7:hover, #scapp[skin=ROG] .show-btn8:hover, #scapp[skin=ROG] .show-btn9:hover, #scapp[skin=ROG] .show-btn10:hover, #scapp[skin=ROG] .sub-node1:hover, #scapp[skin=ROG] .sub-node2:hover, #scapp[skin=ROG] .active {
 	border: 1px solid #91071f;
 	background: #91071f;
 }
-#app[skin=ROG] .sub-btn1, #app[skin=ROG] .sub-btn2, #app[skin=ROG] .sub-btn3 {
+#scapp[skin=ROG] .sub-btn1, #scapp[skin=ROG] .sub-btn2, #scapp[skin=ROG] .sub-btn3 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -508,22 +508,22 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #680516;
 	background: none;
 }
-#app[skin=ROG] .sub-btn1:hover, #app[skin=ROG] .sub-btn2:hover, #app[skin=ROG] .sub-btn3:hover, #app[skin=ROG] .active2 {
+#scapp[skin=ROG] .sub-btn1:hover, #scapp[skin=ROG] .sub-btn2:hover, #scapp[skin=ROG] .sub-btn3:hover, #scapp[skin=ROG] .active2 {
 	border: 1px solid #91071f;
 	background: #91071f;
 }
-#app[skin=ROG] .smth{
+#scapp[skin=ROG] .smth{
  	background: #91071f;
 }
-#app[skin=ROG] #tablet_0, #app[skin=ROG] #tablet_2, #app[skin=ROG] #tablet_3, #app[skin=ROG] #tablet_4, #app[skin=ROG] #tablet_5, #app[skin=ROG] #tablet_6, #app[skin=ROG] #tablet_7, #app[skin=ROG] #tablet_8, #app[skin=ROG] #tablet_9, #app[skin=ROG] #tablet_10, #app[skin=ROG] #lb_setting, #app[skin=ROG] #local_table {
+#scapp[skin=ROG] #tablet_0, #scapp[skin=ROG] #tablet_2, #scapp[skin=ROG] #tablet_3, #scapp[skin=ROG] #tablet_4, #scapp[skin=ROG] #tablet_5, #scapp[skin=ROG] #tablet_6, #scapp[skin=ROG] #tablet_7, #scapp[skin=ROG] #tablet_8, #scapp[skin=ROG] #tablet_9, #scapp[skin=ROG] #tablet_10, #scapp[skin=ROG] #lb_setting, #scapp[skin=ROG] #local_table {
     outline: 1px solid #91071f;
     margin-left: 1px;
     margin-right: 1px;
 }
-#app[skin=ROG] #sub_tablets{
+#scapp[skin=ROG] #sub_tablets{
 	border-bottom:1px solid #91071f;
 }
-#app[skin=ROG] #log_content1, #app[skin=ROG] #log_content_f, #app[skin=ROG] #log_content_c{
+#scapp[skin=ROG] #log_content1, #scapp[skin=ROG] #log_content_f, #scapp[skin=ROG] #log_content_c{
 	width:100%;
 	padding-left:4px;
 	padding-right:37px;
@@ -536,7 +536,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:0px solid #222;
 	background:transparent;
 }
-#app[skin=ROG] #ss_basic_v2ray_json, #app[skin=ROG] #ss_basic_xray_json, #app[skin=ROG] #ss_basic_tuic_json, #app[skin=ROG] #ss_dnsmasq, #app[skin=ROG] #ss_wan_white_ip, #app[skin=ROG] #ss_wan_white_domain, #app[skin=ROG] #ss_wan_black_ip, #app[skin=ROG] #ss_wan_black_domain, #app[skin=ROG] #ss_online_links, #app[skin=ROG] #ss_base64_links, #app[skin=ROG] #ss_node_table_v2ray_json, #app[skin=ROG] #ss_node_table_xray_json, #app[skin=ROG] #ss_node_table_tuic_json, #app[skin=ROG] #ss_basic_kcp_parameter{
+#scapp[skin=ROG] #ss_basic_v2ray_json, #scapp[skin=ROG] #ss_basic_xray_json, #scapp[skin=ROG] #ss_basic_tuic_json, #scapp[skin=ROG] #ss_dnsmasq, #scapp[skin=ROG] #ss_wan_white_ip, #scapp[skin=ROG] #ss_wan_white_domain, #scapp[skin=ROG] #ss_wan_black_ip, #scapp[skin=ROG] #ss_wan_black_domain, #scapp[skin=ROG] #ss_online_links, #scapp[skin=ROG] #ss_base64_links, #scapp[skin=ROG] #ss_node_table_v2ray_json, #scapp[skin=ROG] #ss_node_table_xray_json, #scapp[skin=ROG] #ss_node_table_tuic_json, #scapp[skin=ROG] #ss_basic_kcp_parameter{
 	width:98%;
 	font-family:'Lucida Console';
 	font-size:12px;
@@ -545,7 +545,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #91071f;
 	background:transparent;
 }
-#app[skin=ROG] .input_ss_table{
+#scapp[skin=ROG] .input_ss_table{
 	margin-left:2px;
 	padding-left:5px;
 	padding-right:5px;
@@ -560,15 +560,15 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #91071f;
 	background-color: #3e030d;
 }
-#app[skin=ROG] .input_option_2:hover, #app[skin=ROG] .input_option_2:focus{
+#scapp[skin=ROG] .input_option_2:hover, #scapp[skin=ROG] .input_option_2:focus{
 	border:1px solid #91071f;
 	background-color: #3e030d;
 }
-#app[skin=ROG] .sel_option:hover, #app[skin=ROG] .sel_option:focus{
+#scapp[skin=ROG] .sel_option:hover, #scapp[skin=ROG] .sel_option:focus{
 	border:1px solid #91071f;
 	background-color: #3e030d;
 }
-#app[skin=ROG] .ss_btn {
+#scapp[skin=ROG] .ss_btn {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -577,7 +577,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #91071f  0%, #700618 100%);
 }
-#app[skin=ROG] .ss_btn:hover, #app[skin=ROG] .active3 {
+#scapp[skin=ROG] .ss_btn:hover, #scapp[skin=ROG] .active3 {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -586,25 +586,25 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #cf0a2c  0%, #91071f 100%);
 }
-#app[skin=ROG] .smartdns_textarea {
+#scapp[skin=ROG] .smartdns_textarea {
     background: transparent;
     border: 1px solid #222;
 }
-#app[skin=ROG] .loadingBarBlock {
+#scapp[skin=ROG] .loadingBarBlock {
     border: 1px solid #91071f;
 }
-#app[skin=ROG] .content_status {
+#scapp[skin=ROG] .content_status {
     border: 1px solid #91071f;
 }
 /*TUF*/
-#app[skin=TUF] .myDragClass{
+#scapp[skin=TUF] .myDragClass{
 	background-color:#92650F;
 	box-shadow: 3px 3px 10px #000;
 }
-#app[skin=TUF] #ss_node_list_table tr:hover {
+#scapp[skin=TUF] #ss_node_list_table tr:hover {
 	background-color:#92650F;
 }
-#app[skin=TUF] .FormTable_table th{
+#scapp[skin=TUF] .FormTable_table th{
 	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	text-align:center;
@@ -614,13 +614,13 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: none;
 	background: #92650F;
 }
-#app[skin=TUF] .shadow1, #app[skin=TUF] .shadow2{
+#scapp[skin=TUF] .shadow1, #scapp[skin=TUF] .shadow2{
 	height: 25px;
 	display: none;
 	border-radius: 3px;
 	background-color: #92650F;
 }
-#app[skin=TUF] .show-btn0, #app[skin=TUF] .show-btn1, #app[skin=TUF] .show-btn2, #app[skin=TUF] .show-btn3, #app[skin=TUF] .show-btn4, #app[skin=TUF] .show-btn5, #app[skin=TUF] .show-btn6, #app[skin=TUF] .show-btn7, #app[skin=TUF] .show-btn8, #app[skin=TUF] .show-btn9, #app[skin=TUF] .show-btn10, #app[skin=TUF] .sub-node1, #app[skin=TUF] .sub-node2 {
+#scapp[skin=TUF] .show-btn0, #scapp[skin=TUF] .show-btn1, #scapp[skin=TUF] .show-btn2, #scapp[skin=TUF] .show-btn3, #scapp[skin=TUF] .show-btn4, #scapp[skin=TUF] .show-btn5, #scapp[skin=TUF] .show-btn6, #scapp[skin=TUF] .show-btn7, #scapp[skin=TUF] .show-btn8, #scapp[skin=TUF] .show-btn9, #scapp[skin=TUF] .show-btn10, #scapp[skin=TUF] .sub-node1, #scapp[skin=TUF] .sub-node2 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -629,11 +629,11 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #92650F;
 	background: none;
 }
-#app[skin=TUF] .show-btn0:hover, #app[skin=TUF] .show-btn1:hover, #app[skin=TUF] .show-btn2:hover, #app[skin=TUF] .show-btn3:hover, #app[skin=TUF] .show-btn4:hover, #app[skin=TUF] .show-btn5:hover, #app[skin=TUF] .show-btn6:hover, #app[skin=TUF] .show-btn7:hover, #app[skin=TUF] .show-btn8:hover, #app[skin=TUF] .show-btn9:hover, #app[skin=TUF] .show-btn10:hover, #app[skin=TUF] .sub-node1:hover, #app[skin=TUF] .sub-node2:hover, #app[skin=TUF] .active {
+#scapp[skin=TUF] .show-btn0:hover, #scapp[skin=TUF] .show-btn1:hover, #scapp[skin=TUF] .show-btn2:hover, #scapp[skin=TUF] .show-btn3:hover, #scapp[skin=TUF] .show-btn4:hover, #scapp[skin=TUF] .show-btn5:hover, #scapp[skin=TUF] .show-btn6:hover, #scapp[skin=TUF] .show-btn7:hover, #scapp[skin=TUF] .show-btn8:hover, #scapp[skin=TUF] .show-btn9:hover, #scapp[skin=TUF] .show-btn10:hover, #scapp[skin=TUF] .sub-node1:hover, #scapp[skin=TUF] .sub-node2:hover, #scapp[skin=TUF] .active {
 	border: 1px solid #92650F;
 	background: #92650F;
 }
-#app[skin=TUF] .sub-btn1, #app[skin=TUF] .sub-btn2, #app[skin=TUF] .sub-btn3 {
+#scapp[skin=TUF] .sub-btn1, #scapp[skin=TUF] .sub-btn2, #scapp[skin=TUF] .sub-btn3 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -642,22 +642,22 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #D0982C;
 	background: none;
 }
-#app[skin=TUF] .sub-btn1:hover, #app[skin=TUF] .sub-btn2:hover, #app[skin=TUF] .sub-btn3:hover, #app[skin=TUF] .active2 {
+#scapp[skin=TUF] .sub-btn1:hover, #scapp[skin=TUF] .sub-btn2:hover, #scapp[skin=TUF] .sub-btn3:hover, #scapp[skin=TUF] .active2 {
 	border: 1px solid #92650F;
 	background: #92650F;
 }
-#app[skin=TUF] .smth{
+#scapp[skin=TUF] .smth{
  	background: #92650F;
 }
-#app[skin=TUF] #tablet_0, #app[skin=TUF] #tablet_2, #app[skin=TUF] #tablet_3, #app[skin=TUF] #tablet_4, #app[skin=TUF] #tablet_5, #app[skin=TUF] #tablet_6, #app[skin=TUF] #tablet_7, #app[skin=TUF] #tablet_8, #app[skin=TUF] #tablet_9, #app[skin=TUF] #tablet_10, #app[skin=TUF] #lb_setting, #app[skin=TUF] #local_table {
+#scapp[skin=TUF] #tablet_0, #scapp[skin=TUF] #tablet_2, #scapp[skin=TUF] #tablet_3, #scapp[skin=TUF] #tablet_4, #scapp[skin=TUF] #tablet_5, #scapp[skin=TUF] #tablet_6, #scapp[skin=TUF] #tablet_7, #scapp[skin=TUF] #tablet_8, #scapp[skin=TUF] #tablet_9, #scapp[skin=TUF] #tablet_10, #scapp[skin=TUF] #lb_setting, #scapp[skin=TUF] #local_table {
     outline: 1px solid #92650F;
     margin-left: 1px;
     margin-right: 1px;
 }
-#app[skin=TUF] #sub_tablets{
+#scapp[skin=TUF] #sub_tablets{
 	border-bottom:1px solid #92650F;
 }
-#app[skin=TUF] #log_content1, #app[skin=TUF] #log_content_f, #app[skin=TUF] #log_content_c{
+#scapp[skin=TUF] #log_content1, #scapp[skin=TUF] #log_content_f, #scapp[skin=TUF] #log_content_c{
 	width:100%;
 	padding-left:4px;
 	padding-right:37px;
@@ -670,7 +670,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:0px solid #222;
 	background:transparent;
 }
-#app[skin=TUF] #ss_basic_v2ray_json, #app[skin=TUF] #ss_basic_xray_json, #app[skin=TUF] #ss_basic_tuic_json, #app[skin=TUF] #ss_dnsmasq, #app[skin=TUF] #ss_wan_white_ip, #app[skin=TUF] #ss_wan_white_domain, #app[skin=TUF] #ss_wan_black_ip, #app[skin=TUF] #ss_wan_black_domain, #app[skin=TUF] #ss_online_links, #app[skin=TUF] #ss_base64_links, #app[skin=TUF] #ss_node_table_v2ray_json, #app[skin=TUF] #ss_node_table_xray_json, #app[skin=TUF] #ss_node_table_tuic_json, #app[skin=TUF] #ss_basic_kcp_parameter{
+#scapp[skin=TUF] #ss_basic_v2ray_json, #scapp[skin=TUF] #ss_basic_xray_json, #scapp[skin=TUF] #ss_basic_tuic_json, #scapp[skin=TUF] #ss_dnsmasq, #scapp[skin=TUF] #ss_wan_white_ip, #scapp[skin=TUF] #ss_wan_white_domain, #scapp[skin=TUF] #ss_wan_black_ip, #scapp[skin=TUF] #ss_wan_black_domain, #scapp[skin=TUF] #ss_online_links, #scapp[skin=TUF] #ss_base64_links, #scapp[skin=TUF] #ss_node_table_v2ray_json, #scapp[skin=TUF] #ss_node_table_xray_json, #scapp[skin=TUF] #ss_node_table_tuic_json, #scapp[skin=TUF] #ss_basic_kcp_parameter{
 	width:98%;
 	font-family:'Lucida Console';
 	font-size:12px;
@@ -679,7 +679,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #92650F;
 	background:transparent;
 }
-#app[skin=TUF] .input_ss_table{
+#scapp[skin=TUF] .input_ss_table{
 	margin-left:2px;
 	padding-left:5px;
 	padding-right:5px;
@@ -694,15 +694,15 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #4c4c4c;
 	background-color: #373737;
 }
-#app[skin=TUF] .input_option_2:hover, #app[skin=TUF] .input_option_2:focus{
+#scapp[skin=TUF] .input_option_2:hover, #scapp[skin=TUF] .input_option_2:focus{
 	border:1px solid #92650F;
 	background-color: #3e2902;
 }
-#app[skin=TUF] .sel_option:hover, #app[skin=TUF] .sel_option:focus{
+#scapp[skin=TUF] .sel_option:hover, #scapp[skin=TUF] .sel_option:focus{
 	border:1px solid #92650F;
 	background-color: #3e2902;
 }
-#app[skin=TUF] .ss_btn {
+#scapp[skin=TUF] .ss_btn {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -711,7 +711,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #92650F  0%, #74500b 100%);
 }
-#app[skin=TUF] .ss_btn:hover, #app[skin=TUF] .active3 {
+#scapp[skin=TUF] .ss_btn:hover, #scapp[skin=TUF] .active3 {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -720,25 +720,25 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #c58813  0%, #92650F 100%);
 }
-#app[skin=TUF] .smartdns_textarea {
+#scapp[skin=TUF] .smartdns_textarea {
     background: transparent;
     border: 1px solid #222;
 }
-#app[skin=TUF] .loadingBarBlock {
+#scapp[skin=TUF] .loadingBarBlock {
     border: 1px solid #92650F;
 }
-#app[skin=TUF] .content_status {
+#scapp[skin=TUF] .content_status {
     border: 1px solid #92650F;
 }
 /*TS*/
-#app[skin=TS] .myDragClass{
+#scapp[skin=TS] .myDragClass{
 	background-color:#2ed9c3;
 	box-shadow: 3px 3px 10px #000;
 }
-#app[skin=TS] #ss_node_list_table tr:hover {
+#scapp[skin=TS] #ss_node_list_table tr:hover {
 	background-color:#2ed9c3;
 }
-#app[skin=TS] .FormTable_table th{
+#scapp[skin=TS] .FormTable_table th{
 	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	text-align:center;
@@ -748,13 +748,13 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: none;
 	background: #2ed9c3;
 }
-#app[skin=TS] .shadow1, #app[skin=TS] .shadow2{
+#scapp[skin=TS] .shadow1, #scapp[skin=TS] .shadow2{
 	height: 25px;
 	display: none;
 	border-radius: 3px;
 	background-color: #2ed9c3;
 }
-#app[skin=TS] .show-btn0, #app[skin=TS] .show-btn1, #app[skin=TS] .show-btn2, #app[skin=TS] .show-btn3, #app[skin=TS] .show-btn4, #app[skin=TS] .show-btn5, #app[skin=TS] .show-btn6, #app[skin=TS] .show-btn7, #app[skin=TS] .show-btn8, #app[skin=TS] .show-btn9, #app[skin=TS] .show-btn10, #app[skin=TS] .sub-node1, #app[skin=TS] .sub-node2 {
+#scapp[skin=TS] .show-btn0, #scapp[skin=TS] .show-btn1, #scapp[skin=TS] .show-btn2, #scapp[skin=TS] .show-btn3, #scapp[skin=TS] .show-btn4, #scapp[skin=TS] .show-btn5, #scapp[skin=TS] .show-btn6, #scapp[skin=TS] .show-btn7, #scapp[skin=TS] .show-btn8, #scapp[skin=TS] .show-btn9, #scapp[skin=TS] .show-btn10, #scapp[skin=TS] .sub-node1, #scapp[skin=TS] .sub-node2 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -763,11 +763,11 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #2ed9c3;
 	background: none;
 }
-#app[skin=TS] .show-btn0:hover, #app[skin=TS] .show-btn1:hover, #app[skin=TS] .show-btn2:hover, #app[skin=TS] .show-btn3:hover, #app[skin=TS] .show-btn4:hover, #app[skin=TS] .show-btn5:hover, #app[skin=TS] .show-btn6:hover, #app[skin=TS] .show-btn7:hover, #app[skin=TS] .show-btn8:hover, #app[skin=TS] .show-btn9:hover, #app[skin=TS] .show-btn10:hover, #app[skin=TS] .sub-node1:hover, #app[skin=TS] .sub-node2:hover, #app[skin=TS] .active {
+#scapp[skin=TS] .show-btn0:hover, #scapp[skin=TS] .show-btn1:hover, #scapp[skin=TS] .show-btn2:hover, #scapp[skin=TS] .show-btn3:hover, #scapp[skin=TS] .show-btn4:hover, #scapp[skin=TS] .show-btn5:hover, #scapp[skin=TS] .show-btn6:hover, #scapp[skin=TS] .show-btn7:hover, #scapp[skin=TS] .show-btn8:hover, #scapp[skin=TS] .show-btn9:hover, #scapp[skin=TS] .show-btn10:hover, #scapp[skin=TS] .sub-node1:hover, #scapp[skin=TS] .sub-node2:hover, #scapp[skin=TS] .active {
 	border: 1px solid #2ed9c3;
 	background: #2ed9c3;
 }
-#app[skin=TS] .sub-btn1, #app[skin=TS] .sub-btn2, #app[skin=TS] .sub-btn3 {
+#scapp[skin=TS] .sub-btn1, #scapp[skin=TS] .sub-btn2, #scapp[skin=TS] .sub-btn3 {
 	font-size:10pt;
 	color: #fff;
 	padding: 10px 3.75px;
@@ -776,22 +776,22 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border: 1px solid #2ed9c3;
 	background: none;
 }
-#app[skin=TS] .sub-btn1:hover, #app[skin=TS] .sub-btn2:hover, #app[skin=TS] .sub-btn3:hover, #app[skin=TS] .active2 {
+#scapp[skin=TS] .sub-btn1:hover, #scapp[skin=TS] .sub-btn2:hover, #scapp[skin=TS] .sub-btn3:hover, #scapp[skin=TS] .active2 {
 	border: 1px solid #2ed9c3;
 	background: #2ed9c3;
 }
-#app[skin=TS] .smth{
+#scapp[skin=TS] .smth{
  	background: #2ed9c3;
 }
-#app[skin=TS] #tablet_0, #app[skin=TS] #tablet_2, #app[skin=TS] #tablet_3, #app[skin=TS] #tablet_4, #app[skin=TS] #tablet_5, #app[skin=TS] #tablet_6, #app[skin=TS] #tablet_7, #app[skin=TS] #tablet_8, #app[skin=TS] #tablet_9, #app[skin=TS] #tablet_10, #app[skin=TS] #lb_setting, #app[skin=TS] #local_table {
+#scapp[skin=TS] #tablet_0, #scapp[skin=TS] #tablet_2, #scapp[skin=TS] #tablet_3, #scapp[skin=TS] #tablet_4, #scapp[skin=TS] #tablet_5, #scapp[skin=TS] #tablet_6, #scapp[skin=TS] #tablet_7, #scapp[skin=TS] #tablet_8, #scapp[skin=TS] #tablet_9, #scapp[skin=TS] #tablet_10, #scapp[skin=TS] #lb_setting, #scapp[skin=TS] #local_table {
     outline: 1px solid #2ed9c3;
     margin-left: 1px;
     margin-right: 1px;
 }
-#app[skin=TS] #sub_tablets{
+#scapp[skin=TS] #sub_tablets{
 	border-bottom:1px solid #2ed9c3;
 }
-#app[skin=TS] #log_content1, #app[skin=TS] #log_content_f, #app[skin=TS] #log_content_c{
+#scapp[skin=TS] #log_content1, #scapp[skin=TS] #log_content_f, #scapp[skin=TS] #log_content_c{
 	width:100%;
 	padding-left:4px;
 	padding-right:37px;
@@ -804,7 +804,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:0px solid #222;
 	background:transparent;
 }
-#app[skin=TS] #ss_basic_v2ray_json, #app[skin=TS] #ss_basic_xray_json, #app[skin=TS] #ss_basic_tuic_json, #app[skin=TS] #ss_dnsmasq, #app[skin=TS] #ss_wan_white_ip, #app[skin=TS] #ss_wan_white_domain, #app[skin=TS] #ss_wan_black_ip, #app[skin=TS] #ss_wan_black_domain, #app[skin=TS] #ss_online_links, #app[skin=TS] #ss_base64_links, #app[skin=TS] #ss_node_table_v2ray_json, #app[skin=TS] #ss_node_table_xray_json, #app[skin=TS] #ss_node_table_tuic_json, #app[skin=TS] #ss_basic_kcp_parameter{
+#scapp[skin=TS] #ss_basic_v2ray_json, #scapp[skin=TS] #ss_basic_xray_json, #scapp[skin=TS] #ss_basic_tuic_json, #scapp[skin=TS] #ss_dnsmasq, #scapp[skin=TS] #ss_wan_white_ip, #scapp[skin=TS] #ss_wan_white_domain, #scapp[skin=TS] #ss_wan_black_ip, #scapp[skin=TS] #ss_wan_black_domain, #scapp[skin=TS] #ss_online_links, #scapp[skin=TS] #ss_base64_links, #scapp[skin=TS] #ss_node_table_v2ray_json, #scapp[skin=TS] #ss_node_table_xray_json, #scapp[skin=TS] #ss_node_table_tuic_json, #scapp[skin=TS] #ss_basic_kcp_parameter{
 	width:98%;
 	font-family:'Lucida Console';
 	font-size:12px;
@@ -813,7 +813,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #2ed9c3;
 	background:transparent;
 }
-#app[skin=TS] .input_ss_table{
+#scapp[skin=TS] .input_ss_table{
 	margin-left:2px;
 	padding-left:5px;
 	padding-right:5px;
@@ -828,15 +828,15 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	border:1px solid #4c4c4c;
 	background-color: #373737;
 }
-#app[skin=TS] .input_option_2:hover, #app[skin=TS] .input_option_2:focus{
+#scapp[skin=TS] .input_option_2:hover, #scapp[skin=TS] .input_option_2:focus{
 	border:1px solid #2ed9c3;
 	background-color: #3e2902;
 }
-#app[skin=TS] .sel_option:hover, #app[skin=TS] .sel_option:focus{
+#scapp[skin=TS] .sel_option:hover, #scapp[skin=TS] .sel_option:focus{
 	border:1px solid #2ed9c3;
 	background-color: #3e2902;
 }
-#app[skin=TS] .ss_btn {
+#scapp[skin=TS] .ss_btn {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -845,7 +845,7 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #2ed9c3  0%, #0a7264 100%);
 }
-#app[skin=TS] .ss_btn:hover, #app[skin=TS] .active3 {
+#scapp[skin=TS] .ss_btn:hover, #scapp[skin=TS] .active3 {
 	border: 1px solid #222;
 	font-size:10pt;
 	color: #fff;
@@ -854,14 +854,184 @@ body .layui-layer-lan .layui-layer-btn2 {border-color:#FF6600; background-color:
 	width:14%;
 	background: linear-gradient(to bottom, #2ed9c3  0%, #22c0bf 100%);
 }
-#app[skin=TS] .smartdns_textarea {
+#scapp[skin=TS] .smartdns_textarea {
     background: transparent;
     border: 1px solid #222;
 }
-#app[skin=TS] .loadingBarBlock {
+#scapp[skin=TS] .loadingBarBlock {
     border: 1px solid #2ed9c3;
 }
-#app[skin=TS] .content_status {
+#scapp[skin=TS] .content_status {
     border: 1px solid #2ed9c3;
 }
-
+/*SWRT*/
+#scapp[skin=SWRT] .myDragClass{
+	background-color:#fefefe;
+	box-shadow: 3px 3px 10px #006ce1;
+}
+#scapp[skin=SWRT] #ss_node_list_table tr:hover {
+	background-color:#fefefe;
+}
+#scapp[skin=SWRT] .FormTable_table th{
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:normal;
+	text-align:center;
+	font-size:12px;
+	height:25px;
+	border-collapse: collapse;
+	border: none;
+	background: #fefefe;
+}
+#scapp[skin=SWRT] .shadow1, #scapp[skin=SWRT] .shadow2{
+	height: 25px;
+	display: none;
+	border-radius: 3px;
+	background-color: #fefefe;
+}
+#scapp[skin=SWRT] .show-btn0, #scapp[skin=SWRT] .show-btn1, #scapp[skin=SWRT] .show-btn2, #scapp[skin=SWRT] .show-btn3, #scapp[skin=SWRT] .show-btn4, #scapp[skin=SWRT] .show-btn5, #scapp[skin=SWRT] .show-btn6, #scapp[skin=SWRT] .show-btn7, #scapp[skin=SWRT] .show-btn8, #scapp[skin=SWRT] .show-btn9, #scapp[skin=SWRT] .show-btn10, #scapp[skin=SWRT] .sub-node1, #scapp[skin=SWRT] .sub-node2 {
+	font-size:10pt;
+	color: #006ce1;
+	padding: 10px 3.75px;
+	border-radius: 5px 5px 0px 0px;
+	width:8.42%;
+	border: 1px solid #006ce1;
+	background: none;
+}
+#scapp[skin=SWRT] .show-btn0:hover, #scapp[skin=SWRT] .show-btn1:hover, #scapp[skin=SWRT] .show-btn2:hover, #scapp[skin=SWRT] .show-btn3:hover, #scapp[skin=SWRT] .show-btn4:hover, #scapp[skin=SWRT] .show-btn5:hover, #scapp[skin=SWRT] .show-btn6:hover, #scapp[skin=SWRT] .show-btn7:hover, #scapp[skin=SWRT] .show-btn8:hover, #scapp[skin=SWRT] .show-btn9:hover, #scapp[skin=SWRT] .show-btn10:hover, #scapp[skin=SWRT] .sub-node1:hover, #scapp[skin=SWRT] .sub-node2:hover, #scapp[skin=SWRT] .active {
+	border: 1px solid #006ce1;
+	background: #006ce1;
+	color: #fefefe !important;
+}
+#scapp[skin=SWRT] .sub-btn1, #scapp[skin=SWRT] .sub-btn2, #scapp[skin=SWRT] .sub-btn3 {
+	font-size:10pt;
+	color: #006ce1;
+	padding: 10px 3.75px;
+	border-radius: 5px 5px 0px 0px;
+	width:16%;
+	border: 1px solid #006ce1;
+	background: none;
+}
+#scapp[skin=SWRT] .sub-btn1:hover, #scapp[skin=SWRT] .sub-btn2:hover, #scapp[skin=SWRT] .sub-btn3:hover, #scapp[skin=SWRT] .active2 {
+	border: 1px solid #006ce1;
+	background: #006ce1;
+	color: #fefefe;
+}
+#scapp[skin=SWRT] .smth{
+ 	background: #006ce1;
+}
+#scapp[skin=SWRT] #tablet_0, #scapp[skin=SWRT] #tablet_2, #scapp[skin=SWRT] #tablet_3, #scapp[skin=SWRT] #tablet_4, #scapp[skin=SWRT] #tablet_5, #scapp[skin=SWRT] #tablet_6, #scapp[skin=SWRT] #tablet_7, #scapp[skin=SWRT] #tablet_8, #scapp[skin=SWRT] #tablet_9, #scapp[skin=SWRT] #tablet_10, #scapp[skin=SWRT] #lb_setting, #scapp[skin=SWRT] #local_table {
+    outline: 1px solid #006ce1;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+#scapp[skin=SWRT] #sub_tablets{
+	border-bottom:1px solid #006ce1;
+}
+#scapp[skin=SWRT] #log_content1, #scapp[skin=SWRT] #log_content_f, #scapp[skin=SWRT] #log_content_c{
+	width:100%;
+	padding-left:4px;
+	padding-right:37px;
+	font-family:'Lucida Console';
+	font-size:11px;
+	line-height:1.5;
+	color:#000;
+	outline:none;
+	overflow-x:hidden;
+	border:0px solid #006ce1;
+	background:transparent;
+}
+#scapp[skin=SWRT] #ss_basic_v2ray_json, #scapp[skin=SWRT] #ss_basic_xray_json, #scapp[skin=SWRT] #ss_basic_tuic_json, #scapp[skin=SWRT] #ss_dnsmasq, #scapp[skin=SWRT] #ss_wan_white_ip, #scapp[skin=SWRT] #ss_wan_white_domain, #scapp[skin=SWRT] #ss_wan_black_ip, #scapp[skin=SWRT] #ss_wan_black_domain, #scapp[skin=SWRT] #ss_online_links, #scapp[skin=SWRT] #ss_base64_links, #scapp[skin=SWRT] #ss_node_table_v2ray_json, #scapp[skin=SWRT] #ss_node_table_xray_json, #scapp[skin=SWRT] #ss_node_table_tuic_json, #scapp[skin=SWRT] #ss_basic_kcp_parameter{
+	width:98%;
+	font-family:'Lucida Console';
+	font-size:12px;
+	color:#000;
+	line-height:1.2;
+	border:1px solid #006ce1;
+	background:transparent;
+}
+#scapp[skin=SWRT] .input_ss_table{
+	margin-left:2px;
+	padding-left:5px;
+	padding-right:5px;
+	height:21px;
+	width:152px;
+	line-height:23px \9;	/*IE*/
+	font-size:12px;
+	font-family: Lucida Console;
+	background-image:none;
+	color:#FFFFFF;
+	vertical-align:middle;
+	border:1px solid #006ce1;
+	background-color: none;
+}
+#scapp[skin=SWRT] .input_option_2:hover, #scapp[skin=SWRT] .input_option_2:focus{
+	border:1px solid #006ce1;
+	background-color: none;
+}
+#scapp[skin=SWRT] .input_option{
+	border:1px solid #006ce1;
+	background-color: none;
+}
+#scapp[skin=SWRT] .sel_option:hover, #scapp[skin=SWRT] .sel_option:focus{
+	border:1px solid #006ce1;
+	background-color: none;
+}
+#scapp[skin=SWRT] .ss_btn {
+	border: 1px solid #006ce1;
+	font-size:10pt;
+	color: #006ce1;
+	padding: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width:14%;
+	background: none;
+}
+#scapp[skin=SWRT] .ss_btn:hover, #scapp[skin=SWRT] .active3 {
+	border: 1px solid #006ce1;
+	font-size:10pt;
+	color: #fff;
+	padding: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width:14%;
+	background: #006ce1;
+}
+#scapp[skin=SWRT] .smartdns_textarea {
+    background: transparent;
+    border: 1px solid #006ce1;
+}
+#scapp[skin=SWRT] .loadingBarBlock {
+	border: 1px solid #006ce1;
+	background: #fefefe;
+}
+#scapp[skin=SWRT] .content_status {
+	border: 1px solid #006ce1;
+}
+#scapp[skin=SWRT] .layui-layer-btn0, #scapp[skin=SWRT] .layui-layer-btn1, #scapp[skin=SWRT] .layui-layer-btn2 {
+	border-color:#006ce1;
+	background:none;
+	color:#006ce1 !important;
+}
+#scapp[skin=SWRT] #proc_status {
+	border: 1px solid #006ce1 !important;
+    outline: 1px solid #006ce1 !important;
+}
+#scapp[skin=SWRT] textarea {
+	border: 1px solid #006ce1 !important;
+}
+#scapp[skin=SWRT] .vpnClientTitle_td_unclick{
+	border: 1px solid #006ce1 !important;
+	background: none !important;
+}
+#scapp[skin=SWRT] .vpnClientTitle_td_click {
+	border: 1px solid #006ce1 !important;
+	background: #006ce1 !important;
+	color:#fff !important;
+}
+#scapp[skin=SWRT] #log_content2, #scapp[skin=SWRT] #ok_button {
+	background: #fefefe !important;
+}
+#scapp[skin=SWRT] #ss_changelog_id, #scapp[skin=SWRT] #ss_ip_id {
+	margin-left:320px !important;
+}
+#scapp[skin=SWRT] #ss_help_id, #scapp[skin=SWRT] #ss_status_id {
+	margin-left:400px !important;
+}

@@ -458,6 +458,9 @@ local function processData(szType, content)
 		result.uplink_capacity = params.upmbps and params.upmbps or 5
 		result.downlink_capacity = params.downmbps and params.downmbps or 20
 		result.fast_open = 0
+	else
+		-- 不支持的协议
+		result.v2ray_protocol = szType
 	end
 	if not result.alias then
 		if result.server and result.server_port then

@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="index_style.css">
 <link rel="stylesheet" type="text/css" href="form_style.css">
 <link rel="stylesheet" type="text/css" href="usp_style.css">
-<link rel="stylesheet" type="text/css" href="css/element.css">
+<link rel="stylesheet" type="text/css" href="/css/element.css">
 <link rel="stylesheet" type="text/css" href="/device-map/device-map.css">
 <link rel="stylesheet" type="text/css" href="/js/table/table.css">
 <link rel="stylesheet" type="text/css" href="/res/layer/theme/default/layer.css">
@@ -82,6 +82,7 @@ if(PKG_TYPE == "full"){
 }
 function init() {
 	show_menu(menu_hook);
+	set_skin();
 	get_dbus_data();
 	try_ws_connect();
 }
@@ -1480,7 +1481,7 @@ function edit_conf_table(o) {
 	conf2obj(c, p);
 	var j = JSON.parse(c["json"]);
 
-	E("cancelBtn").style.display = "";
+	E("cancelBtn1").style.display = "";
 	E("add_node").style.display = "none";
 	E("edit_node").style.display = "";
 	E("continue_add").style.display = "none";
@@ -1488,7 +1489,7 @@ function edit_conf_table(o) {
 	E("ssrTitle").style.display = "none";
 	E("v2rayTitle").style.display = "none";
 	E("TrojanTitle").style.display = "none";
-	E("HysteriaTitle").style.display = "none";	//helloworld-full
+	E("HysteriaTitle").style.display = "none";
 	if (j.v2ray_protocol == "shadowsocksr") {
 		E("ssrTitle").style.display = "";
 		$("#ssrTitle").html("编辑SSR账号");
@@ -1699,7 +1700,7 @@ function refresh_html() {
 	html += '</div>'
 	html += '</div>'
 	// botton region
-	html += '<div align="center" class="nodeTable" id="node_button" style="width: 750px;margin-top:20px">'
+	html += '<div class="apply_gen" align="center" class="nodeTable" id="node_button" style="width: 750px;margin-top:20px">'
 	html += '<input style="margin-left:10px" id="add_ss_node" class="button_gen" onClick="Add_profile()" type="button" value="添加节点"/>'
 	if(node_nu){
 		html += '<input style="margin-left:10px" class="button_gen" type="button" onclick="save()" value="保存&应用">'
@@ -3258,9 +3259,15 @@ function save_failover() {
 	}
 	push_data("ss_status_reset.sh", "", dbus_post);
 }
+function set_skin(){
+	var SKN = '<% nvram_get("sc_skin"); %>';
+	if(SKN){
+		$("#scapp").attr("skin", SKN);
+	}
+}
 </script>
 </head>
-<body id="app" skin='<% nvram_get("sc_skin"); %>' onload="init();">
+<body onload="init();" id="scapp" scskin="swrt" skin="ASUSWRT">
 <div id="TopBanner"></div>
 <div id="Loading" class="popup_bg"></div>
 <div id="LoadingBar" class="popup_bar_bg_ks" style="z-index: 200;" >
@@ -3330,7 +3337,7 @@ function save_failover() {
 											<div style="margin: 10px 10px 10px 10px;width:98%;text-align:center;overflow:hidden">
 												<textarea cols="63" rows="36" wrap="off" id="proc_status" style="width:98%;padding-left:13px;padding-right:33px;border:0px solid #222;font-family:'Lucida Console'; font-size:11px;background: transparent;color:#FFFFFF;outline: none;overflow-x:hidden;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 											</div>
-											<div style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
+											<div class="apply_gen" style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
 												<input class="button_gen" type="button" onclick="close_proc_status();" value="返回主界面">
 											</div>
 										</div>
@@ -3341,7 +3348,7 @@ function save_failover() {
 											<div style="margin: 10px 10px 10px 10px;width:98%;text-align:center;overflow:hidden;">
 												<textarea cols="63" rows="36" wrap="off" id="log_content_f" style="width:98%;padding-left:13px;padding-right:33px;border:0px solid #222;font-family:'Lucida Console'; font-size:11px;background: transparent;color:#FFFFFF;outline: none;overflow-x:hidden;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 											</div>
-											<div style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
+											<div class="apply_gen" style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
 												<input class="button_gen" type="button" onclick="download_SS_node(6);" value="下载日志">
 												<input class="button_gen" type="button" onclick="close_ssf_status();" value="返回主界面">
 												<input style="margin-left:10px" type="checkbox" id="ssconf_failover_c4">
@@ -3355,7 +3362,7 @@ function save_failover() {
 											<div style="margin: 10px 10px 10px 10px;width:98%;text-align:center;overflow:hidden;">
 												<textarea cols="63" rows="36" wrap="off" id="log_content_c" style="width:98%;padding-left:13px;padding-right:33px;border:0px solid #222;font-family:'Lucida Console'; font-size:11px;background: transparent;color:#FFFFFF;outline: none;overflow-x:hidden;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 											</div>
-											<div style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
+											<div class="apply_gen" style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
 												<input class="button_gen" type="button" onclick="download_SS_node(7);" value="下载日志">
 												<input class="button_gen" type="button" onclick="close_ssc_status();" value="返回主界面">
 												<input style="margin-left:10px" type="checkbox" id="ssconf_failover_c5">
@@ -3388,10 +3395,10 @@ function save_failover() {
 														<div id="ss_version_show" style="display:table-cell;float: left;position: absolute;margin-left:170px;padding: 5.5px 0px;">
 															<a><i>当前版本：</i></a>
 														</div>
-														<div style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 5.5px 0px;">
+														<div id="ss_changelog_id" style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 5.5px 0px;">
 															<a type="button" class="ss_btn" target="_blank" href="https://github.com/zusterben/plan_f/blob/master/Changelog.txt">更新日志</a>
 														</div>
-														<div style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 5.5px 0px;">
+														<div id="ss_help_id" style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 5.5px 0px;">
 															<a type="button" class="ss_btn" href="javascript:void(0);" onclick="pop_help()">插件帮助</a>
 														</div>
 													</td>
@@ -3410,11 +3417,11 @@ function save_failover() {
 																<span id="ss_state3">国内连接 - Waiting...</span>
 															</a>
 														</div>
-														<div style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 10.5px 0px;">
+														<div id="ss_ip_id" style="display:table-cell;float: left;margin-left:270px;position: absolute;padding: 10.5px 0px;">
 															<!--<a type="button" class="ss_btn" style="cursor:pointer" onclick="pop_111(3)" href="javascript:void(0);">分流检测</a>-->
 															<a type="button" class="ss_btn" target="https://ip.skk.moe/" href="https://ip.skk.moe/">分流检测</a>
 														</div>
-														<div style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 10.5px 0px;">
+														<div id="ss_status_id" style="display:table-cell;float: left;margin-left:350px;position: absolute;padding: 10.5px 0px;">
 														<a type="button" class="ss_btn" style="cursor:pointer" onclick="get_proc_status()" href="javascript:void(0);">详细状态</a>
 														</div>
 													</td>
@@ -3528,8 +3535,8 @@ function save_failover() {
 													</td>
 												</tr>
 											</table>
-											<div style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
-												<input class="button_gen" style="margin-left: 160px;" type="button" onclick="cancel_add_rule();" id="cancelBtn" value="返回">
+											<div class="apply_gen" style="margin-top:5px;padding-bottom:10px;width:100%;text-align:center;">
+												<input class="button_gen" style="margin-left: 160px;" type="button" onclick="cancel_add_rule();" id="cancelBtn1" value="返回">
 												<input id="add_node" class="button_gen" type="button" onclick="add_ss_node_conf(save_flag);" value="添加">
 												<input id="edit_node" style="display: none;" class="button_gen" type="button" onclick="edit_ss_node_conf(save_flag);" value="修改">
 												<a id="continue_add" style="display: none;margin-left: 20px;"><input id="continue_add_box" type="checkbox"  />连续添加</a>
@@ -3671,7 +3678,7 @@ function save_failover() {
 													]);
 												</script>
 											</table>
-											<div align="center" style="margin-top: 10px;">
+											<div class="apply_gen" align="center" style="margin-top: 10px;">
 												<input class="button_gen" type="button" onclick="save()" value="保存&amp;应用">
 												<input style="margin-left:10px" id="ssconf_failover_save" class="button_gen" onclick="save_failover()" type="button" value="保存本页设置">
 											</div>
