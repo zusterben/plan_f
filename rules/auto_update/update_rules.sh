@@ -53,6 +53,7 @@ get_gfwlist(){
 	echo "ai.com" >> gfwlist_tmp.conf
 	echo "linksysinfo.org" >> gfwlist_tmp.conf
 	echo "nxboom.com" >> gfwlist_tmp.conf
+	echo "polymarket.us" >> gfwlist_tmp.conf
 	#tiktok
 	echo "bytedapm.com" >> gfwlist_tmp.conf
 	echo "bytegecko-i18n.com" >> gfwlist_tmp.conf
@@ -75,6 +76,7 @@ get_gfwlist(){
 	echo "tiktokd.org" >> gfwlist_tmp.conf
 	echo "tiktokmusic.app" >> gfwlist_tmp.conf
 	echo "tiktokv.com" >> gfwlist_tmp.conf
+	echo "tiktokv.us" >> gfwlist_tmp.conf
 	echo "p16-tiktokcdn-com.akamaized.net" >> gfwlist_tmp.conf
 	echo "lf16-pkgcdn.pitaya-clientai.com" >> gfwlist_tmp.conf
 	echo "lf16-effectcdn.byteeffecttos-g.com" >> gfwlist_tmp.conf
